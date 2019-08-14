@@ -1,0 +1,90 @@
+# Gopkg.toml example
+#
+# Refer to https://golang.github.io/dep/docs/Gopkg.toml.html
+# for detailed Gopkg.toml documentation.
+#
+# required = ["github.com/user/thing/cmd/thing"]
+# ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
+#
+# [[constraint]]
+#   name = "github.com/user/project"
+#   version = "1.0.0"
+#
+# [[constraint]]
+#   name = "github.com/user/project2"
+#   branch = "dev"
+#   source = "github.com/myfork/project2"
+#
+# [[override]]
+#   name = "github.com/x/y"
+#   version = "2.4.0"
+#
+# [prune]
+#   non-go = false
+#   go-tests = true
+#   unused-packages = true
+
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/UtopiaCoinOrg/base58"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/UtopiaCoinOrg/go-socks"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/UtopiaCoinOrg/slog"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/UtopiaCoinOrg/ucwallet"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/agl/ed25519"
+
+[[constraint]]
+  name = "github.com/btcsuite/goleveldb"
+  version = "1.0.0"
+
+[[constraint]]
+  name = "github.com/btcsuite/winsvc"
+  version = "1.0.0"
+
+[[constraint]]
+  name = "github.com/davecgh/go-spew"
+  version = "1.1.1"
+
+[[constraint]]
+  name = "github.com/dchest/blake256"
+  version = "1.1.0"
+
+[[constraint]]
+  name = "github.com/dchest/siphash"
+  version = "1.2.1"
+
+[[constraint]]
+  name = "github.com/gorilla/websocket"
+  version = "1.4.0"
+
+[[constraint]]
+  name = "github.com/jessevdk/go-flags"
+  version = "1.4.0"
+
+[[constraint]]
+  name = "github.com/jrick/bitset"
+  version = "1.0.0"
+
+[[constraint]]
+  name = "github.com/jrick/logrotate"
+  version = "1.0.0"
+
+[[constraint]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+
+[prune]
+  go-tests = true
+  unused-packages = true
