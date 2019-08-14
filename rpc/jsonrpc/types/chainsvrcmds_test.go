@@ -12,7 +12,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Utopia/ucd/ucjson/v3"
+	"github.com/UtopiaCoinOrg/ucd/ucjson/v3"
 )
 
 // TestChainSvrCmds tests all of the chain server commands marshal and unmarshal

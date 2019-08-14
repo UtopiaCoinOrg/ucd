@@ -8,7 +8,7 @@ package rpcclient
 import (
 	"encoding/json"
 
-	chainjson "github.com/Utopia/ucd/rpc/jsonrpc/types"
+	chainjson "github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
 )
 
 // AddNodeCommand enumerates the available commands that the AddNode function

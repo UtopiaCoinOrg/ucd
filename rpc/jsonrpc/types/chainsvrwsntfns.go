@@ -8,7 +8,7 @@
 
 package types
 
-import "github.com/Utopia/ucd/ucjson"
+import "github.com/UtopiaCoinOrg/ucd/ucjson"
 
 const (
 	// BlockConnectedNtfnMethod is the method used for notifications from

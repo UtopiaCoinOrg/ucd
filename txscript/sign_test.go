@@ -12,12 +12,12 @@ import (
 	mrand "math/rand"
 	"testing"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/chaincfg/v2"
-	"github.com/Utopia/ucd/chaincfg/v2/chainec"
-	"github.com/Utopia/ucd/ucec"
-	"github.com/Utopia/ucd/ucutil/v2"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2/chainec"
+	"github.com/UtopiaCoinOrg/ucd/ucec"
+	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // testingParams defines the chain params to use throughout these tests so it

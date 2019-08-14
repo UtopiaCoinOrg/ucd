@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // TestInvVectStringer tests the stringized output for inventory vector types.

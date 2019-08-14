@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 // BehaviorFlags is a bitmask defining tweaks to the normal behavior when

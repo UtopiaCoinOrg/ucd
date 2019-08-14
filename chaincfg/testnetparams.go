@@ -9,8 +9,8 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // TestNet3Params return the network parameters for the test currency network.

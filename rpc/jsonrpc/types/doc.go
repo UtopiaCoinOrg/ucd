@@ -13,7 +13,7 @@ marshalled to and from the the wire in the appropriate format.  This package
 provides data structures and primitives that are registered with ucjson to ease
 this process.  An overview specific to this package is provided here, however it
 is also instructive to read the documentation for the ucjson package
-(https://godoc.org/github.com/Utopia/ucd/ucjson).
+(https://godoc.org/github.com/UtopiaCoinOrg/ucd/ucjson).
 
 Marshalling and Unmarshalling
 

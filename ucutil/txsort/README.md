@@ -3,7 +3,7 @@ txsort
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/ucutil/txsort)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/ucutil/txsort)
 
 Package txsort provides stable transaction sorting.
 
@@ -29,7 +29,7 @@ A comprehensive suite of tests is provided to ensure proper functionality.
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/ucutil/txsort
+$ go get -u github.com/UtopiaCoinOrg/ucd/ucutil/txsort
 ```
 
 ## License

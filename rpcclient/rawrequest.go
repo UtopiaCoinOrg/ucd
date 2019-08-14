@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/Utopia/ucd/ucjson"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
 )
 
 // FutureRawResult is a future promise to deliver the result of a RawRequest RPC

@@ -9,9 +9,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Utopia/slog"
+	"github.com/UtopiaCoinOrg/slog"
 
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // BlockProgressLogger provides periodic logging for other services in order

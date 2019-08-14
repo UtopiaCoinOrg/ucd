@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 var (

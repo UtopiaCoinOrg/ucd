@@ -3,7 +3,7 @@ indexers
 
 [![Build Status](https://travis-ci.org/Utopia/ucd.png?branch=master)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://godoc.org/github.com/Utopia/ucd/blockchain/indexers?status.png)](https://godoc.org/github.com/Utopia/ucd/blockchain/indexers)
+[![GoDoc](https://godoc.org/github.com/UtopiaCoinOrg/ucd/blockchain/indexers?status.png)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/blockchain/indexers)
 
 Package indexers implements optional block chain indexes.
 
@@ -30,7 +30,7 @@ via an RPC interface.
 ## Installation
 
 ```bash
-$ go get -u github.com/Utopia/ucd/blockchain/indexers
+$ go get -u github.com/UtopiaCoinOrg/ucd/blockchain/indexers
 ```
 
 ## License

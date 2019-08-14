@@ -10,8 +10,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/database/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/database/v2"
 )
 
 // fetchBlockCmd defines the configuration options for the fetchblock command.

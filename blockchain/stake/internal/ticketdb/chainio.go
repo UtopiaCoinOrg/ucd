@@ -8,10 +8,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Utopia/ucd/blockchain/stake/internal/dbnamespace"
-	"github.com/Utopia/ucd/blockchain/stake/internal/tickettreap"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/internal/dbnamespace"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/internal/tickettreap"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/database"
 )
 
 const (

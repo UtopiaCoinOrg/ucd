@@ -16,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Utopia/ucd/certgen"
+	"github.com/UtopiaCoinOrg/ucd/certgen"
 	flags "github.com/jessevdk/go-flags"
 )
 

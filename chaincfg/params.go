@@ -10,8 +10,8 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // bigOne is 1 represented as a big.Int.  It is defined here to avoid the

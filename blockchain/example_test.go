@@ -11,11 +11,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Utopia/ucd/blockchain"
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/database"
-	_ "github.com/Utopia/ucd/database/ffldb"
-	"github.com/Utopia/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/blockchain"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	_ "github.com/UtopiaCoinOrg/ucd/database/ffldb"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 // This example demonstrates how to create a new chain instance and use

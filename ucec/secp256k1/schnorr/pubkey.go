@@ -8,7 +8,7 @@ package schnorr
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 )
 
 // These constants define the lengths of serialized public keys.

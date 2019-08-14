@@ -7,7 +7,7 @@ package lru_test
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/lru"
+	"github.com/UtopiaCoinOrg/ucd/lru"
 )
 
 // This example demonstrates creating a new cache instance, inserting items into

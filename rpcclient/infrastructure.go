@@ -27,9 +27,9 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	"github.com/Utopia/ucd/ucjson"
-	chainjson "github.com/Utopia/ucd/rpc/jsonrpc/types"
-	"github.com/Utopia/go-socks/socks"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
+	chainjson "github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
+	"github.com/UtopiaCoinOrg/go-socks/socks"
 )
 
 var (

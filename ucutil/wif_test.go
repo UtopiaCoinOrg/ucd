@@ -8,10 +8,10 @@ package ucutil
 import (
 	"testing"
 
-	"github.com/Utopia/ucd/chaincfg/v2/chainec"
-	"github.com/Utopia/ucd/ucec"
-	"github.com/Utopia/ucd/ucec/edwards"
-	"github.com/Utopia/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2/chainec"
+	"github.com/UtopiaCoinOrg/ucd/ucec"
+	"github.com/UtopiaCoinOrg/ucd/ucec/edwards"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 )
 
 func TestEncodeDecodeWIF(t *testing.T) {

@@ -8,7 +8,7 @@
 
 package types
 
-import "github.com/Utopia/ucd/ucjson"
+import "github.com/UtopiaCoinOrg/ucd/ucjson"
 
 // AuthenticateCmd defines the authenticate JSON-RPC command.
 type AuthenticateCmd struct {

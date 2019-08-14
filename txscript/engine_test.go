@@ -8,8 +8,8 @@ package txscript
 import (
 	"testing"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // TestBadPC sets the pc to a deliberately bad result then confirms that Step

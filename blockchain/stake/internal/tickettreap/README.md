@@ -3,7 +3,7 @@ tickettreap
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/blockchain/stake/internal/tickettreap)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/blockchain/stake/internal/tickettreap)
 
 Package tickettreap implements a treap data structure that is used to hold
 live tickets ordered by their key along with some associated data using a

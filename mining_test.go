@@ -10,7 +10,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/Utopia/ucd/blockchain/stake"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
 )
 
 // TestStakeTxFeePrioHeap tests the priority heaps including the stake types for

@@ -21,9 +21,9 @@ import (
 
 	"github.com/btcsuite/goleveldb/leveldb"
 	ldberrors "github.com/btcsuite/goleveldb/leveldb/errors"
-	"github.com/Utopia/ucd/database/v2"
-	"github.com/Utopia/ucd/ucutil/v2"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/database/v2"
+	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 var (

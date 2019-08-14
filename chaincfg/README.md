@@ -3,7 +3,7 @@ chaincfg
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/chaincfg)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/chaincfg)
 
 Package chaincfg defines chain configuration parameters for the four standard
 Utopia networks.
@@ -23,8 +23,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 )
 
 var testnet = flag.Bool("testnet", false, "operate on the testnet Utopia network")
@@ -55,7 +55,7 @@ func main() {
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/chaincfg
+$ go get -u github.com/UtopiaCoinOrg/ucd/chaincfg
 ```
 
 ## License

@@ -16,7 +16,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // naTest is used to describe a test to be performed against the NetAddressKey

@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // KnownAddress tracks information about a known network address that is used

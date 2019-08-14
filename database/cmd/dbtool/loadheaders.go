@@ -8,8 +8,8 @@ package main
 import (
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/database/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/database/v2"
 )
 
 // headersCmd defines the configuration options for the loadheaders command.

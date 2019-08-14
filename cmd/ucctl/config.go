@@ -16,12 +16,12 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/Utopia/ucd/ucjson"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/internal/version"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/internal/version"
 
-	ucdtypes "github.com/Utopia/ucd/rpc/jsonrpc/types"
-	wallettypes "github.com/Utopia/ucwallet/rpc/jsonrpc/types"
+	ucdtypes "github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
+	wallettypes "github.com/UtopiaCoinOrg/ucwallet/rpc/jsonrpc/types"
 
 	flags "github.com/jessevdk/go-flags"
 )

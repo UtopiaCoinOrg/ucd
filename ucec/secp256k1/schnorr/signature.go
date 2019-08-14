@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 )
 
 // Signature is a type representing a Schnorr signature.

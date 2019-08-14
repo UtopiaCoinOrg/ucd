@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // addrIndexBucket provides a mock address index database bucket by implementing

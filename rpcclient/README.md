@@ -3,7 +3,7 @@ rpcclient
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/rpcclient)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/rpcclient)
 
 rpcclient implements a Websocket-enabled Utopia JSON-RPC client package written
 in [Go](https://golang.org/).  It provides a robust and easy to use client for
@@ -18,12 +18,12 @@ implement and the API is not stable yet.
 
 ## Documentation
 
-* [API Reference](https://godoc.org/github.com/Utopia/ucd/rpcclient)
-* [ucd Websockets Example](https://github.com/Utopia/ucd/tree/master/rpcclient/examples/ucdwebsockets)
+* [API Reference](https://godoc.org/github.com/UtopiaCoinOrg/ucd/rpcclient)
+* [ucd Websockets Example](https://github.com/UtopiaCoinOrg/ucd/tree/master/rpcclient/examples/ucdwebsockets)
   Connects to a ucd RPC server using TLS-secured websockets, registers for
   block connected and block disconnected notifications, and gets the current
   block count
-* [ucwallet Websockets Example](https://github.com/Utopia/ucd/tree/master/rpcclient/examples/ucwalletwebsockets)  
+* [ucwallet Websockets Example](https://github.com/UtopiaCoinOrg/ucd/tree/master/rpcclient/examples/ucwalletwebsockets)  
   Connects to a ucwallet RPC server using TLS-secured websockets, registers for
   notifications about changes to account balances, and gets a list of unspent
   transaction outputs (utxos) the wallet can sign
@@ -44,7 +44,7 @@ implement and the API is not stable yet.
 ## Installation
 
 ```bash
-$ go get -u github.com/Utopia/ucd/rpcclient
+$ go get -u github.com/UtopiaCoinOrg/ucd/rpcclient
 ```
 
 ## License

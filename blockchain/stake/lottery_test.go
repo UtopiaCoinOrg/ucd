@@ -12,8 +12,8 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/Utopia/ucd/blockchain/stake/v2/internal/tickettreap"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/v2/internal/tickettreap"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 func TestBasicPRNG(t *testing.T) {

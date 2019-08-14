@@ -6,8 +6,8 @@
 package mempool
 
 import (
-	"github.com/Utopia/ucd/blockchain"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/blockchain"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // RuleError identifies a rule violation.  It is used to indicate that

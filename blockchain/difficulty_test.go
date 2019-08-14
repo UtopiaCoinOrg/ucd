@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 func TestBigToCompact(t *testing.T) {

@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Utopia/ucd/blockchain/chaingen"
-	"github.com/Utopia/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/chaingen"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 )
 
 // TestStakeVersion ensures that the stake version field in the block header is

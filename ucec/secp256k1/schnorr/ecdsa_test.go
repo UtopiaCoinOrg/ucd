@@ -10,8 +10,8 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec/secp256k1/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1/v2"
 )
 
 type SchorrSigningTestVectorHex struct {

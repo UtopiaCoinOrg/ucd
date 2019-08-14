@@ -10,10 +10,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/database"
-	_ "github.com/Utopia/ucd/database/ffldb"
-	"github.com/Utopia/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	_ "github.com/UtopiaCoinOrg/ucd/database/ffldb"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	flags "github.com/jessevdk/go-flags"
 )
 

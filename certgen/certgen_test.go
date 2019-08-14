@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/certgen"
+	"github.com/UtopiaCoinOrg/ucd/certgen"
 )
 
 // TestNewTLSCertPair ensures the NewTLSCertPair function works as expected.

@@ -3,7 +3,7 @@ chainhash
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/chaincfg/chainhash)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash)
 
 chainhash provides a generic hash type and associated functions that allows the
 specific hash algorithm to be abstracted.
@@ -11,7 +11,7 @@ specific hash algorithm to be abstracted.
 ## Installation and updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/chaincfg/chainhash
+$ go get -u github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash
 ```
 
 ## License

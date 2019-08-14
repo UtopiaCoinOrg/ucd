@@ -11,8 +11,8 @@ import (
 	"os"
 	"path"
 
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/fees"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/fees"
 	flags "github.com/jessevdk/go-flags"
 )
 

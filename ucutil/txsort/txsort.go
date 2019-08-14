@@ -9,8 +9,8 @@ import (
 	"bytes"
 	"sort"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // sortableInputSlice implements sort.Interface to allow a slice of transaction

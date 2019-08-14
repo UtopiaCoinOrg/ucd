@@ -3,7 +3,7 @@ lru
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/lru)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/lru)
 
 Package lru implements a generic least-recently-used cache with near O(1) perf.
 
@@ -26,12 +26,12 @@ lookups, inserts, and deletions.
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/lru
+$ go get -u github.com/UtopiaCoinOrg/ucd/lru
 ```
 
 ## Examples
 
-* [Basic Usage](https://godoc.org/github.com/Utopia/ucd/lru#example-package--BasicUsage)
+* [Basic Usage](https://godoc.org/github.com/UtopiaCoinOrg/ucd/lru#example-package--BasicUsage)
   Demonstrates creating a new cache instance, inserting items into the cache,
   causing an eviction of the least-recently-used item, and removing an item.
 

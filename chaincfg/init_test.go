@@ -7,7 +7,7 @@ package chaincfg
 import (
 	"testing"
 
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 var (

@@ -9,13 +9,13 @@ import (
 	"encoding/hex"
 	"encoding/json"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucjson"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/hdkeychain"
-	chainjson "github.com/Utopia/ucd/rpc/jsonrpc/types"
-	"github.com/Utopia/ucd/wire"
-	walletjson "github.com/Utopia/ucwallet/rpc/jsonrpc/types"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/hdkeychain"
+	chainjson "github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
+	"github.com/UtopiaCoinOrg/ucd/wire"
+	walletjson "github.com/UtopiaCoinOrg/ucwallet/rpc/jsonrpc/types"
 )
 
 // *****************************

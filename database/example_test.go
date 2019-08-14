@@ -11,11 +11,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Utopia/ucd/chaincfg/v2"
-	"github.com/Utopia/ucd/database/v2"
-	_ "github.com/Utopia/ucd/database/v2/ffldb"
-	"github.com/Utopia/ucd/ucutil/v2"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
+	"github.com/UtopiaCoinOrg/ucd/database/v2"
+	_ "github.com/UtopiaCoinOrg/ucd/database/v2/ffldb"
+	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // This example demonstrates creating a new database.
@@ -23,8 +23,8 @@ func ExampleCreate() {
 	// This example assumes the ffldb driver is imported.
 	//
 	// import (
-	// 	"github.com/Utopia/ucd/database2"
-	// 	_ "github.com/Utopia/ucd/database/ffldb"
+	// 	"github.com/UtopiaCoinOrg/ucd/database2"
+	// 	_ "github.com/UtopiaCoinOrg/ucd/database/ffldb"
 	// )
 
 	// Create a database and schedule it to be closed and removed on exit.
@@ -49,8 +49,8 @@ func Example_basicUsage() {
 	// This example assumes the ffldb driver is imported.
 	//
 	// import (
-	// 	"github.com/Utopia/ucd/database2"
-	// 	_ "github.com/Utopia/ucd/database/v2/ffldb"
+	// 	"github.com/UtopiaCoinOrg/ucd/database2"
+	// 	_ "github.com/UtopiaCoinOrg/ucd/database/v2/ffldb"
 	// )
 
 	// Create a database and schedule it to be closed and removed on exit.
@@ -115,8 +115,8 @@ func Example_blockStorageAndRetrieval() {
 	// This example assumes the ffldb driver is imported.
 	//
 	// import (
-	// 	"github.com/Utopia/ucd/database2"
-	// 	_ "github.com/Utopia/ucd/database/v2/ffldb"
+	// 	"github.com/UtopiaCoinOrg/ucd/database2"
+	// 	_ "github.com/UtopiaCoinOrg/ucd/database/v2/ffldb"
 	// )
 
 	// Create a database and schedule it to be closed and removed on exit.

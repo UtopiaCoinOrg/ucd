@@ -7,12 +7,12 @@ package stake
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/blockchain/stake/internal/dbnamespace"
-	"github.com/Utopia/ucd/blockchain/stake/internal/ticketdb"
-	"github.com/Utopia/ucd/blockchain/stake/internal/tickettreap"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/database"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/internal/dbnamespace"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/internal/ticketdb"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/internal/tickettreap"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // UndoTicketDataSlice is a pass through for ticketdb's UndoTicketData, which is

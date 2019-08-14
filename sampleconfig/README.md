@@ -3,7 +3,7 @@ sampleconfig
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/sampleconfig)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/sampleconfig)
 
 Package sampleconfig provides a single constant that contains the contents of
 the sample configuration file for ucd.  This is provided for tools that perform
@@ -14,7 +14,7 @@ samples of other configuration options.
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/sampleconfig
+$ go get -u github.com/UtopiaCoinOrg/ucd/sampleconfig
 ```
 
 ## License

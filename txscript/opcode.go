@@ -16,12 +16,12 @@ import (
 
 	"golang.org/x/crypto/ripemd160"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec"
-	"github.com/Utopia/ucd/ucec/edwards"
-	"github.com/Utopia/ucd/ucec/secp256k1"
-	"github.com/Utopia/ucd/ucec/secp256k1/schnorr"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec"
+	"github.com/UtopiaCoinOrg/ucd/ucec/edwards"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1/schnorr"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // optimizeSigVerification is an optimization for verification of transactions

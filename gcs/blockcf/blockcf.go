@@ -21,11 +21,11 @@ package blockcf
 import (
 	"encoding/binary"
 
-	"github.com/Utopia/ucd/blockchain/stake"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/gcs"
-	"github.com/Utopia/ucd/txscript"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/gcs"
+	"github.com/UtopiaCoinOrg/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // P is the collision probability used for block committed filters (2^-20)

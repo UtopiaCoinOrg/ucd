@@ -15,8 +15,8 @@ import (
 	"runtime/debug"
 	"testing"
 
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/rpctest"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/rpctest"
 )
 
 func testGetBestBlock(r *rpctest.Harness, t *testing.T) {

@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/blockchain/stake"
-	"github.com/Utopia/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 )
 
 var (

@@ -15,9 +15,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Utopia/ucd/ucjson"
-	ucdtypes "github.com/Utopia/ucd/rpc/jsonrpc/types"
-	wallettypes "github.com/Utopia/ucwallet/rpc/jsonrpc/types"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
+	ucdtypes "github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
+	wallettypes "github.com/UtopiaCoinOrg/ucwallet/rpc/jsonrpc/types"
 )
 
 const (

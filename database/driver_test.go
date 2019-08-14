@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Utopia/ucd/database/v2"
-	_ "github.com/Utopia/ucd/database/v2/ffldb"
+	"github.com/UtopiaCoinOrg/ucd/database/v2"
+	_ "github.com/UtopiaCoinOrg/ucd/database/v2/ffldb"
 )
 
 var (

@@ -9,7 +9,7 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/Utopia/ucd/bech32"
+	"github.com/UtopiaCoinOrg/ucd/bech32"
 )
 
 // This example demonstrates how to decode a bech32 encoded string.

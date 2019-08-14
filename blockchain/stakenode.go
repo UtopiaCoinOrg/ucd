@@ -8,9 +8,9 @@ package blockchain
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/blockchain/stake"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/database"
 )
 
 // maybeFetchNewTickets loads the list of newly maturing tickets for a given

@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/slog"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/slog"
 )
 
 // blockProgressLogger provides periodic logging for other services in order

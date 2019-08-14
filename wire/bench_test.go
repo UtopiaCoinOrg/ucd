@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // genesisCoinbaseTx is the coinbase transaction for the genesis blocks for

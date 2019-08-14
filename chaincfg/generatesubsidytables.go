@@ -15,7 +15,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Utopia/ucd/chaincfg/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
 )
 
 type payout struct {

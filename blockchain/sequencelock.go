@@ -7,9 +7,9 @@ package blockchain
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/blockchain/stake"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // SequenceLock represents the minimum timestamp and minimum block height after

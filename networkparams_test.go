@@ -9,9 +9,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Utopia/base58"
-	"github.com/Utopia/ucd/blockchain"
-	"github.com/Utopia/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/base58"
+	"github.com/UtopiaCoinOrg/ucd/blockchain"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 )
 
 // checkPowLimitsAreConsistent ensures PowLimit and PowLimitBits are consistent

@@ -11,8 +11,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/Utopia/ucd/ucjson"
-	"github.com/Utopia/ucd/rpc/jsonrpc/types"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
+	"github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
 )
 
 // helpDescsEnUS defines the English descriptions used for the help strings.

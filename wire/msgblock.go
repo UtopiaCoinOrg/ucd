@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // defaultTransactionAlloc is the default size used for the backing array

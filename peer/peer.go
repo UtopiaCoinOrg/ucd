@@ -18,12 +18,12 @@ import (
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/Utopia/ucd/blockchain"
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/lru"
-	"github.com/Utopia/ucd/wire"
-	"github.com/Utopia/go-socks/socks"
+	"github.com/UtopiaCoinOrg/ucd/blockchain"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/lru"
+	"github.com/UtopiaCoinOrg/ucd/wire"
+	"github.com/UtopiaCoinOrg/go-socks/socks"
 )
 
 const (

@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // mustLockTimeToSeq converts the passed relative lock time to a sequence number

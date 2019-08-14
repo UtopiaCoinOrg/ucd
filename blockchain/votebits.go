@@ -6,7 +6,7 @@
 package blockchain
 
 import (
-	"github.com/Utopia/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 )
 
 // deploymentChecker provides a thresholdConditionChecker which can be used to

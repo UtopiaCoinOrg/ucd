@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/blockchain/chaingen"
-	"github.com/Utopia/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/chaingen"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 )
 
 const (

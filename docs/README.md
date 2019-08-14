@@ -42,13 +42,13 @@ transactions).
 **2.1 Installation**<br />
 
 The first step is to install ucd.  The installation instructions can be found
-[here](https://github.com/Utopia/ucd/tree/master/README.md#Installation).
+[here](https://github.com/UtopiaCoinOrg/ucd/tree/master/README.md#Installation).
 
 <a name="Configuration" />
 
 **2.2 Configuration**<br />
 
-ucd has a number of [configuration](https://godoc.org/github.com/Utopia/ucd)
+ucd has a number of [configuration](https://godoc.org/github.com/UtopiaCoinOrg/ucd)
 options, which can be viewed by running: `$ ucd --help`.
 
 <a name="ucctlConfig" />
@@ -85,7 +85,7 @@ For a list of available options, run: `$ ucctl --help`
 <a name="Mining" />
 
 **2.4 Mining**<br />
-ucd supports the [getwork](https://github.com/Utopia/ucd/tree/master/docs/json_rpc_api.mediawiki#getwork)
+ucd supports the [getwork](https://github.com/UtopiaCoinOrg/ucd/tree/master/docs/json_rpc_api.mediawiki#getwork)
 RPC.  The limited user cannot access this RPC.<br />
 
 **1. Add the payment addresses with the `miningaddr` option.**<br />
@@ -121,17 +121,17 @@ certificate into the default system Certificate Authority list.
 <a name="NetworkConfig" />
 
 **3.1 Network Configuration**<br />
-* [What Ports Are Used by Default?](https://github.com/Utopia/ucd/tree/master/docs/default_ports.md)
-* [How To Listen on Specific Interfaces](https://github.com/Utopia/ucd/tree/master/docs/configure_peer_server_listen_interfaces.md)
-* [How To Configure RPC Server to Listen on Specific Interfaces](https://github.com/Utopia/ucd/tree/master/docs/configure_rpc_server_listen_interfaces.md)
-* [Configuring ucd with Tor](https://github.com/Utopia/ucd/tree/master/docs/configuring_tor.md)
+* [What Ports Are Used by Default?](https://github.com/UtopiaCoinOrg/ucd/tree/master/docs/default_ports.md)
+* [How To Listen on Specific Interfaces](https://github.com/UtopiaCoinOrg/ucd/tree/master/docs/configure_peer_server_listen_interfaces.md)
+* [How To Configure RPC Server to Listen on Specific Interfaces](https://github.com/UtopiaCoinOrg/ucd/tree/master/docs/configure_rpc_server_listen_interfaces.md)
+* [Configuring ucd with Tor](https://github.com/UtopiaCoinOrg/ucd/tree/master/docs/configuring_tor.md)
 
 <a name="Wallet" />
 
 **3.2 Wallet**<br />
 
 ucd was intentionally developed without an integrated wallet for security
-reasons.  Please see [ucwallet](https://github.com/Utopia/ucwallet) for more
+reasons.  Please see [ucwallet](https://github.com/UtopiaCoinOrg/ucwallet) for more
 information.
 
 <a name="Contact" />
@@ -154,14 +154,14 @@ https://utopia.org/community
 
 **5.1 Code Contribution Guidelines**
 
-* [Code Contribution Guidelines](https://github.com/Utopia/ucd/tree/master/docs/code_contribution_guidelines.md)
+* [Code Contribution Guidelines](https://github.com/UtopiaCoinOrg/ucd/tree/master/docs/code_contribution_guidelines.md)
 
 <a name="JSONRPCReference" />
 
 **5.2 JSON-RPC Reference**
 
-* [JSON-RPC Reference](https://github.com/Utopia/ucd/tree/master/docs/json_rpc_api.mediawiki)
-* [RPC Examples](https://github.com/Utopia/ucd/tree/master/docs/json_rpc_api.mediawiki#8-example-code)
+* [JSON-RPC Reference](https://github.com/UtopiaCoinOrg/ucd/tree/master/docs/json_rpc_api.mediawiki)
+* [RPC Examples](https://github.com/UtopiaCoinOrg/ucd/tree/master/docs/json_rpc_api.mediawiki#8-example-code)
 
 <a name="GoModules" />
 
@@ -169,59 +169,59 @@ https://utopia.org/community
 
 The following versioned modules are provided by ucd repository:
 
-* [rpcclient/v3](https://github.com/Utopia/ucd/tree/master/rpcclient) - Implements
+* [rpcclient/v3](https://github.com/UtopiaCoinOrg/ucd/tree/master/rpcclient) - Implements
   a robust and easy to use Websocket-enabled Utopia JSON-RPC client
-* [ucjson/v3](https://github.com/Utopia/ucd/tree/master/ucjson) - Provides
+* [ucjson/v3](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucjson) - Provides
   infrastructure for working with Utopia JSON-RPC APIs
-* [rpc/jsonrpc/types](https://github.com/Utopia/ucd/tree/master/rpc/jsonrpc/types) -
+* [rpc/jsonrpc/types](https://github.com/UtopiaCoinOrg/ucd/tree/master/rpc/jsonrpc/types) -
   Provides concrete types via ucjson for the chain server JSON-RPC commands,
   return values, and notifications
-* [wire](https://github.com/Utopia/ucd/tree/master/wire) - Implements the
+* [wire](https://github.com/UtopiaCoinOrg/ucd/tree/master/wire) - Implements the
   Utopia wire protocol
-* [peer](https://github.com/Utopia/ucd/tree/master/peer) - Provides a common
+* [peer](https://github.com/UtopiaCoinOrg/ucd/tree/master/peer) - Provides a common
   base for creating and managing Utopia network peers
-* [blockchain](https://github.com/Utopia/ucd/tree/master/blockchain) -
+* [blockchain](https://github.com/UtopiaCoinOrg/ucd/tree/master/blockchain) -
   Implements Utopia block handling and chain selection rules
-  * [stake/v2](https://github.com/Utopia/ucd/tree/master/blockchain/stake) -
+  * [stake/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/blockchain/stake) -
     Provides an API for working with stake transactions and other portions
     related to the Proof-of-Stake (PoS) system
-* [txscript/v2](https://github.com/Utopia/ucd/tree/master/txscript) -
+* [txscript/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/txscript) -
   Implements the Utopia transaction scripting language
-* [ucec](https://github.com/Utopia/ucd/tree/master/ucec) - Provides constants
+* [ucec](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucec) - Provides constants
   for the supported cryptographic signatures supported by Utopia scripts
-  * [secp256k1](https://github.com/Utopia/ucd/tree/master/ucec/secp256k1) -
+  * [secp256k1](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucec/secp256k1) -
     Implements the secp256k1 elliptic curve
-  * [edwards/v2](https://github.com/Utopia/ucd/tree/master/ucec/edwards) -
+  * [edwards/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucec/edwards) -
     Implements the edwards25519 twisted Edwards curve
-* [database/v2](https://github.com/Utopia/ucd/tree/master/database) -
+* [database/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/database) -
   Provides a database interface for the Utopia block chain
-* [mempool/v2](https://github.com/Utopia/ucd/tree/master/mempool) - Provides a
+* [mempool/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/mempool) - Provides a
   policy-enforced pool of unmined Utopia transactions
-* [ucutil/v2](https://github.com/Utopia/ucd/tree/master/ucutil) - Provides
+* [ucutil/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucutil) - Provides
   Utopia-specific convenience functions and types
-* [chaincfg/v2](https://github.com/Utopia/ucd/tree/master/chaincfg) - Defines
+* [chaincfg/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/chaincfg) - Defines
   chain configuration parameters for the standard Utopia networks and allows
   callers to define their own custom Utopia networks for testing puproses
-  * [chainhash](https://github.com/Utopia/ucd/tree/master/chaincfg/chainhash) -
+  * [chainhash](https://github.com/UtopiaCoinOrg/ucd/tree/master/chaincfg/chainhash) -
     Provides a generic hash type and associated functions that allows the
     specific hash algorithm to be abstracted
-* [certgen](https://github.com/Utopia/ucd/tree/master/certgen) - Provides a
+* [certgen](https://github.com/UtopiaCoinOrg/ucd/tree/master/certgen) - Provides a
   function for creating a new TLS certificate key pair, typically used for
   encrypting RPC and websocket communications
-* [addrmgr](https://github.com/Utopia/ucd/tree/master/addrmgr) - Provides a
+* [addrmgr](https://github.com/UtopiaCoinOrg/ucd/tree/master/addrmgr) - Provides a
   concurrency safe Utopia network address manager
-* [connmgr](https://github.com/Utopia/ucd/tree/master/connmgr) - Implements a
+* [connmgr](https://github.com/UtopiaCoinOrg/ucd/tree/master/connmgr) - Implements a
   generic Utopia network connection manager
-* [hdkeychain/v2](https://github.com/Utopia/ucd/tree/master/hdkeychain) -
+* [hdkeychain/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/hdkeychain) -
   Provides an API for working with  Utopia hierarchical deterministic extended
   keys
-* [gcs](https://github.com/Utopia/ucd/tree/master/gcs) - Provides an API for
+* [gcs](https://github.com/UtopiaCoinOrg/ucd/tree/master/gcs) - Provides an API for
   building and using Golomb-coded set filters useful for light clients such as
   SPV wallets
-* [fees](https://github.com/Utopia/ucd/tree/master/fees) - Provides methods for
+* [fees](https://github.com/UtopiaCoinOrg/ucd/tree/master/fees) - Provides methods for
   tracking and estimating fee rates for new transactions to be mined into the
   network
-* [lru](https://github.com/Utopia/ucd/tree/master/lru) - Implements a generic
+* [lru](https://github.com/UtopiaCoinOrg/ucd/tree/master/lru) - Implements a generic
   concurrent safe least-recently-used cache with near O(1) perf
 
 <a name="ModuleHierarchy" />

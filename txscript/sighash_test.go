@@ -9,8 +9,8 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // TestVarIntSerializeSize ensures the serialize size for variable length

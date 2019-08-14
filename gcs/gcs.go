@@ -15,7 +15,7 @@ import (
 
 	"github.com/dchest/blake256"
 	"github.com/dchest/siphash"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // Inspired by https://github.com/rasky/gcs

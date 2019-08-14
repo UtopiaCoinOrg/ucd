@@ -6,9 +6,9 @@
 package mining
 
 import (
-	"github.com/Utopia/ucd/blockchain"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/blockchain"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 const (

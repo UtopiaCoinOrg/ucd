@@ -16,11 +16,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/blockchain/chaingen"
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/chaingen"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // cloneParams returns a deep copy of the provided parameters so the caller is

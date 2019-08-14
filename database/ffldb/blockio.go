@@ -18,9 +18,9 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/database"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 const (

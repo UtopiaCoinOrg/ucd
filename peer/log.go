@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/txscript"
-	"github.com/Utopia/ucd/wire"
-	"github.com/Utopia/slog"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/wire"
+	"github.com/UtopiaCoinOrg/slog"
 )
 
 const (

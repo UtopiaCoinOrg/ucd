@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"hash/crc32"
 
-	"github.com/Utopia/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/database"
 )
 
 // The serialized write cursor location format is:

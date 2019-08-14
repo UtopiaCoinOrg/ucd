@@ -3,7 +3,7 @@ rpctest
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/rpctest)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/rpctest)
 
 Package rpctest provides a ucd-specific RPC testing harness crafting and
 executing integration tests by driving a `ucd` instance via the `RPC`
@@ -20,7 +20,7 @@ systems/integration tests.
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/rpctest
+$ go get -u github.com/UtopiaCoinOrg/ucd/rpctest
 ```
 
 ## License

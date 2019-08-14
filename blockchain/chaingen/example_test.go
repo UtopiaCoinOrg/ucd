@@ -7,8 +7,8 @@ package chaingen_test
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/blockchain/chaingen"
-	"github.com/Utopia/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/chaingen"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 )
 
 // This example demonstrates creating a new generator instance and using it to

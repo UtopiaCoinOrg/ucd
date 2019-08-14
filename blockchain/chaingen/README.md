@@ -3,7 +3,7 @@ chaingen
 
 [![Build Status](https://travis-ci.org/Utopia/ucd.png?branch=master)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/blockchain/chaingen)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/blockchain/chaingen)
 
 Package chaingen provides facilities for generating a full chain of blocks.
 
@@ -26,7 +26,7 @@ functions.
 ## Examples
 
 * [Basic Usage Example]
-  (https://godoc.org/github.com/Utopia/ucd/blockchain/chaingen#example-package--BasicUsage)
+  (https://godoc.org/github.com/UtopiaCoinOrg/ucd/blockchain/chaingen#example-package--BasicUsage)
   Demonstrates creating a new generator instance and using it to generate the
   required premine block and enough blocks to have mature coinbase outputs to
   work with along with asserting the generator state along the way.
@@ -34,7 +34,7 @@ functions.
 ## Installation
 
 ```bash
-$ go get -u github.com/Utopia/ucd/blockchain/chaingen
+$ go get -u github.com/UtopiaCoinOrg/ucd/blockchain/chaingen
 ```
 
 ## License

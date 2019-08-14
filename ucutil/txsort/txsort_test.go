@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // TestSort ensures the transaction sorting works as expected.

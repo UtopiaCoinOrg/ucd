@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // OutOfRangeError describes an error due to accessing an element that is out

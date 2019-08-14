@@ -11,8 +11,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/rpcclient/v3"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/rpcclient/v3"
 )
 
 // testCanPassSVH tests whether the wallet can maintain the chain going past SVH

@@ -9,8 +9,8 @@ import (
 	"io"
 	"math/big"
 
-	"github.com/Utopia/ucd/ucec/secp256k1"
-	"github.com/Utopia/ucd/ucec/secp256k1/schnorr"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1/schnorr"
 )
 
 type secSchnorrDSA struct {

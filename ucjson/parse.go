@@ -7,7 +7,7 @@ package ucjson
 import (
 	"encoding/hex"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // EncodeConcatenatedHashes serializes a slice of chainhash.Hash values into a

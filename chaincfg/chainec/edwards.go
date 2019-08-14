@@ -9,7 +9,7 @@ import (
 	"io"
 	"math/big"
 
-	"github.com/Utopia/ucd/ucec/edwards"
+	"github.com/UtopiaCoinOrg/ucd/ucec/edwards"
 )
 
 type edwardsDSA struct {

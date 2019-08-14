@@ -8,8 +8,8 @@ package blockchain
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // ThresholdState define the various threshold states used when voting on

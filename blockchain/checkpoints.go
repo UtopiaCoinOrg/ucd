@@ -9,10 +9,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/txscript"
 )
 
 // CheckpointConfirmations is the number of blocks before the end of the current

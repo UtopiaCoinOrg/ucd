@@ -13,8 +13,8 @@ import (
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // TestBlock tests the API for Block.

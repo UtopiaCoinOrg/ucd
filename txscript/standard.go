@@ -9,10 +9,10 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec"
-	"github.com/Utopia/ucd/ucec/secp256k1"
-	"github.com/Utopia/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 const (

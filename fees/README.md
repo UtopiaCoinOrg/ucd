@@ -4,7 +4,7 @@ fees
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/fees)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/fees)
 
 Package fees provides utopia-specific methods for tracking and estimating fee
 rates for new transactions to be mined into the network. Fee rate estimation has
@@ -25,7 +25,7 @@ standalone package for any projects needing the functionality provided.
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/fees
+$ go get -u github.com/UtopiaCoinOrg/ucd/fees
 ```
 
 ## License

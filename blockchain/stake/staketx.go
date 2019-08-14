@@ -15,11 +15,11 @@ import (
 	"math"
 	"math/big"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/txscript"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // TxType indicates the type of tx (regular or stake type).

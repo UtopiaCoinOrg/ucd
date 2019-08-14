@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // assertTransactionImmutability throws a panic when a transaction has been

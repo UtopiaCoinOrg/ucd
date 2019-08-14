@@ -19,12 +19,12 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/Utopia/base58"
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec/secp256k1"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/ucec"
+	"github.com/UtopiaCoinOrg/base58"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/ucec"
 )
 
 const (

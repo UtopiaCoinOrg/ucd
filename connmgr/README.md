@@ -3,7 +3,7 @@ connmgr
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/connmgr)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/connmgr)
 
 Package connmgr implements a generic Utopia network connection manager.
 
@@ -29,7 +29,7 @@ In addition the connection manager provides the following utilities:
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/connmgr
+$ go get -u github.com/UtopiaCoinOrg/ucd/connmgr
 ```
 
 ## License

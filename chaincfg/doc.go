@@ -25,8 +25,8 @@
 //          "fmt"
 //          "log"
 //
-//          "github.com/Utopia/ucd/ucutil"
-//          "github.com/Utopia/ucd/chaincfg"
+//          "github.com/UtopiaCoinOrg/ucd/ucutil"
+//          "github.com/UtopiaCoinOrg/ucd/chaincfg"
 //  )
 //
 //  var testnet = flag.Bool("testnet", false, "operate on the testnet Utopia network")

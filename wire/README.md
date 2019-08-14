@@ -3,7 +3,7 @@ wire
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/wire)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/wire)
 
 Package wire implements the Utopia wire protocol.  A comprehensive suite of
 tests with 100% test coverage is provided to ensure proper functionality.
@@ -15,7 +15,7 @@ protocol level.
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/wire
+$ go get -u github.com/UtopiaCoinOrg/ucd/wire
 ```
 
 ## Utopia Message Overview

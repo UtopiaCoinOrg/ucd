@@ -10,7 +10,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // MaxBlockHeaderPayload is the maximum number of bytes a block header can be.

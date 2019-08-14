@@ -11,15 +11,15 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/Utopia/ucd/blockchain"
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec/secp256k1"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/hdkeychain/v2"
-	"github.com/Utopia/ucd/rpcclient/v3"
-	"github.com/Utopia/ucd/txscript"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/blockchain"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/hdkeychain/v2"
+	"github.com/UtopiaCoinOrg/ucd/rpcclient/v3"
+	"github.com/UtopiaCoinOrg/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 var (

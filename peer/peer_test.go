@@ -15,10 +15,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/wire"
-	"github.com/Utopia/go-socks/socks"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
+	"github.com/UtopiaCoinOrg/go-socks/socks"
 )
 
 // conn mocks a network connection by implementing the net.Conn interface.  It

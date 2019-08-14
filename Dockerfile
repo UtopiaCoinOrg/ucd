@@ -31,7 +31,7 @@ FROM golang:1.12
 # $ docker run -d --rm -p 127.0.0.1:11509:11509 -v /var/ucd:/root/.ucd user/ucd
 #
 
-WORKDIR /go/src/github.com/Utopia/ucd
+WORKDIR /go/src/github.com/UtopiaCoinOrg/ucd
 COPY . .
 
 RUN env GO111MODULE=on go install . ./cmd/...

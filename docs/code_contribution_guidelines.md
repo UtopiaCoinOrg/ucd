@@ -335,7 +335,7 @@ keep a clean commit history over a tangled weave of merge commits.  However,
 regardless of the specific merge method used, the code will be integrated with
 the master branch and the pull request will be closed.
 
-Rejoice as you will now be listed as a [contributor](https://github.com/Utopia/ucd/graphs/contributors)!
+Rejoice as you will now be listed as a [contributor](https://github.com/UtopiaCoinOrg/ucd/graphs/contributors)!
 
 <a name="Standards" />
 
@@ -366,5 +366,5 @@ Rejoice as you will now be listed as a [contributor](https://github.com/Utopia/u
 ### 6.2. Licensing of Contributions
 ****
 All contributions must be licensed with the
-[ISC license](https://github.com/Utopia/ucd/blob/master/LICENSE).  This is
+[ISC license](https://github.com/UtopiaCoinOrg/ucd/blob/master/LICENSE).  This is
 the same license as all of the code in the ucd suite.

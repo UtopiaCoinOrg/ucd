@@ -12,11 +12,11 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucutil"
-	chainjson "github.com/Utopia/ucd/rpc/jsonrpc/types"
-	"github.com/Utopia/ucd/wire"
-	walletjson "github.com/Utopia/ucwallet/rpc/jsonrpc/types"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	chainjson "github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
+	"github.com/UtopiaCoinOrg/ucd/wire"
+	walletjson "github.com/UtopiaCoinOrg/ucwallet/rpc/jsonrpc/types"
 )
 
 var (

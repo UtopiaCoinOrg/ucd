@@ -9,11 +9,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Utopia/ucd/blockchain"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/database"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/blockchain"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 const (

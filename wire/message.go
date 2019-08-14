@@ -11,7 +11,7 @@ import (
 	"io"
 	"unicode/utf8"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // MessageHeaderSize is the number of bytes in a Utopia message header.

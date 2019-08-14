@@ -13,7 +13,7 @@ import (
 	"math"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 const (

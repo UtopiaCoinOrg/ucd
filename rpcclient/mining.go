@@ -10,9 +10,9 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucutil"
-	chainjson "github.com/Utopia/ucd/rpc/jsonrpc/types"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	chainjson "github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
 )
 
 // FutureGenerateResult is a future promise to deliver the result of a

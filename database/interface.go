@@ -9,7 +9,7 @@
 package database
 
 import (
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // Cursor represents a cursor over key/value pairs and nested buckets of a

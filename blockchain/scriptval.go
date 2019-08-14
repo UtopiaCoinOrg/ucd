@@ -10,9 +10,9 @@ import (
 	"math"
 	"runtime"
 
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/txscript"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // txValidateItem holds a transaction along with which input to validate.

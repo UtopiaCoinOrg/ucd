@@ -9,8 +9,8 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/Utopia/ucd/ucjson/v2"
-	"github.com/Utopia/ucd/rpcclient/v3"
+	"github.com/UtopiaCoinOrg/ucd/ucjson/v2"
+	"github.com/UtopiaCoinOrg/ucd/rpcclient/v3"
 )
 
 // JoinType is an enum representing a particular type of "node join". A node

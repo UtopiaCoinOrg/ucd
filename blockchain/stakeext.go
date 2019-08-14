@@ -8,10 +8,10 @@ package blockchain
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/database"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/txscript"
 )
 
 // NextLotteryData returns the next tickets eligible for spending as SSGen

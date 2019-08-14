@@ -8,9 +8,9 @@ package blockchain
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/blockchain/stake"
-	"github.com/Utopia/ucd/database"
-	"github.com/Utopia/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 // maybeAcceptBlock potentially accepts a block into the block chain and, if

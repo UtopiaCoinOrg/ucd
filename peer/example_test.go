@@ -10,8 +10,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/Utopia/ucd/peer"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/peer"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // mockRemotePeer creates a basic inbound peer listening on the simnet port for

@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/rpcclient/v3"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/rpcclient/v3"
 )
 
 func main() {

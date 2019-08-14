@@ -14,7 +14,7 @@ import (
 	"github.com/btcsuite/winsvc/eventlog"
 	"github.com/btcsuite/winsvc/mgr"
 	"github.com/btcsuite/winsvc/svc"
-	"github.com/Utopia/ucd/internal/version"
+	"github.com/UtopiaCoinOrg/ucd/internal/version"
 )
 
 const (

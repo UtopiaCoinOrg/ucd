@@ -9,14 +9,14 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/chaincfg/v2"
-	"github.com/Utopia/ucd/chaincfg/v2/chainec"
-	"github.com/Utopia/ucd/ucec"
-	"github.com/Utopia/ucd/ucec/secp256k1"
-	"github.com/Utopia/ucd/ucutil/v2"
-	"github.com/Utopia/ucd/txscript/v2"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2/chainec"
+	"github.com/UtopiaCoinOrg/ucd/ucec"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/txscript/v2"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // This example demonstrates creating a script which pays to a Utopia address.

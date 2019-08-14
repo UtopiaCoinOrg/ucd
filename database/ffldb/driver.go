@@ -8,9 +8,9 @@ package ffldb
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/database"
-	"github.com/Utopia/ucd/wire"
-	"github.com/Utopia/slog"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/wire"
+	"github.com/UtopiaCoinOrg/slog"
 )
 
 var log = slog.Disabled

@@ -10,8 +10,8 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/Utopia/ucd/ucec/secp256k1"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // ScriptFlags is a bitmask defining additional operations or tests that will be

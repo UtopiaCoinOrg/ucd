@@ -9,8 +9,8 @@ import (
 	"bytes"
 	"sync"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 )
 
 // sigCacheEntry represents an entry in the SigCache. Entries within the

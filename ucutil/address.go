@@ -11,13 +11,13 @@ import (
 
 	"golang.org/x/crypto/ripemd160"
 
-	"github.com/Utopia/base58"
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/chaincfg/chainec"
-	"github.com/Utopia/ucd/ucec"
-	"github.com/Utopia/ucd/ucec/edwards"
-	"github.com/Utopia/ucd/ucec/secp256k1"
-	"github.com/Utopia/ucd/ucec/secp256k1/schnorr"
+	"github.com/UtopiaCoinOrg/base58"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainec"
+	"github.com/UtopiaCoinOrg/ucd/ucec"
+	"github.com/UtopiaCoinOrg/ucd/ucec/edwards"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1/schnorr"
 )
 
 var (

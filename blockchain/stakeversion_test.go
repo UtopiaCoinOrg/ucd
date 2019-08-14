@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/chaincfg"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // isVoterMajorityVersion determines if minVer requirement is met based on

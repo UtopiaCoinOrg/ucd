@@ -12,10 +12,10 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Utopia/base58"
-	"github.com/Utopia/ucd/chaincfg/v2/chainec"
-	"github.com/Utopia/ucd/ucec"
-	"github.com/Utopia/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/base58"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2/chainec"
+	"github.com/UtopiaCoinOrg/ucd/ucec"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 	"golang.org/x/crypto/ripemd160"
 )
 

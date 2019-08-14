@@ -15,8 +15,8 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/Utopia/ucd/ucjson"
-	"github.com/Utopia/go-socks/socks"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
+	"github.com/UtopiaCoinOrg/go-socks/socks"
 )
 
 // newHTTPClient returns a new HTTP client that is configured according to the

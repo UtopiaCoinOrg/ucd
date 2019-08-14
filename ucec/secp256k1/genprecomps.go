@@ -18,7 +18,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Utopia/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 )
 
 func main() {

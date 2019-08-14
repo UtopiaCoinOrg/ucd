@@ -12,9 +12,9 @@ import (
 	"encoding/binary"
 	"errors"
 
-	"github.com/Utopia/ucd/blockchain"
-	"github.com/Utopia/ucd/database"
-	"github.com/Utopia/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/blockchain"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 var (

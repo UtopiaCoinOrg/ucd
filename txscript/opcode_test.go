@@ -13,7 +13,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // testScriptFlags are the script flags which are used in the tests when

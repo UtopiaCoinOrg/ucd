@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // MsgGetCFHeaders is a message similar to MsgGetHeaders, but for committed

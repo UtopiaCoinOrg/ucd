@@ -13,7 +13,7 @@ demonstrate clean shutdown.
 The first step is to use `go get` to download and install the rpcclient package:
 
 ```bash
-$ go get -u github.com/Utopia/ucd/rpcclient
+$ go get -u github.com/UtopiaCoinOrg/ucd/rpcclient
 ```
 
 Next, modify the `main.go` source to specify the correct RPC username and
@@ -27,7 +27,7 @@ password for the RPC server:
 Finally, navigate to the example's directory and run it with:
 
 ```bash
-$ cd $GOPATH/src/github.com/Utopia/ucd/rpcclient/examples/ucdwebsockets
+$ cd $GOPATH/src/github.com/UtopiaCoinOrg/ucd/rpcclient/examples/ucdwebsockets
 $ go run *.go
 ```
 

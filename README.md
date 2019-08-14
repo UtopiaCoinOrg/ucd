@@ -3,8 +3,8 @@ ucd
 
 [![Build Status](https://travis-ci.org/Utopia/ucd.png?branch=master)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd)
-[![Go Report Card](https://goreportcard.com/badge/github.com/Utopia/ucd)](https://goreportcard.com/report/github.com/Utopia/ucd)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd)
+[![Go Report Card](https://goreportcard.com/badge/github.com/UtopiaCoinOrg/ucd)](https://goreportcard.com/report/github.com/UtopiaCoinOrg/ucd)
 
 ## Utopia Overview
 
@@ -72,8 +72,8 @@ censorship.
 In terms of individual benefits, since ucd fully validates every block and
 transaction, it provides the highest security and privacy possible when used in
 conjunction with a wallet that also supports directly connecting to it in full
-validation mode, such as [ucwallet (CLI)](https://github.com/Utopia/ucwallet)
-and [Utopiaiton (GUI)](https://github.com/Utopia/utopiaiton).
+validation mode, such as [ucwallet (CLI)](https://github.com/UtopiaCoinOrg/ucwallet)
+and [Utopiaiton (GUI)](https://github.com/UtopiaCoinOrg/utopiaiton).
 
 ## Minimum Recommended Specifications (ucd only)
 
@@ -131,7 +131,7 @@ the repo's root directory.  Some notes:
 ### Example of obtaining and building from source on Windows 10:
 
 ```PowerShell
-PS> git clone https://github.com/Utopia/ucd $env:USERPROFILE\src\ucd
+PS> git clone https://github.com/UtopiaCoinOrg/ucd $env:USERPROFILE\src\ucd
 PS> cd $env:USERPROFILE\src\ucd
 PS> go install . .\cmd\...
 PS> & "$(go env GOPATH)\bin\ucd" -V
@@ -218,13 +218,13 @@ https://utopia.org/community
 
 ## Issue Tracker
 
-The [integrated github issue tracker](https://github.com/Utopia/ucd/issues)
+The [integrated github issue tracker](https://github.com/UtopiaCoinOrg/ucd/issues)
 is used for this project.
 
 ## Documentation
 
 The documentation for ucd is a work-in-progress.  It is located in the
-[docs](https://github.com/Utopia/ucd/tree/master/docs) folder.
+[docs](https://github.com/UtopiaCoinOrg/ucd/tree/master/docs) folder.
 
 ## License
 

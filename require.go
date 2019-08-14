@@ -14,7 +14,7 @@
 package main
 
 import (
-	_ "github.com/Utopia/ucd/chaincfg/v2"
-	_ "github.com/Utopia/ucd/ucutil/v2"
-	_ "github.com/Utopia/ucd/txscript/v2"
+	_ "github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
+	_ "github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	_ "github.com/UtopiaCoinOrg/ucd/txscript/v2"
 )

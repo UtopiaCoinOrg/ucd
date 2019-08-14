@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/rpcclient/v3"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/rpcclient/v3"
 )
 
 func main() {

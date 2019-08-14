@@ -15,13 +15,13 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Utopia/ucd/blockchain/stake/v2/internal/tickettreap"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/chaincfg/v2"
-	"github.com/Utopia/ucd/database/v2"
-	_ "github.com/Utopia/ucd/database/v2/ffldb"
-	"github.com/Utopia/ucd/ucutil/v2"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/v2/internal/tickettreap"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
+	"github.com/UtopiaCoinOrg/ucd/database/v2"
+	_ "github.com/UtopiaCoinOrg/ucd/database/v2/ffldb"
+	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 const (

@@ -11,8 +11,8 @@ Overview
 This client provides a robust and easy to use client for interfacing
 with a Utopia RPC server that uses a mostly btcd/bitcoin core
 style Utopia JSON-RPC API.  This client has been tested with ucd
-(https://github.com/Utopia/ucd) and ucwallet
-(https://github.com/Utopia/ucwallet).
+(https://github.com/UtopiaCoinOrg/ucd) and ucwallet
+(https://github.com/UtopiaCoinOrg/ucwallet).
 
 In addition to the compatible standard HTTP POST JSON-RPC API, ucd and
 ucwallet provide a websocket interface that is more efficient than the standard

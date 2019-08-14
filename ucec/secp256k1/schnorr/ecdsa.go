@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"math/big"
 	"io"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 )
 
 // scalarSize is the size of an encoded big endian scalar.

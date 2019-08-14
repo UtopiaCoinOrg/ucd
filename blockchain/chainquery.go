@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"sort"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // nodeHeightSorter implements sort.Interface to allow a slice of nodes to

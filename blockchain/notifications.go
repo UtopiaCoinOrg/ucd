@@ -8,8 +8,8 @@ package blockchain
 import (
 	"fmt"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 // NotificationType represents the type of a notification message.

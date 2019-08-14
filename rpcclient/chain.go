@@ -11,13 +11,13 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucjson"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/gcs"
-	"github.com/Utopia/ucd/gcs/blockcf"
-	chainjson "github.com/Utopia/ucd/rpc/jsonrpc/types"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/gcs"
+	"github.com/UtopiaCoinOrg/ucd/gcs/blockcf"
+	chainjson "github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // FutureGetBestBlockHashResult is a future promise to deliver the result of a

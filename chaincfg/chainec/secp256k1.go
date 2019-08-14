@@ -10,7 +10,7 @@ import (
 	"io"
 	"math/big"
 
-	"github.com/Utopia/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 )
 
 type secp256k1DSA struct {

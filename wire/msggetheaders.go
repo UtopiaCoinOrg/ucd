@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 // MsgGetHeaders implements the Message interface and represents a utopia

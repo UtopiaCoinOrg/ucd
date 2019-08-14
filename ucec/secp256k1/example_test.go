@@ -9,8 +9,8 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec/secp256k1/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1/v2"
 )
 
 // This example demonstrates signing a message with a secp256k1 private key that

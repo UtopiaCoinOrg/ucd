@@ -8,7 +8,7 @@ package blockchain
 import (
 	"testing"
 
-	"github.com/Utopia/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 )
 
 func TestBlockSubsidy(t *testing.T) {

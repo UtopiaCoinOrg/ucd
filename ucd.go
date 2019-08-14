@@ -14,9 +14,9 @@ import (
 	"runtime/debug"
 	"runtime/pprof"
 
-	"github.com/Utopia/ucd/blockchain/indexers"
-	"github.com/Utopia/ucd/internal/limits"
-	"github.com/Utopia/ucd/internal/version"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/indexers"
+	"github.com/UtopiaCoinOrg/ucd/internal/limits"
+	"github.com/UtopiaCoinOrg/ucd/internal/version"
 )
 
 var cfg *config

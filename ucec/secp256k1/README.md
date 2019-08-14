@@ -3,7 +3,7 @@ secp256k1
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/ucec/secp256k1)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/ucec/secp256k1)
 
 Package ucec implements elliptic curve cryptography needed for working with
 Utopia (secp256k1 only for now). It is designed so that it may be used with the
@@ -20,24 +20,24 @@ use secp256k1 elliptic curve cryptography.
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/ucec
+$ go get -u github.com/UtopiaCoinOrg/ucd/ucec
 ```
 
 ## Examples
 
-* [Sign Message](https://godoc.org/github.com/Utopia/ucd/ucec#example-package--SignMessage)
+* [Sign Message](https://godoc.org/github.com/UtopiaCoinOrg/ucd/ucec#example-package--SignMessage)
   Demonstrates signing a message with a secp256k1 private key that is first
   parsed form raw bytes and serializing the generated signature.
 
-* [Verify Signature](https://godoc.org/github.com/Utopia/ucd/ucec#example-package--VerifySignature)
+* [Verify Signature](https://godoc.org/github.com/UtopiaCoinOrg/ucd/ucec#example-package--VerifySignature)
   Demonstrates verifying a secp256k1 signature against a public key that is
   first parsed from raw bytes.  The signature is also parsed from raw bytes.
 
-* [Encryption](https://godoc.org/github.com/Utopia/ucd/ucec#example-package--EncryptMessage)
+* [Encryption](https://godoc.org/github.com/UtopiaCoinOrg/ucd/ucec#example-package--EncryptMessage)
   Demonstrates encrypting a message for a public key that is first parsed from
   raw bytes, then decrypting it using the corresponding private key.
 
-* [Decryption](https://godoc.org/github.com/Utopia/ucdy/ucec#example-package--DecryptMessage)
+* [Decryption](https://godoc.org/github.com/UtopiaCoinOrg/ucdy/ucec#example-package--DecryptMessage)
   Demonstrates decrypting a message using a private key that is first parsed
   from raw bytes.
 

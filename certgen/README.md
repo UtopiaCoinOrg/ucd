@@ -3,7 +3,7 @@ Certgen
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/certgen)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/certgen)
 
 ## Overview
 
@@ -17,7 +17,7 @@ this package additionally includes support for Ed25519 certificates.
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/certgen
+$ go get -u github.com/UtopiaCoinOrg/ucd/certgen
 ```
 
 ## License

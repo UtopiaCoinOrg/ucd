@@ -4,7 +4,7 @@ ucutil
 
 [![Build Status](https://img.shields.io/travis/Utopia/ucd.svg)](https://travis-ci.org/Utopia/ucd)
 [![ISC License](https://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/Utopia/ucd/ucutil)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/UtopiaCoinOrg/ucd/ucutil)
 
 Package ucutil provides utopia-specific convenience functions and types.
 A comprehensive suite of tests is provided to ensure proper functionality.
@@ -17,7 +17,7 @@ standalone package for any projects needing the functionality provided.
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/Utopia/ucd/ucutil
+$ go get -u github.com/UtopiaCoinOrg/ucd/ucutil
 ```
 
 ## License

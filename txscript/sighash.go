@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // SigHashType represents hash type bits at the end of a signature.

@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 var (

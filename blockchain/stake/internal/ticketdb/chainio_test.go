@@ -13,12 +13,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Utopia/ucd/blockchain/stake/v2/internal/dbnamespace"
-	"github.com/Utopia/ucd/blockchain/stake/v2/internal/tickettreap"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/chaincfg/v2"
-	"github.com/Utopia/ucd/database/v2"
-	_ "github.com/Utopia/ucd/database/v2/ffldb"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/v2/internal/dbnamespace"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/v2/internal/tickettreap"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
+	"github.com/UtopiaCoinOrg/ucd/database/v2"
+	_ "github.com/UtopiaCoinOrg/ucd/database/v2/ffldb"
 )
 
 const (

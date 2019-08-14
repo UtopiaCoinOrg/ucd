@@ -9,10 +9,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Utopia/ucd/chaincfg/chainec"
-	"github.com/Utopia/ucd/ucec"
-	"github.com/Utopia/ucd/ucutil"
-	"github.com/Utopia/ucd/wire"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainec"
+	"github.com/UtopiaCoinOrg/ucd/ucec"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
 // RawTxInSignature returns the serialized ECDSA signature for the input idx of

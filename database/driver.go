@@ -8,7 +8,7 @@ package database
 import (
 	"fmt"
 
-	"github.com/Utopia/slog"
+	"github.com/UtopiaCoinOrg/slog"
 )
 
 // Driver defines a structure for backend drivers to use when they register

@@ -10,8 +10,8 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 )
 
 // genRandomSig returns a random message, a signature of the message under the

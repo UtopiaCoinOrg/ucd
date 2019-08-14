@@ -15,9 +15,9 @@ import (
 
 	"github.com/btcsuite/goleveldb/leveldb"
 	ldbutil "github.com/btcsuite/goleveldb/leveldb/util"
-	"github.com/Utopia/ucd/blockchain/stake"
-	"github.com/Utopia/ucd/chaincfg/chainhash"
-	"github.com/Utopia/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 const (

@@ -6,7 +6,7 @@
 package txscript
 
 import (
-	"github.com/Utopia/slog"
+	"github.com/UtopiaCoinOrg/slog"
 )
 
 // log is a logger that is initialized with no output filters.  This

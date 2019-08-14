@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Utopia/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 
 func decodeHash(reversedHash string) chainhash.Hash {

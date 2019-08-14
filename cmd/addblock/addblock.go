@@ -10,11 +10,11 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/Utopia/ucd/blockchain"
-	"github.com/Utopia/ucd/blockchain/indexers"
-	"github.com/Utopia/ucd/database"
-	"github.com/Utopia/ucd/internal/limits"
-	"github.com/Utopia/slog"
+	"github.com/UtopiaCoinOrg/ucd/blockchain"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/indexers"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/internal/limits"
+	"github.com/UtopiaCoinOrg/slog"
 )
 
 const (
