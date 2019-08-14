@@ -220,7 +220,7 @@ Changes in 0.10.0 (Sun Mar 01 2015)
     - A new version of the btcjson package that has been completely
       redesigned from the ground up based based upon how the project has
       evolved and lessons learned while using it since it was first written
-      is now available in the btcjson/v2/btcjson directory
+      is now available in the btcjson/btcjson directory
       - This will ultimately replace the current version so anyone making
         use of this package will need to update their code accordingly
     - The btcec package now provides better facilities for working directly

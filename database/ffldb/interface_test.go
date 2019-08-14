@@ -26,8 +26,8 @@ import (
 	"time"
 
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/database/v2"
-	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 

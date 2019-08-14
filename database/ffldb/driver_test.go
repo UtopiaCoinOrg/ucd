@@ -13,10 +13,10 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
-	"github.com/UtopiaCoinOrg/ucd/database/v2"
-	"github.com/UtopiaCoinOrg/ucd/database/v2/ffldb"
-	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/database/ffldb"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 // dbType is the database type name for this driver.

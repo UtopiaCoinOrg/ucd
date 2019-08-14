@@ -14,7 +14,7 @@ import (
 	"testing"
 
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 )
 
 // assertPanic tests that code correctly panics, and will raise a testing error

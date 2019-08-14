@@ -10,12 +10,12 @@ import (
 	"fmt"
 
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2/chainec"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainec"
 	"github.com/UtopiaCoinOrg/ucd/ucec"
 	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
-	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
-	"github.com/UtopiaCoinOrg/ucd/txscript/v2"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/txscript"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 

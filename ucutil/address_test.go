@@ -13,7 +13,7 @@ import (
 	"testing"
 
 	"github.com/UtopiaCoinOrg/base58"
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2/chainec"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainec"
 	"github.com/UtopiaCoinOrg/ucd/ucec"
 	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 	"golang.org/x/crypto/ripemd160"

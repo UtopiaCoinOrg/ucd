@@ -12,10 +12,10 @@ import (
 	"testing"
 
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 	"github.com/UtopiaCoinOrg/ucd/ucec"
 	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
-	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 // mainNetParams is an instance of the main network parameters and is shared

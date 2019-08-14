@@ -9,7 +9,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/UtopiaCoinOrg/ucd/database/v2"
+	"github.com/UtopiaCoinOrg/ucd/database"
 )
 
 // TestErrorCodeStringer tests the stringized output for the ErrorCode type.

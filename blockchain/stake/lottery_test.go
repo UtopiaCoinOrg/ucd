@@ -12,7 +12,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/v2/internal/tickettreap"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/internal/tickettreap"
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 )
 

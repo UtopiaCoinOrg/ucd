@@ -16,7 +16,7 @@ import (
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 	"github.com/UtopiaCoinOrg/ucd/ucutil"
-	"github.com/UtopiaCoinOrg/ucd/hdkeychain/v2"
+	"github.com/UtopiaCoinOrg/ucd/hdkeychain"
 	"github.com/UtopiaCoinOrg/ucd/rpcclient/v3"
 	"github.com/UtopiaCoinOrg/ucd/txscript"
 	"github.com/UtopiaCoinOrg/ucd/wire"

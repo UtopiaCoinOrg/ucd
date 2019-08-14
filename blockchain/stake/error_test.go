@@ -8,7 +8,7 @@ package stake_test
 import (
 	"testing"
 
-	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/v2"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
 )
 
 // TestErrorCodeStringer tests the stringized output for the ErrorCode type.

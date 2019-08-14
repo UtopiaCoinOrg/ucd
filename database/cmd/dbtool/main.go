@@ -11,7 +11,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/UtopiaCoinOrg/ucd/database/v2"
+	"github.com/UtopiaCoinOrg/ucd/database"
 	"github.com/UtopiaCoinOrg/slog"
 	flags "github.com/jessevdk/go-flags"
 )

@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/UtopiaCoinOrg/ucd/ucjson/v2"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
 	"github.com/UtopiaCoinOrg/ucd/rpcclient/v3"
 )
 

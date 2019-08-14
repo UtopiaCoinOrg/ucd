@@ -182,24 +182,24 @@ The following versioned modules are provided by ucd repository:
   base for creating and managing Utopia network peers
 * [blockchain](https://github.com/UtopiaCoinOrg/ucd/tree/master/blockchain) -
   Implements Utopia block handling and chain selection rules
-  * [stake/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/blockchain/stake) -
+  * [stake](https://github.com/UtopiaCoinOrg/ucd/tree/master/blockchain/stake) -
     Provides an API for working with stake transactions and other portions
     related to the Proof-of-Stake (PoS) system
-* [txscript/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/txscript) -
+* [txscript](https://github.com/UtopiaCoinOrg/ucd/tree/master/txscript) -
   Implements the Utopia transaction scripting language
 * [ucec](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucec) - Provides constants
   for the supported cryptographic signatures supported by Utopia scripts
   * [secp256k1](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucec/secp256k1) -
     Implements the secp256k1 elliptic curve
-  * [edwards/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucec/edwards) -
+  * [edwards](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucec/edwards) -
     Implements the edwards25519 twisted Edwards curve
-* [database/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/database) -
+* [database](https://github.com/UtopiaCoinOrg/ucd/tree/master/database) -
   Provides a database interface for the Utopia block chain
-* [mempool/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/mempool) - Provides a
+* [mempool](https://github.com/UtopiaCoinOrg/ucd/tree/master/mempool) - Provides a
   policy-enforced pool of unmined Utopia transactions
-* [ucutil/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucutil) - Provides
+* [ucutil](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucutil) - Provides
   Utopia-specific convenience functions and types
-* [chaincfg/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/chaincfg) - Defines
+* [chaincfg](https://github.com/UtopiaCoinOrg/ucd/tree/master/chaincfg) - Defines
   chain configuration parameters for the standard Utopia networks and allows
   callers to define their own custom Utopia networks for testing puproses
   * [chainhash](https://github.com/UtopiaCoinOrg/ucd/tree/master/chaincfg/chainhash) -
@@ -212,7 +212,7 @@ The following versioned modules are provided by ucd repository:
   concurrency safe Utopia network address manager
 * [connmgr](https://github.com/UtopiaCoinOrg/ucd/tree/master/connmgr) - Implements a
   generic Utopia network connection manager
-* [hdkeychain/v2](https://github.com/UtopiaCoinOrg/ucd/tree/master/hdkeychain) -
+* [hdkeychain](https://github.com/UtopiaCoinOrg/ucd/tree/master/hdkeychain) -
   Provides an API for working with  Utopia hierarchical deterministic extended
   keys
 * [gcs](https://github.com/UtopiaCoinOrg/ucd/tree/master/gcs) - Provides an API for

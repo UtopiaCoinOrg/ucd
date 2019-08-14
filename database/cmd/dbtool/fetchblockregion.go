@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/database/v2"
+	"github.com/UtopiaCoinOrg/ucd/database"
 )
 
 // blockRegionCmd defines the configuration options for the fetchblockregion

@@ -9,10 +9,10 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/UtopiaCoinOrg/ucd/blockchain/stake/v2"
+	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
-	"github.com/UtopiaCoinOrg/ucd/txscript/v2"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/txscript"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 

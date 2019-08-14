@@ -12,7 +12,7 @@ import (
 	"testing"
 
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1/v2"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 )
 
 type signerHex struct {

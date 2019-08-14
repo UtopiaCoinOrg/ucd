@@ -10,9 +10,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
-	"github.com/UtopiaCoinOrg/ucd/database/v2"
-	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 // BenchmarkBlockHeader benchmarks how long it takes to load the mainnet genesis

@@ -8,10 +8,10 @@ package hdkeychain_test
 import (
 	"fmt"
 
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 	"github.com/UtopiaCoinOrg/ucd/ucec"
-	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
-	"github.com/UtopiaCoinOrg/ucd/hdkeychain/v2"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
+	"github.com/UtopiaCoinOrg/ucd/hdkeychain"
 )
 
 // This example demonstrates how to generate a cryptographically random seed

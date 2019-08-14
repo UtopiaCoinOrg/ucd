@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 	"github.com/UtopiaCoinOrg/ucd/ucec"
-	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 func ExampleAmount() {

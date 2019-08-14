@@ -8,7 +8,7 @@ package ucutil
 import (
 	"testing"
 
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2/chainec"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainec"
 	"github.com/UtopiaCoinOrg/ucd/ucec"
 	"github.com/UtopiaCoinOrg/ucd/ucec/edwards"
 	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"

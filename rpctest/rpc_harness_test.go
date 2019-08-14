@@ -16,7 +16,7 @@ import (
 
 	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/ucjson/v2"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
 	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/txscript"
 	"github.com/UtopiaCoinOrg/ucd/wire"

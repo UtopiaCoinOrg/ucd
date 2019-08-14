@@ -11,10 +11,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/v2"
-	"github.com/UtopiaCoinOrg/ucd/database/v2"
-	_ "github.com/UtopiaCoinOrg/ucd/database/v2/ffldb"
-	"github.com/UtopiaCoinOrg/ucd/ucutil/v2"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/database"
+	_ "github.com/UtopiaCoinOrg/ucd/database/ffldb"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 )
 
 var (

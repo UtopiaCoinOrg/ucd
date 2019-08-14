@@ -93,7 +93,7 @@
 <!-- chaincfg -->
 <g id="node7" class="node"><title>chaincfg</title>
 <path fill="cadetblue" stroke="black" d="M219,-612C219,-612 162,-612 162,-612 156,-612 150,-606 150,-600 150,-600 150,-588 150,-588 150,-582 156,-576 162,-576 162,-576 219,-576 219,-576 225,-576 231,-582 231,-588 231,-588 231,-600 231,-600 231,-606 225,-612 219,-612"/>
-<text text-anchor="middle" x="190.5" y="-590.3" font-family="Times New Roman,serif" font-size="14.00">chaincfg/v2</text>
+<text text-anchor="middle" x="190.5" y="-590.3" font-family="Times New Roman,serif" font-size="14.00">chaincfg</text>
 </g>
 <!-- wire&#45;&gt;chaincfg -->
 <g id="edge4" class="edge"><title>wire&#45;&gt;chaincfg</title>
@@ -118,7 +118,7 @@
 <!-- ucutil -->
 <g id="node12" class="node"><title>ucutil</title>
 <path fill="burlywood" stroke="black" d="M383,-540C383,-540 338,-540 338,-540 332,-540 326,-534 326,-528 326,-528 326,-516 326,-516 326,-510 332,-504 338,-504 338,-504 383,-504 383,-504 389,-504 395,-510 395,-516 395,-516 395,-528 395,-528 395,-534 389,-540 383,-540"/>
-<text text-anchor="middle" x="360.5" y="-518.3" font-family="Times New Roman,serif" font-size="14.00">ucutil/v2</text>
+<text text-anchor="middle" x="360.5" y="-518.3" font-family="Times New Roman,serif" font-size="14.00">ucutil</text>
 </g>
 <!-- chaincfg&#45;&gt;ucutil -->
 <g id="edge7" class="edge"><title>chaincfg&#45;&gt;ucutil</title>
@@ -143,7 +143,7 @@
 <!-- edwards -->
 <g id="node10" class="node"><title>edwards</title>
 <path fill="lightseagreen" stroke="black" d="M425.5,-612C425.5,-612 333.5,-612 333.5,-612 327.5,-612 321.5,-606 321.5,-600 321.5,-600 321.5,-588 321.5,-588 321.5,-582 327.5,-576 333.5,-576 333.5,-576 425.5,-576 425.5,-576 431.5,-576 437.5,-582 437.5,-588 437.5,-588 437.5,-600 437.5,-600 437.5,-606 431.5,-612 425.5,-612"/>
-<text text-anchor="middle" x="379.5" y="-590.3" font-family="Times New Roman,serif" font-size="14.00">ucec/edwards/v2</text>
+<text text-anchor="middle" x="379.5" y="-590.3" font-family="Times New Roman,serif" font-size="14.00">ucec/edwards</text>
 </g>
 <!-- edwards&#45;&gt;ucutil -->
 <g id="edge9" class="edge"><title>edwards&#45;&gt;ucutil</title>
@@ -158,7 +158,7 @@
 <!-- database -->
 <g id="node13" class="node"><title>database</title>
 <path fill="dodgerblue" stroke="black" d="M390,-468C390,-468 331,-468 331,-468 325,-468 319,-462 319,-456 319,-456 319,-444 319,-444 319,-438 325,-432 331,-432 331,-432 390,-432 390,-432 396,-432 402,-438 402,-444 402,-444 402,-456 402,-456 402,-462 396,-468 390,-468"/>
-<text text-anchor="middle" x="360.5" y="-446.3" font-family="Times New Roman,serif" font-size="14.00">database/v2</text>
+<text text-anchor="middle" x="360.5" y="-446.3" font-family="Times New Roman,serif" font-size="14.00">database</text>
 </g>
 <!-- ucutil&#45;&gt;database -->
 <g id="edge11" class="edge"><title>ucutil&#45;&gt;database</title>
@@ -168,7 +168,7 @@
 <!-- hdkeychain -->
 <g id="node14" class="node"><title>hdkeychain</title>
 <path fill="deepskyblue" stroke="black" d="M327,-108C327,-108 254,-108 254,-108 248,-108 242,-102 242,-96 242,-96 242,-84 242,-84 242,-78 248,-72 254,-72 254,-72 327,-72 327,-72 333,-72 339,-78 339,-84 339,-84 339,-96 339,-96 339,-102 333,-108 327,-108"/>
-<text text-anchor="middle" x="290.5" y="-86.3" font-family="Times New Roman,serif" font-size="14.00">hdkeychain/v2</text>
+<text text-anchor="middle" x="290.5" y="-86.3" font-family="Times New Roman,serif" font-size="14.00">hdkeychain</text>
 </g>
 <!-- ucutil&#45;&gt;hdkeychain -->
 <g id="edge12" class="edge"><title>ucutil&#45;&gt;hdkeychain</title>
@@ -178,7 +178,7 @@
 <!-- txscript -->
 <g id="node15" class="node"><title>txscript</title>
 <path fill="mediumspringgreen" stroke="black" d="M484.5,-468C484.5,-468 432.5,-468 432.5,-468 426.5,-468 420.5,-462 420.5,-456 420.5,-456 420.5,-444 420.5,-444 420.5,-438 426.5,-432 432.5,-432 432.5,-432 484.5,-432 484.5,-432 490.5,-432 496.5,-438 496.5,-444 496.5,-444 496.5,-456 496.5,-456 496.5,-462 490.5,-468 484.5,-468"/>
-<text text-anchor="middle" x="458.5" y="-446.3" font-family="Times New Roman,serif" font-size="14.00">txscript/v2</text>
+<text text-anchor="middle" x="458.5" y="-446.3" font-family="Times New Roman,serif" font-size="14.00">txscript</text>
 </g>
 <!-- ucutil&#45;&gt;txscript -->
 <g id="edge13" class="edge"><title>ucutil&#45;&gt;txscript</title>
@@ -188,7 +188,7 @@
 <!-- stake -->
 <g id="node16" class="node"><title>stake</title>
 <path fill="bisque" stroke="black" d="M496,-396C496,-396 393,-396 393,-396 387,-396 381,-390 381,-384 381,-384 381,-372 381,-372 381,-366 387,-360 393,-360 393,-360 496,-360 496,-360 502,-360 508,-366 508,-372 508,-372 508,-384 508,-384 508,-390 502,-396 496,-396"/>
-<text text-anchor="middle" x="444.5" y="-374.3" font-family="Times New Roman,serif" font-size="14.00">blockchain/stake/v2</text>
+<text text-anchor="middle" x="444.5" y="-374.3" font-family="Times New Roman,serif" font-size="14.00">blockchain/stake</text>
 </g>
 <!-- database&#45;&gt;stake -->
 <g id="edge14" class="edge"><title>database&#45;&gt;stake</title>
@@ -253,7 +253,7 @@
 <!-- mempool -->
 <g id="node19" class="node"><title>mempool</title>
 <path fill="slategray" stroke="black" d="M431.5,-108C431.5,-108 369.5,-108 369.5,-108 363.5,-108 357.5,-102 357.5,-96 357.5,-96 357.5,-84 357.5,-84 357.5,-78 363.5,-72 369.5,-72 369.5,-72 431.5,-72 431.5,-72 437.5,-72 443.5,-78 443.5,-84 443.5,-84 443.5,-96 443.5,-96 443.5,-102 437.5,-108 431.5,-108"/>
-<text text-anchor="middle" x="400.5" y="-86.3" font-family="Times New Roman,serif" font-size="14.00">mempool/v2</text>
+<text text-anchor="middle" x="400.5" y="-86.3" font-family="Times New Roman,serif" font-size="14.00">mempool</text>
 </g>
 <!-- mempool&#45;&gt;ucd -->
 <g id="edge26" class="edge"><title>mempool&#45;&gt;ucd</title>
