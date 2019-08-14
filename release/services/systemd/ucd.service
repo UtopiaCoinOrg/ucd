@@ -1,0 +1,13 @@
+[Unit]
+Description=Utopia Full Node
+
+[Service]
+Type=simple
+User=ucd
+Group=ucd
+WorkingDirectory=/var/ucd
+ExecStart=/opt/Utopia/bin/ucd --appdata=/var/ucd
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
