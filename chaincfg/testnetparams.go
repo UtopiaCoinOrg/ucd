@@ -83,16 +83,16 @@ func TestNet3Params() *Params {
 		GenesisHash:              genesisBlock.BlockHash(),
 		PowLimit:                 testNetPowLimit,
 		PowLimitBits:             0x1e00ffff,
-		ReduceMinDifficulty:      true,
-		MinDiffReductionTime:     time.Minute * 10, // ~99.3% chance to be mined before reduction
+		ReduceMinDifficulty:      false,
+		MinDiffReductionTime:     0, // ~99.3% chance to be mined before reduction
 		GenerateSupported:        true,
 		MaximumBlockSizes:        []int{1310720},
 		MaxTxSize:                1000000,
-		TargetTimePerBlock:       time.Minute * 1,
+		TargetTimePerBlock:       time.Second * 40,
 		WorkDiffAlpha:            1,
 		WorkDiffWindowSize:       144,
 		WorkDiffWindows:          20,
-		TargetTimespan:           time.Minute * 1 * 144, // TimePerBlock * WindowSize
+		TargetTimespan:           time.Second * 40 * 144, // TimePerBlock * WindowSize
 		RetargetAdjustmentFactor: 4,
 
 		// Subsidy parameters.

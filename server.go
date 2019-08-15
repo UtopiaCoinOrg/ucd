@@ -2648,7 +2648,7 @@ func newServer(listenAddrs []string, db database.DB, chainParams *chaincfg.Param
 
 	s.cpuMiner = newCPUMiner(&cpuminerConfig{
 		ChainParams:                s.chainParams,
-		PermitConnectionlessMining: cfg.SimNet,
+		PermitConnectionlessMining: cfg.SimNet || cfg.TestNet,
 		BlockTemplateGenerator:     tg,
 		MiningAddrs:                cfg.miningAddrs,
 		ProcessBlock:               s.blockManager.ProcessBlock,
@@ -2663,7 +2663,7 @@ func newServer(listenAddrs []string, db database.DB, chainParams *chaincfg.Param
 	// discovered peers in order to prevent it from becoming a public test
 	// network.
 	var newAddressFunc func() (net.Addr, error)
-	if !cfg.SimNet && len(cfg.ConnectPeers) == 0 {
+	if (!cfg.SimNet && !cfg.TestNet) && len(cfg.ConnectPeers) == 0 {
 		newAddressFunc = func() (net.Addr, error) {
 			for tries := 0; tries < 100; tries++ {
 				addr := s.addrManager.GetAddress()
