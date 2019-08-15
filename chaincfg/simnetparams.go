@@ -154,7 +154,7 @@ func SimNetParams() *Params {
 		LegacyCoinType:   115, // ASCII for s, for backwards compatibility
 
 		// Utopia PoS parameters
-		MinimumStakeDiff:        20000,
+		MinimumStakeDiff:        2000000,
 		TicketPoolSize:          820,
 		TicketsPerBlock:         5,
 		TicketMaturity:          32,

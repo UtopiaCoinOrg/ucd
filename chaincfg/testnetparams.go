@@ -182,7 +182,7 @@ func TestNet3Params() *Params {
 		LegacyCoinType:   11, // for backwards compatibility
 
 		// Utopia PoS parameters
-		MinimumStakeDiff:        200000000, // 2 Coin
+		MinimumStakeDiff:        20000000000, // 2 Coin
 		TicketPoolSize:          820,
 		TicketsPerBlock:         5,
 		TicketMaturity:          16,

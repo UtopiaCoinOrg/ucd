@@ -290,7 +290,7 @@ func MainNetParams() *Params {
 		LegacyCoinType:   20, // for backwards compatibility
 
 		// Utopia PoS parameters
-		MinimumStakeDiff:        500 * 1e8, // 500 Coin
+		MinimumStakeDiff:        50000 * 1e8, // 500 Coin
 		TicketPoolSize:          820,
 		TicketsPerBlock:         5,
 		TicketMaturity:          32,//256,

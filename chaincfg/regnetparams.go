@@ -268,7 +268,7 @@ func RegNetParams() *Params {
 		LegacyCoinType:   1,
 
 		// Utopia PoS parameters
-		MinimumStakeDiff:        20000,
+		MinimumStakeDiff:        2000000,
 		TicketPoolSize:          820,
 		TicketsPerBlock:         5,
 		TicketMaturity:          16,
