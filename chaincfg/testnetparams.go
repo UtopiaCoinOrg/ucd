@@ -96,9 +96,9 @@ func TestNet3Params() *Params {
 		RetargetAdjustmentFactor: 4,
 
 		// Subsidy parameters.
-		BaseSubsidy:              5000000000, // 50 Coin
-		MulSubsidy:               100,
-		DivSubsidy:               101,
+		BaseSubsidy:              500000000000, //5000 coins
+		MulSubsidy:               91874,
+		DivSubsidy:               100000,
 		SubsidyReductionInterval: 2048,
 		WorkRewardProportion:     5,
 		StakeRewardProportion:    4,

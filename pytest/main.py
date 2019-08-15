@@ -1,11 +1,21 @@
 
 
 def main():
-    for index in range(10000):
-        q = 0.91 + index/10000.0
+    for index in range(1000):
+        q = 0.91 + index/100000.0
 
-        balance = 50 * 6144 * 5 * (1.0-q**855)/(1.0-q)
+        balance = 500000000000 * 6144 * 5 * (1.0-q**855)/(1.0-q)
         print(q,"\t\t", balance)
+
+
+        #0.91874
+    total = 500000000000 * 6144 * 5 * (1.0)/(1.0-0.91874)
+    print(0.91874,"\t\t", total, "\t", 5000 * 0.91874**855)
+
+    for  index in range(1000):
+        total = 500000000000 * 6144 * 5 /(1.0-0.91874 - index/100000.0)
+        print(total)
+
 
         
 if __name__ == '__main__':

@@ -100,9 +100,9 @@ func RegNetParams() *Params {
 		RetargetAdjustmentFactor: 4,
 
 		// Subsidy parameters.
-		BaseSubsidy:              5000000000,
-		MulSubsidy:               100,
-		DivSubsidy:               101,
+		BaseSubsidy:              500000000000, //5000 coins
+		MulSubsidy:               91874,
+		DivSubsidy:               100000,
 		SubsidyReductionInterval: 128,
 		WorkRewardProportion:     5,
 		StakeRewardProportion:    4,

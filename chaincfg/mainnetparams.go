@@ -102,9 +102,9 @@ func MainNetParams() *Params {
 		RetargetAdjustmentFactor: 4,
 
 		// Subsidy parameters.
-		BaseSubsidy:              5000000000, // 50 coin
-		MulSubsidy:               100,
-		DivSubsidy:               101,
+		BaseSubsidy:              500000000000, // 5000 coin
+		MulSubsidy:               91874,
+		DivSubsidy:               100000,
 		SubsidyReductionInterval: 6144,
 		WorkRewardProportion:     5,
 		StakeRewardProportion:    4,
