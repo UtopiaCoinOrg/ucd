@@ -65,6 +65,18 @@ func (b *BlockChain) lotteryDataForBlock(hash *chainhash.Hash) ([]chainhash.Hash
 	return winningTickets, poolSize, finalState, nil
 }
 
+
+func (b *BlockChain) LotteryFlashDataForTxAndBlock(txHash *chainhash.Hash, blockHash *chainhash.Hash) ([]chainhash.Hash, error) {
+	b.chainLock.Lock()
+	defer b.chainLock.Unlock()
+
+	if txHash == nil || blockHash == nil {
+		return []chainhash.Hash{}, fmt.Errorf("hash is nil in LotteryFlashDataForTxAndBlock")
+	}
+	winningTickets, _, _, err := b.lotteryDataForBlock(blockHash)
+	return winningTickets,  err
+}
+
 // LotteryDataForBlock returns lottery data for a given block in the block
 // chain, including side chain blocks.
 //

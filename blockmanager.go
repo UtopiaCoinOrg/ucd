@@ -21,9 +21,9 @@ import (
 	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 	"github.com/UtopiaCoinOrg/ucd/database"
-	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/fees"
 	"github.com/UtopiaCoinOrg/ucd/mempool"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
@@ -121,6 +121,8 @@ type requestFromPeerMsg struct {
 	peer   *serverPeer
 	blocks []*chainhash.Hash
 	txs    []*chainhash.Hash
+	flashTxs   []*chainhash.Hash
+	flashVotes []*chainhash.Hash
 	reply  chan requestFromPeerResponse
 }
 
@@ -221,6 +223,11 @@ type processTransactionResponse struct {
 	err         error
 }
 
+type processFlashTxResponse struct {
+	missedParent []*chainhash.Hash
+	err          error
+}
+
 // processTransactionMsg is a message type to be sent across the message
 // channel for requesting a transaction to be processed through the block
 // manager.
@@ -230,6 +237,14 @@ type processTransactionMsg struct {
 	rateLimit     bool
 	allowHighFees bool
 	reply         chan processTransactionResponse
+}
+
+type processFlashTxMsg struct {
+	tx            *ucutil.FlashTx
+	allowOrphans  bool
+	rateLimit     bool
+	allowHighFees bool
+	reply         chan processFlashTxResponse
 }
 
 // isCurrentMsg is a message type to be sent across the message channel for
@@ -344,11 +359,15 @@ type blockManager struct {
 	rejectedTxns    map[chainhash.Hash]struct{}
 	requestedTxns   map[chainhash.Hash]struct{}
 	requestedBlocks map[chainhash.Hash]struct{}
-	progressLogger  *blockProgressLogger
-	syncPeer        *serverPeer
-	msgChan         chan interface{}
-	wg              sync.WaitGroup
-	quit            chan struct{}
+
+	requestedFlashTxs   map[chainhash.Hash]struct{}
+	requestedFlashVotes map[chainhash.Hash]struct{}
+
+	progressLogger *blockProgressLogger
+	syncPeer       *serverPeer
+	msgChan        chan interface{}
+	wg             sync.WaitGroup
+	quit           chan struct{}
 
 	// The following fields are used for headers-first mode.
 	headersFirstMode bool
@@ -1283,6 +1302,28 @@ func (b *blockManager) haveInventory(invVect *wire.InvVect) (bool, error) {
 			return false, err
 		}
 		return entry != nil && !entry.IsFullySpent(), nil
+	case wire.InvTypeFlashTx:
+		if b.cfg.TxMemPool.IsFlashTxExist(&invVect.Hash) {
+			return true, nil
+		}
+		if b.cfg.TxMemPool.HaveTransaction(&invVect.Hash) {
+			return true, nil
+		}
+
+		// Check if the transaction exists from the point of view of the
+		// end of the main chain.
+		entry, err := b.chain.FetchUtxoEntry(&invVect.Hash)
+		if err != nil {
+			return false, err
+		}
+		return entry != nil && !entry.IsFullySpent(), nil
+	case wire.InvTypeFlashTxVote:
+		bmgrLog.Debugf("fetch invTypeFlashTxVote  %v", invVect.Hash)
+		_, err := b.cfg.TxMemPool.FetchFlashTxVote(&invVect.Hash)
+		if err != nil {
+			return false, nil
+		}
+		return true, nil
 	}
 
 	// The requested inventory is is an unsupported type, so just claim
@@ -1338,7 +1379,7 @@ func (b *blockManager) handleInvMsg(imsg *invMsg) {
 	var requestQueue []*wire.InvVect
 	for i, iv := range invVects {
 		// Ignore unsupported inventory types.
-		if iv.Type != wire.InvTypeBlock && iv.Type != wire.InvTypeTx {
+		if iv.Type != wire.InvTypeBlock && iv.Type != wire.InvTypeTx && iv.Type != wire.InvTypeFlashTx && iv.Type != wire.InvTypeFlashTxVote {
 			continue
 		}
 
@@ -1360,7 +1401,7 @@ func (b *blockManager) handleInvMsg(imsg *invMsg) {
 			continue
 		}
 		if !haveInv {
-			if iv.Type == wire.InvTypeTx {
+			if iv.Type == wire.InvTypeTx || iv.Type == wire.InvTypeFlashTx || iv.Type == wire.InvTypeFlashTxVote {
 				// Skip the transaction if it has already been
 				// rejected.
 				if _, exists := b.rejectedTxns[iv.Hash]; exists {
@@ -1448,6 +1489,23 @@ func (b *blockManager) handleInvMsg(imsg *invMsg) {
 				gdmsg.AddInvVect(iv)
 				numRequested++
 			}
+
+		case wire.InvTypeFlashTx:
+			if _, exists := b.requestedFlashTxs[iv.Hash]; !exists {
+				b.requestedFlashTxs[iv.Hash] = struct{}{}
+				b.limitMap(b.requestedFlashTxs, maxRequestedTxns)
+				imsg.peer.requestedFlashTxs[iv.Hash] = struct{}{}
+				gdmsg.AddInvVect(iv)
+				numRequested++
+			}
+		case wire.InvTypeFlashTxVote:
+			if _, exists := b.requestedFlashVotes[iv.Hash]; !exists {
+				b.requestedFlashVotes[iv.Hash] = struct{}{}
+				b.limitMap(b.requestedFlashVotes, maxRequestedTxns)
+				imsg.peer.requestedFlashVotes[iv.Hash] = struct{}{}
+				gdmsg.AddInvVect(iv)
+				numRequested++
+			}
 		}
 
 		if numRequested == wire.MaxInvPerMsg {
@@ -1460,6 +1518,7 @@ func (b *blockManager) handleInvMsg(imsg *invMsg) {
 			gdmsg = wire.NewMsgGetData()
 			numRequested = 0
 		}
+
 	}
 
 	if len(gdmsg.InvList) > 0 {
@@ -1522,7 +1581,7 @@ out:
 				msg.reply <- b.syncPeer
 
 			case requestFromPeerMsg:
-				err := b.requestFromPeer(msg.peer, msg.blocks, msg.txs)
+				err := b.requestFromPeer(msg.peer, msg.blocks, msg.txs,msg.flashTxs,msg.flashVotes)
 				msg.reply <- requestFromPeerResponse{
 					err: err,
 				}
@@ -1726,9 +1785,9 @@ func (b *blockManager) handleBlockchainNotification(notification *blockchain.Not
 		b.announcedBlock = block.Hash()
 		b.announcedBlockMtx.Unlock()
 
-	// A block has been accepted into the block chain.  Relay it to other peers
-	// (will be ignored if already relayed via NTNewTipBlockChecked) and
-	// possibly notify RPC clients with the winning tickets.
+		// A block has been accepted into the block chain.  Relay it to other peers
+		// (will be ignored if already relayed via NTNewTipBlockChecked) and
+		// possibly notify RPC clients with the winning tickets.
 	case blockchain.NTBlockAccepted:
 		// Don't relay or notify RPC clients with winning tickets if we
 		// are not current. Other peers that are current should already
@@ -1825,7 +1884,7 @@ func (b *blockManager) handleBlockchainNotification(notification *blockchain.Not
 			b.cfg.FeeEstimator.Enable(block.Height())
 		}
 
-	// A block has been connected to the main block chain.
+		// A block has been connected to the main block chain.
 	case blockchain.NTBlockConnected:
 		blockSlice, ok := notification.Data.([]*ucutil.Block)
 		if !ok {
@@ -1930,7 +1989,7 @@ func (b *blockManager) handleBlockchainNotification(notification *blockchain.Not
 			b.cfg.BgBlkTmplGenerator.BlockConnected(block)
 		}
 
-	// Stake tickets are spent or missed from the most recently connected block.
+		// Stake tickets are spent or missed from the most recently connected block.
 	case blockchain.NTSpentAndMissedTickets:
 		tnd, ok := notification.Data.(*blockchain.TicketNotificationsData)
 		if !ok {
@@ -1943,7 +2002,7 @@ func (b *blockManager) handleBlockchainNotification(notification *blockchain.Not
 			r.ntfnMgr.NotifySpentAndMissedTickets(tnd)
 		}
 
-	// Stake tickets are matured from the most recently connected block.
+		// Stake tickets are matured from the most recently connected block.
 	case blockchain.NTNewTickets:
 		tnd, ok := notification.Data.(*blockchain.TicketNotificationsData)
 		if !ok {
@@ -1956,7 +2015,7 @@ func (b *blockManager) handleBlockchainNotification(notification *blockchain.Not
 			r.ntfnMgr.NotifyNewTickets(tnd)
 		}
 
-	// A block has been disconnected from the main block chain.
+		// A block has been disconnected from the main block chain.
 	case blockchain.NTBlockDisconnected:
 		blockSlice, ok := notification.Data.([]*ucutil.Block)
 		if !ok {
@@ -2034,19 +2093,19 @@ func (b *blockManager) handleBlockchainNotification(notification *blockchain.Not
 			r.ntfnMgr.NotifyBlockDisconnected(block)
 		}
 
-	// Chain reorganization has commenced.
+		// Chain reorganization has commenced.
 	case blockchain.NTChainReorgStarted:
 		if b.cfg.BgBlkTmplGenerator != nil {
 			b.cfg.BgBlkTmplGenerator.ChainReorgStarted()
 		}
 
-	// Chain reorganization has concluded.
+		// Chain reorganization has concluded.
 	case blockchain.NTChainReorgDone:
 		if b.cfg.BgBlkTmplGenerator != nil {
 			b.cfg.BgBlkTmplGenerator.ChainReorgDone()
 		}
 
-	// The blockchain is reorganizing.
+		// The blockchain is reorganizing.
 	case blockchain.NTReorganization:
 		rd, ok := notification.Data.(*blockchain.ReorganizationNtfnsData)
 		if !ok {
@@ -2167,16 +2226,16 @@ func (b *blockManager) SyncPeer() *serverPeer {
 // RequestFromPeer allows an outside caller to request blocks or transactions
 // from a peer. The requests are logged in the blockmanager's internal map of
 // requests so they do not later ban the peer for sending the respective data.
-func (b *blockManager) RequestFromPeer(p *serverPeer, blocks, txs []*chainhash.Hash) error {
+func (b *blockManager) RequestFromPeer(p *serverPeer, blocks, txs []*chainhash.Hash,flashTxs []*chainhash.Hash, flashVotes []*chainhash.Hash) error {
 	reply := make(chan requestFromPeerResponse)
-	b.msgChan <- requestFromPeerMsg{peer: p, blocks: blocks, txs: txs,
+	b.msgChan <- requestFromPeerMsg{peer: p, blocks: blocks, txs: txs,flashTxs: flashTxs, flashVotes: flashVotes,
 		reply: reply}
 	response := <-reply
 
 	return response.err
 }
 
-func (b *blockManager) requestFromPeer(p *serverPeer, blocks, txs []*chainhash.Hash) error {
+func (b *blockManager) requestFromPeer(p *serverPeer, blocks, txs []*chainhash.Hash, flashTxs []*chainhash.Hash, flashVotes []*chainhash.Hash) error {
 	msgResp := wire.NewMsgGetData()
 
 	// Add the blocks to the request.
@@ -2245,6 +2304,65 @@ func (b *blockManager) requestFromPeer(p *serverPeer, blocks, txs []*chainhash.H
 
 		p.requestedTxns[*vh] = struct{}{}
 		b.requestedTxns[*vh] = struct{}{}
+	}
+
+	for _, flashTx := range flashTxs {
+		// If we've already requested this transaction, skip it.
+		_, alreadyReqP := p.requestedFlashTxs[*flashTx]
+		_, alreadyReqB := b.requestedFlashTxs[*flashTx]
+
+		if alreadyReqP || alreadyReqB {
+			continue
+		}
+
+		// Ask the transaction lock pool if the transaction is known
+		// to it
+		if b.cfg.TxMemPool.IsFlashTxExist(flashTx) {
+			continue
+		}
+
+		entry, err := b.chain.FetchUtxoEntry(flashTx)
+		if err != nil {
+			return err
+		}
+		if entry != nil {
+			continue
+		}
+
+		err = msgResp.AddInvVect(wire.NewInvVect(wire.InvTypeFlashTx, flashTx))
+		if err != nil {
+			return fmt.Errorf("unexpected error encountered building request "+
+				"for flashtx %v: %v",
+				flashTx, err.Error())
+		}
+		p.requestedFlashTxs[*flashTx] = struct{}{}
+		b.requestedFlashTxs[*flashTx] = struct{}{}
+	}
+
+	for _, flashVote := range flashVotes {
+		// If we've already requested this flashvote, skip it.
+		_, alreadyReqP := p.requestedFlashVotes[*flashVote]
+		_, alreadyReqB := b.requestedFlashVotes[*flashVote]
+
+		if alreadyReqP || alreadyReqB {
+			continue
+		}
+
+		// Ask the transaction lock pool if the vote is known
+		// to it
+		if _, err := b.cfg.TxMemPool.FetchFlashTxVote(flashVote); err == nil {
+			continue
+		}
+
+		err := msgResp.AddInvVect(wire.NewInvVect(wire.InvTypeFlashTxVote, flashVote))
+		if err != nil {
+			return fmt.Errorf("unexpected error encountered building request "+
+				"for flashtxvote %v: %v",
+				flashVote, err.Error())
+		}
+		p.requestedFlashVotes[*flashVote] = struct{}{}
+		b.requestedFlashVotes[*flashVote] = struct{}{}
+
 	}
 
 	if len(msgResp.InvList) > 0 {
@@ -2339,6 +2457,15 @@ func (b *blockManager) ProcessTransaction(tx *ucutil.Tx, allowOrphans bool,
 	return response.acceptedTxs, response.err
 }
 
+func (b *blockManager) ProcessFlashTx(tx *ucutil.FlashTx, allowOrphans bool,
+	rateLimit bool, allowHighFees bool) ([]*chainhash.Hash, error) {
+	reply := make(chan processFlashTxResponse, 1)
+	b.msgChan <- processFlashTxMsg{tx, allowOrphans, rateLimit,
+		allowHighFees, reply}
+	response := <-reply
+	return response.missedParent, response.err
+}
+
 // IsCurrent returns whether or not the block manager believes it is synced with
 // the connected peers.
 func (b *blockManager) IsCurrent() bool {
@@ -2392,6 +2519,8 @@ func newBlockManager(config *blockManagerConfig) (*blockManager, error) {
 		rejectedTxns:     make(map[chainhash.Hash]struct{}),
 		requestedTxns:    make(map[chainhash.Hash]struct{}),
 		requestedBlocks:  make(map[chainhash.Hash]struct{}),
+		requestedFlashTxs:   make(map[chainhash.Hash]struct{}),
+		requestedFlashVotes: make(map[chainhash.Hash]struct{}),
 		progressLogger:   newBlockProgressLogger("Processed", bmgrLog),
 		msgChan:          make(chan interface{}, cfg.MaxPeers*3),
 		headerList:       list.New(),

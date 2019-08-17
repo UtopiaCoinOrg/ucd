@@ -8,6 +8,8 @@ package txscript
 import (
 	"bytes"
 	"fmt"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
+	"github.com/UtopiaCoinOrg/ucd/wire"
 	"strings"
 )
 
@@ -149,6 +151,17 @@ func hasP2SHScriptSigStakeOpCodes(version uint16, scriptSig, scriptPubKey []byte
 	return nil
 }
 
+func IsFlashTx(msgTx *wire.MsgTx) (*chainhash.Hash, bool) {
+	for _, txOut := range msgTx.TxOut {
+		if hash, has := HaveFlashTxTag(txOut.PkScript); has {
+			return hash, true
+		}
+	}
+	return nil, false
+}
+
+
+
 // parseScriptTemplate is the same as parseScript but allows the passing of the
 // template list for testing purposes.  When there are parse errors, it returns
 // the list of parsed opcodes up to the point of failure along with the error.
@@ -240,6 +253,45 @@ func parseScriptTemplate(script []byte, opcodes *[256]opcode) ([]parsedOpcode, e
 // applying a number of sanity checks.
 func parseScript(script []byte) ([]parsedOpcode, error) {
 	return parseScriptTemplate(script, &opcodeArray)
+}
+
+func HaveFlashTxTag(pkScript []byte) (*chainhash.Hash, bool) {
+	pops, err := parseScript(pkScript)
+	if err != nil || len(pops) != 2 {
+		return nil, false
+	}
+	opCode := pops[0].opcode.value
+	data := pops[1].data
+
+	if len(data) != 15+32 {
+		return nil, false
+	}
+
+	if opCode == OP_RETURN &&
+		data[0] == 0x75 && //u
+		data[1] == 0x63 && //c
+		data[2] == 0x63 && //c
+		data[3] == 0x6f && //o
+		data[4] == 0x6d && //m
+		data[5] == 0x6d && //m
+		data[6] == 0x75 && //u
+		data[7] == 0x6e && // n
+		data[8] == 0x69 && //i
+		data[9] == 0x74 && //t
+		data[10] == 0x79 && //y
+		data[11] == 0x53 && // S
+		data[12] == 0x65&& //e
+		data[13] == 0x6e && //n
+		data[14] == 0x64 { //d
+
+		hashBytes := data[15:]
+		hash, err := chainhash.NewHash(hashBytes)
+		if err != nil {
+			return nil, false
+		}
+		return hash, true
+	}
+	return nil, false
 }
 
 /*// unparseScript reversed the action of parseScript and returns the

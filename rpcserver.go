@@ -41,13 +41,13 @@ import (
 	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 	"github.com/UtopiaCoinOrg/ucd/database"
-	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
-	"github.com/UtopiaCoinOrg/ucd/ucjson"
-	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/internal/version"
 	"github.com/UtopiaCoinOrg/ucd/mempool"
 	"github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
 	"github.com/UtopiaCoinOrg/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 	"github.com/jrick/bitset"
 )
@@ -281,6 +281,7 @@ var rpcAskWallet = map[string]struct{}{
 	"sendfrom":                {},
 	"sendmany":                {},
 	"sendtoaddress":           {},
+	"flashsendtoaddress":           {},
 	"setvotechoice":           {},
 	"settxfee":                {},
 	"signmessage":             {},
@@ -5059,6 +5060,14 @@ func handleSendRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan st
 	}
 
 	tx := ucutil.NewTx(msgtx)
+
+	//checkflash
+	if _, isFlash:= txscript.IsFlashTx(msgtx); isFlash{
+		if !s.server.txMemPool.IsFlashTxExistAndVoted(tx.Hash()) {
+			return handleAiTransaction(s, closeChan, serializedTx, allowHighFees)
+		}
+	}
+
 	acceptedTxs, err := s.server.blockManager.ProcessTransaction(tx, false,
 		false, allowHighFees)
 	if err != nil {
@@ -5102,6 +5111,81 @@ func handleSendRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan st
 
 	return tx.Hash().String(), nil
 }
+
+
+func handleSendAiRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error) {
+	c := cmd.(*types.SendFlashRawTransactionCmd)
+	allowHighFees := *c.AllowHighFees
+	hexStr := c.HexTx
+	if len(hexStr)%2 != 0 {
+		hexStr = "0" + hexStr
+	}
+	serializedTx, err := hex.DecodeString(hexStr)
+	if err != nil {
+		return nil, rpcDecodeHexError(hexStr)
+	}
+
+	return handleAiTransaction(s, closeChan, serializedTx, allowHighFees)
+
+}
+
+
+func handleAiTransaction(s *rpcServer, closeChan <-chan struct{}, serializedTx []byte, allowHighFees bool) (interface{}, error) {
+
+	bestShot:=s.chain.BestSnapshot()
+	if bestShot!=nil{
+		height:=int64(bestShot.Height)
+		if height<s.server.chainParams.StakeEnabledHeight{
+			return nil, errors.New(fmt.Sprintf("Flashstake enable  height is too low, want %d, but get %d", s.server.chainParams.StakeEnabledHeight, height))
+		}
+	}
+
+	if len(s.server.Peers())==0{
+		return nil, errors.New(fmt.Sprintf("please send Flash tx after  having peers"))
+	}
+
+
+	msgtx := wire.NewMsgFlashTx()
+	err := msgtx.Deserialize(bytes.NewReader(serializedTx))
+	if err != nil {
+		return nil, rpcDeserializationError("Could not decode flash Tx: %v",
+			err)
+	}
+
+	flashTx := ucutil.NewFlashTx(msgtx)
+
+	//check lotteryHash
+	lotteryHash, ok := txscript.IsFlashTx(flashTx.MsgTx())
+	if !ok || lotteryHash == nil {
+		return nil, fmt.Errorf("flashtx error")
+	}
+	tickets, err := s.chain.LotteryFlashDataForTxAndBlock(flashTx.Hash(), lotteryHash)
+	if err != nil || len(tickets) < 3 {
+		return nil, fmt.Errorf("faield to lottery ticket use lottery hash %v ,err %v", lotteryHash.String(), err)
+	}
+
+	//check conflict with mempool
+	missedParent, err := s.server.blockManager.ProcessFlashTx(flashTx, false, false, allowHighFees)
+	if err != nil || len(missedParent) != 0 {
+		return nil, err
+	}
+
+	flashTxs := make([]*ucutil.FlashTx, 0)
+	flashTxs = append(flashTxs, flashTx)
+
+	s.server.AnnounceNewFlashTx(flashTxs)
+
+	// Keep track of all the sendrawtransaction request txns so that they
+	// can be rebroadcast if they don't make their way into a block.
+	iv := wire.NewInvVect(wire.InvTypeFlashTx, flashTx.Hash())
+	s.server.AddRebroadcastInventory(iv, flashTx)
+
+	return flashTx.Hash().String(), nil
+
+}
+
+
+
 
 // handleSetGenerate implements the setgenerate command.
 func handleSetGenerate(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error) {

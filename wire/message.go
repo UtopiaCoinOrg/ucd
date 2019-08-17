@@ -55,6 +55,8 @@ const (
 	CmdCFilter        = "cfilter"
 	CmdCFHeaders      = "cfheaders"
 	CmdCFTypes        = "cftypes"
+	CmdFlashTx        = "flashtx"
+	CmdFlashTxVote    = "flashvote"
 )
 
 // Message is an interface that describes a Utopia message.  A type that

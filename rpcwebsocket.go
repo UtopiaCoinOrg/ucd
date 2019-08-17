@@ -25,10 +25,10 @@ import (
 	"github.com/UtopiaCoinOrg/ucd/blockchain"
 	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/ucjson"
-	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
 	"github.com/UtopiaCoinOrg/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
@@ -449,6 +449,13 @@ func (f *wsClientFilter) existsUnspentOutPoint(op *wire.OutPoint) bool {
 	return ok
 }
 
+type FlashTxNtfnData struct {
+	resend    bool
+	flashTx 		*ucutil.FlashTx
+	tickets   []chainhash.Hash
+}
+
+
 // Notification types
 type notificationBlockConnected ucutil.Block
 type notificationBlockDisconnected ucutil.Block
@@ -461,7 +468,8 @@ type notificationTxAcceptedByMempool struct {
 	isNew bool
 	tx    *ucutil.Tx
 }
-
+type notificationFlashTx FlashTxNtfnData
+type notificationFlashTxVote ucutil.FlashTxVote
 // Notification control requests
 type notificationRegisterClient wsClient
 type notificationUnregisterClient wsClient
@@ -2077,6 +2085,38 @@ func handleStopNotifyNewTransactions(wsc *wsClient, icmd interface{}) (interface
 	wsc.server.ntfnMgr.UnregisterNewMempoolTxsUpdates(wsc)
 	return nil, nil
 }
+
+
+//just notify wallet to sign
+func (m *wsNotificationManager) NotifyFlashTx(tickets []chainhash.Hash, flashTx *ucutil.FlashTx, resend bool) {
+	n := &notificationFlashTx{
+		resend:    resend,
+		flashTx: flashTx,
+		tickets:   tickets,
+	}
+
+	rpcsLog.Debug("notificationFlashTx:", n.resend, n.flashTx.Hash())
+
+	// As notificationFlashTx will be called by mempool and the RPC server
+	// may no longer be running, use a select statement to unblock
+	// enqueuing the notification once the RPC server has begun
+	// shutting down.
+	select {
+	case m.queueNotification <- n:
+	case <-m.quit:
+	}
+}
+
+func (m *wsNotificationManager) NotifyFlashTxVote(vote *ucutil.FlashTxVote) {
+
+	n := notificationFlashTxVote(*vote)
+
+	select {
+	case m.queueNotification <- &n:
+	case <-m.quit:
+	}
+}
+
 
 // rescanBlock rescans a block for any relevant transactions for the passed
 // lookup keys.  Any discovered transactions are returned hex encoded as a

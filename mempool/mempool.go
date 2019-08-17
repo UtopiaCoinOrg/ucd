@@ -229,7 +229,7 @@ type TxPool struct {
 	orphans       map[chainhash.Hash]*ucutil.Tx
 	orphansByPrev map[wire.OutPoint]map[chainhash.Hash]*ucutil.Tx
 	outpoints     map[wire.OutPoint]*ucutil.Tx
-
+	lockPool
 	// Votes on blocks.
 	votesMtx sync.RWMutex
 	votes    map[chainhash.Hash][]mining.VoteDesc

@@ -1017,6 +1017,28 @@ type SendRawTransactionCmd struct {
 	HexTx         string
 	AllowHighFees *bool `jsonrpcdefault:"false"`
 }
+type SendFlashRawTransactionCmd struct {
+	HexTx         string
+	AllowHighFees *bool `jsonrpcdefault:"false"`
+}
+
+type SendFlashTxVoteCmd struct {
+	HexTxVote string
+}
+
+func NewSendFlashRawTransactionCmd(hexTx string, allowHighFees *bool) *SendFlashRawTransactionCmd{
+	return &SendFlashRawTransactionCmd{
+		HexTx:         hexTx,
+		AllowHighFees: allowHighFees,
+	}
+}
+
+
+func NewSendFlashTxVoteCmd(hexTx string) *SendFlashTxVoteCmd{
+	return &SendFlashTxVoteCmd{
+		HexTxVote:         hexTx,
+	}
+}
 
 // NewSendRawTransactionCmd returns a new instance which can be used to issue a
 // sendrawtransaction JSON-RPC command.

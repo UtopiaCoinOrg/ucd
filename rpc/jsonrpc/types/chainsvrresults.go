@@ -283,6 +283,14 @@ type NetworksResult struct {
 	ProxyRandomizeCredentials bool   `json:"proxyrandomizecredentials"`
 }
 
+type TxLockInfo struct {
+	AddHeight  int64    `json:"add_height"`
+	MineHeight int64    `json:"mine_height"`
+	Votes      []string `json:"votes"`
+	Send       bool     `json:"send"`
+}
+
+
 // GetNetworkInfoResult models the data returned from the getnetworkinfo
 // command.
 type GetNetworkInfoResult struct {

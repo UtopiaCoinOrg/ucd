@@ -29,7 +29,6 @@ import (
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 	"github.com/UtopiaCoinOrg/ucd/connmgr"
 	"github.com/UtopiaCoinOrg/ucd/database"
-	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/fees"
 	"github.com/UtopiaCoinOrg/ucd/gcs"
 	"github.com/UtopiaCoinOrg/ucd/gcs/blockcf"
@@ -39,6 +38,7 @@ import (
 	"github.com/UtopiaCoinOrg/ucd/mining"
 	"github.com/UtopiaCoinOrg/ucd/peer"
 	"github.com/UtopiaCoinOrg/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
@@ -239,6 +239,11 @@ type serverPeer struct {
 	isWhitelisted   bool
 	requestedTxns   map[chainhash.Hash]struct{}
 	requestedBlocks map[chainhash.Hash]struct{}
+
+	//flashtx
+	requestedFlashTxs   map[chainhash.Hash]struct{}
+	requestedFlashVotes map[chainhash.Hash]struct{}
+
 	knownAddresses  lru.Cache
 	banScore        connmgr.DynamicBanScore
 	quit            chan struct{}
@@ -262,6 +267,8 @@ func newServerPeer(s *server, isPersistent bool) *serverPeer {
 		persistent:      isPersistent,
 		requestedTxns:   make(map[chainhash.Hash]struct{}),
 		requestedBlocks: make(map[chainhash.Hash]struct{}),
+		requestedFlashTxs:    make(map[chainhash.Hash]struct{}),
+		requestedFlashVotes:  make(map[chainhash.Hash]struct{}),
 		knownAddresses:  lru.NewCache(maxKnownAddrsPerPeer),
 		quit:            make(chan struct{}),
 		txProcessed:     make(chan struct{}, 1),
@@ -595,7 +602,7 @@ func (sp *serverPeer) OnGetMiningState(p *peer.Peer, msg *wire.MsgGetMiningState
 // requests the data advertised in the message from the peer.
 func (sp *serverPeer) OnMiningState(p *peer.Peer, msg *wire.MsgMiningState) {
 	err := sp.server.blockManager.RequestFromPeer(sp, msg.BlockHashes,
-		msg.VoteHashes)
+		msg.VoteHashes,nil,nil)
 	if err != nil {
 		peerLog.Warnf("couldn't handle mining state message: %v",
 			err.Error())
@@ -1178,6 +1185,53 @@ func (s *server) AnnounceNewTransactions(txns []*ucutil.Tx) {
 		}
 	}
 }
+
+
+func (s *server) AnnounceNewFlashTx(newFlashTxs []*ucutil.FlashTx) {
+	// Generate and relay inventory vectors for all newly accepted
+	// transactions into the memory pool due to the original being
+	// accepted.
+	for _, flashTx := range newFlashTxs {
+		// Generate the inventory vector and relay it.
+		//TODO check flash flashTx invvect
+		iv := wire.NewInvVect(wire.InvTypeFlashTx, flashTx.Hash())
+		s.RelayInventory(iv, flashTx,true)
+
+		if s.rpcServer != nil {
+			//deal with flash flashTx,
+			// just send to wallet to sign
+			lotteryHash, _ := txscript.IsFlashTx(flashTx.MsgTx())
+			tickets, err := s.rpcServer.chain.LotteryFlashDataForTxAndBlock(flashTx.Hash(), lotteryHash)
+			if err != nil {
+				srvrLog.Errorf("LotteryAiDataForTx %v loggeryHash %v err:%v", flashTx.Hash().String(), lotteryHash.String(), err)
+				return
+			}
+
+			s.rpcServer.ntfnMgr.NotifyFlashTx(tickets, flashTx, false)
+		}
+	}
+}
+
+//after accept this vote ,notify wallet and relay to otherpeers
+func (s *server) AnnounceNewFlashTxVote(newFlashTxVotes []*ucutil.FlashTxVote) {
+	// Generate and relay inventory vectors for all newly accepted
+	// transactions into the memory pool due to the original being
+	// accepted.
+
+	for _, flashTxVote := range newFlashTxVotes {
+		// Generate the inventory vector and relay it.
+		//TODO check flash flashTxvote invvect
+		//relay flashvote
+		iv := wire.NewInvVect(wire.InvTypeFlashTxVote, flashTxVote.Hash())
+		s.RelayInventory(iv, flashTxVote,true)
+
+		if s.rpcServer != nil {
+			//todo notify wallet
+			s.rpcServer.ntfnMgr.NotifyFlashTxVote(flashTxVote)
+		}
+	}
+}
+
 
 // TransactionConfirmed marks the provided single confirmation transaction as
 // no longer needing rebroadcasting.

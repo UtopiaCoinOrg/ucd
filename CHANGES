@@ -586,6 +586,7 @@ Changes in 0.6.0 (Tue Feb 04 2014)
     - Add validateaddress command (wallet-specific)
     - Add verifymessage command (wallet-specific)
     - Add sendtoaddress command (wallet-specific)
+    - Add flashsendtoaddress command (wallet-specific)
   - Continue cleanup and work on implementing the RPC API:
     - Implement submitblock command
       (https://github.com/conformal/btcd/issues/61)

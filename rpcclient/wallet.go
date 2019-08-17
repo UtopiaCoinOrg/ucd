@@ -463,6 +463,52 @@ func (c *Client) SendToAddress(address ucutil.Address, amount ucutil.Amount) (*c
 	return c.SendToAddressAsync(address, amount).Receive()
 }
 
+// FutureSendToAddressResult is a future promise to deliver the result of a
+// SendToAddressAsync RPC invocation (or an applicable error).
+type FutureFlashSendToAddressResult chan *response
+
+// Receive waits for the response promised by the future and returns the hash
+// of the transaction sending the passed amount to the given address.
+func (r FutureFlashSendToAddressResult) Receive() (*chainhash.Hash, error) {
+	res, err := receiveFuture(r)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unmarshal result as a string.
+	var txHash string
+	err = json.Unmarshal(res, &txHash)
+	if err != nil {
+		return nil, err
+	}
+
+	return chainhash.NewHashFromStr(txHash)
+}
+
+// FlashSendToAddressAsync returns an instance of a type that can be used to get the
+// result of the RPC at some future time by invoking the Receive function on the
+// returned instance.
+//
+// See SendToAddress for the blocking version and more details.
+func (c *Client) FlashSendToAddressAsync(address ucutil.Address, amount ucutil.Amount) FutureFlashSendToAddressResult {
+	addr := address.Address()
+	cmd := walletjson.NewFlashSendToAddressCmd(addr, amount.ToCoin(), nil, nil)
+	return c.sendCmd(cmd)
+}
+
+// SendToAddress sends the passed amount to the given address.
+//
+// See SendToAddressComment to associate comments with the transaction in the
+// wallet.  The comments are not part of the transaction and are only internal
+// to the wallet.
+//
+// NOTE: This function requires to the wallet to be unlocked.  See the
+// WalletPassphrase function for more details.
+func (c *Client) FlashSendToAddress(address ucutil.Address, amount ucutil.Amount) (*chainhash.Hash, error) {
+	return c.FlashSendToAddressAsync(address, amount).Receive()
+}
+
+
 // SendToAddressCommentAsync returns an instance of a type that can be used to
 // get the result of the RPC at some future time by invoking the Receive
 // function on the returned instance.
@@ -494,6 +540,40 @@ func (c *Client) SendToAddressComment(address ucutil.Address, amount ucutil.Amou
 	return c.SendToAddressCommentAsync(address, amount, comment,
 		commentTo).Receive()
 }
+
+
+// SendToAddressCommentAsync returns an instance of a type that can be used to
+// get the result of the RPC at some future time by invoking the Receive
+// function on the returned instance.
+//
+// See SendToAddressComment for the blocking version and more details.
+func (c *Client) FlashSendToAddressCommentAsync(address ucutil.Address,
+	amount ucutil.Amount, comment,
+	commentTo string) FutureFlashSendToAddressResult {
+
+	addr := address.Address()
+	cmd := walletjson.NewFlashSendToAddressCmd(addr, amount.ToCoin(), &comment,
+		&commentTo)
+	return c.sendCmd(cmd)
+}
+
+// SendToAddressComment sends the passed amount to the given address and stores
+// the provided comment and comment to in the wallet.  The comment parameter is
+// intended to be used for the purpose of the transaction while the commentTo
+// parameter is indended to be used for who the transaction is being sent to.
+//
+// The comments are not part of the transaction and are only internal
+// to the wallet.
+//
+// See SendToAddress to avoid using comments.
+//
+// NOTE: This function requires to the wallet to be unlocked.  See the
+// WalletPassphrase function for more details.
+func (c *Client) FlashSendToAddressComment(address ucutil.Address, amount ucutil.Amount, comment, commentTo string) (*chainhash.Hash, error) {
+	return c.FlashSendToAddressCommentAsync(address, amount, comment,
+		commentTo).Receive()
+}
+
 
 // FutureSendFromResult is a future promise to deliver the result of a
 // SendFromAsync, SendFromMinConfAsync, or SendFromCommentAsync RPC invocation
