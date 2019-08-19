@@ -18,6 +18,13 @@ import (
 // overhead of creating it multiple times.
 var bigOne = big.NewInt(1)
 
+// CheckForDuplicateHashes checks for duplicate hashes when validating blocks.
+// Because of the rule inserting the height into the second (nonce) txOut, there
+// should never be a duplicate transaction hash that overwrites another. However,
+// because there is a 2^128 chance of a collision, the paranoid user may wish to
+// turn this feature on.
+var CheckForDuplicateHashes = false
+
 // Checkpoint identifies a known good point in the block chain.  Using
 // checkpoints allows a few optimizations for old blocks during initial download
 // and also prevents forks from old blocks.

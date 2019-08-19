@@ -1451,9 +1451,9 @@ func (b *BlockChain) checkBlockContext(block *ucutil.Block, prevNode *blockNode,
 // Utopia: Check the stake transactions to make sure they don't have this txid
 // too.
 func (b *BlockChain) checkDupTxs(txSet []*ucutil.Tx, view *UtxoViewpoint) error {
-/*	if !chaincfg.CheckForDuplicateHashes {
+	if !chaincfg.CheckForDuplicateHashes {
 		return nil
-	}*/
+	}
 
 	// Fetch utxo details for all of the transactions in this block.
 	// Typically, there will not be any utxos for any of the transactions.
