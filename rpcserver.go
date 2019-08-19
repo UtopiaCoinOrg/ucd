@@ -167,78 +167,81 @@ type commandHandler func(*rpcServer, interface{}, <-chan struct{}) (interface{},
 // a dependency loop.
 var rpcHandlers map[types.Method]commandHandler
 var rpcHandlersBeforeInit = map[types.Method]commandHandler{
-	"addnode":               handleAddNode,
-	"createrawsstx":         handleCreateRawSStx,
-	"createrawssrtx":        handleCreateRawSSRtx,
-	"createrawtransaction":  handleCreateRawTransaction,
-	"debuglevel":            handleDebugLevel,
-	"decoderawtransaction":  handleDecodeRawTransaction,
-	"decodescript":          handleDecodeScript,
-	"estimatefee":           handleEstimateFee,
-	"estimatesmartfee":      handleEstimateSmartFee,
-	"estimatestakediff":     handleEstimateStakeDiff,
-	"existsaddress":         handleExistsAddress,
-	"existsaddresses":       handleExistsAddresses,
-	"existsmissedtickets":   handleExistsMissedTickets,
-	"existsexpiredtickets":  handleExistsExpiredTickets,
-	"existsliveticket":      handleExistsLiveTicket,
-	"existslivetickets":     handleExistsLiveTickets,
-	"existsmempooltxs":      handleExistsMempoolTxs,
-	"generate":              handleGenerate,
-	"getaddednodeinfo":      handleGetAddedNodeInfo,
-	"getbestblock":          handleGetBestBlock,
-	"getbestblockhash":      handleGetBestBlockHash,
-	"getblock":              handleGetBlock,
-	"getblockchaininfo":     handleGetBlockchainInfo,
-	"getblockcount":         handleGetBlockCount,
-	"getblockhash":          handleGetBlockHash,
-	"getblockheader":        handleGetBlockHeader,
-	"getblocksubsidy":       handleGetBlockSubsidy,
-	"getchaintips":          handleGetChainTips,
-	"getcoinsupply":         handleGetCoinSupply,
-	"getconnectioncount":    handleGetConnectionCount,
-	"getcurrentnet":         handleGetCurrentNet,
-	"getdifficulty":         handleGetDifficulty,
-	"getgenerate":           handleGetGenerate,
-	"gethashespersec":       handleGetHashesPerSec,
-	"getcfilter":            handleGetCFilter,
-	"getcfilterheader":      handleGetCFilterHeader,
-	"getheaders":            handleGetHeaders,
-	"getinfo":               handleGetInfo,
-	"getmempoolinfo":        handleGetMempoolInfo,
-	"getmininginfo":         handleGetMiningInfo,
-	"getnettotals":          handleGetNetTotals,
-	"getnetworkhashps":      handleGetNetworkHashPS,
-	"getpeerinfo":           handleGetPeerInfo,
-	"getrawmempool":         handleGetRawMempool,
-	"getrawtransaction":     handleGetRawTransaction,
-	"getstakedifficulty":    handleGetStakeDifficulty,
-	"getstakeversioninfo":   handleGetStakeVersionInfo,
-	"getstakeversions":      handleGetStakeVersions,
-	"getticketpoolvalue":    handleGetTicketPoolValue,
-	"getvoteinfo":           handleGetVoteInfo,
-	"gettxout":              handleGetTxOut,
-	"getwork":               handleGetWork,
-	"help":                  handleHelp,
-	"livetickets":           handleLiveTickets,
-	"missedtickets":         handleMissedTickets,
-	"node":                  handleNode,
-	"ping":                  handlePing,
-	"searchrawtransactions": handleSearchRawTransactions,
-	"rebroadcastmissed":     handleRebroadcastMissed,
-	"rebroadcastwinners":    handleRebroadcastWinners,
-	"sendrawtransaction":    handleSendRawTransaction,
-	"setgenerate":           handleSetGenerate,
-	"stop":                  handleStop,
-	"submitblock":           handleSubmitBlock,
-	"ticketfeeinfo":         handleTicketFeeInfo,
-	"ticketsforaddress":     handleTicketsForAddress,
-	"ticketvwap":            handleTicketVWAP,
-	"txfeeinfo":             handleTxFeeInfo,
-	"validateaddress":       handleValidateAddress,
-	"verifychain":           handleVerifyChain,
-	"verifymessage":         handleVerifyMessage,
-	"version":               handleVersion,
+	"addnode":                 handleAddNode,
+	"createrawsstx":           handleCreateRawSStx,
+	"createrawssrtx":          handleCreateRawSSRtx,
+	"createrawtransaction":    handleCreateRawTransaction,
+	"debuglevel":              handleDebugLevel,
+	"decoderawtransaction":    handleDecodeRawTransaction,
+	"decodescript":            handleDecodeScript,
+	"estimatefee":             handleEstimateFee,
+	"estimatesmartfee":        handleEstimateSmartFee,
+	"estimatestakediff":       handleEstimateStakeDiff,
+	"existsaddress":           handleExistsAddress,
+	"existsaddresses":         handleExistsAddresses,
+	"existsmissedtickets":     handleExistsMissedTickets,
+	"existsexpiredtickets":    handleExistsExpiredTickets,
+	"existsliveticket":        handleExistsLiveTicket,
+	"existslivetickets":       handleExistsLiveTickets,
+	"existsmempooltxs":        handleExistsMempoolTxs,
+	"generate":                handleGenerate,
+	"getaddednodeinfo":        handleGetAddedNodeInfo,
+	"getbestblock":            handleGetBestBlock,
+	"getbestblockhash":        handleGetBestBlockHash,
+	"getblock":                handleGetBlock,
+	"getblockchaininfo":       handleGetBlockchainInfo,
+	"getblockcount":           handleGetBlockCount,
+	"getblockhash":            handleGetBlockHash,
+	"getblockheader":          handleGetBlockHeader,
+	"getblocksubsidy":         handleGetBlockSubsidy,
+	"getchaintips":            handleGetChainTips,
+	"getcoinsupply":           handleGetCoinSupply,
+	"getconnectioncount":      handleGetConnectionCount,
+	"getcurrentnet":           handleGetCurrentNet,
+	"getdifficulty":           handleGetDifficulty,
+	"getgenerate":             handleGetGenerate,
+	"gethashespersec":         handleGetHashesPerSec,
+	"getcfilter":              handleGetCFilter,
+	"getcfilterheader":        handleGetCFilterHeader,
+	"getheaders":              handleGetHeaders,
+	"getinfo":                 handleGetInfo,
+	"getmempoolinfo":          handleGetMempoolInfo,
+	"getmininginfo":           handleGetMiningInfo,
+	"getnettotals":            handleGetNetTotals,
+	"getnetworkhashps":        handleGetNetworkHashPS,
+	"getpeerinfo":             handleGetPeerInfo,
+	"getrawmempool":           handleGetRawMempool,
+	"gettxlockpoolinfo":       handleGetTxLockpoolInfo,
+	"getrawtransaction":       handleGetRawTransaction,
+	"getstakedifficulty":      handleGetStakeDifficulty,
+	"getstakeversioninfo":     handleGetStakeVersionInfo,
+	"getstakeversions":        handleGetStakeVersions,
+	"getticketpoolvalue":      handleGetTicketPoolValue,
+	"getvoteinfo":             handleGetVoteInfo,
+	"gettxout":                handleGetTxOut,
+	"getwork":                 handleGetWork,
+	"help":                    handleHelp,
+	"livetickets":             handleLiveTickets,
+	"missedtickets":           handleMissedTickets,
+	"node":                    handleNode,
+	"ping":                    handlePing,
+	"searchrawtransactions":   handleSearchRawTransactions,
+	"rebroadcastmissed":       handleRebroadcastMissed,
+	"rebroadcastwinners":      handleRebroadcastWinners,
+	"sendrawtransaction":      handleSendRawTransaction,
+	"sendflashrawtransaction": handleSendFlashRawTransaction,
+	"sendflashtxvote":         handleSendFlashTxVote,
+	"setgenerate":             handleSetGenerate,
+	"stop":                    handleStop,
+	"submitblock":             handleSubmitBlock,
+	"ticketfeeinfo":           handleTicketFeeInfo,
+	"ticketsforaddress":       handleTicketsForAddress,
+	"ticketvwap":              handleTicketVWAP,
+	"txfeeinfo":               handleTxFeeInfo,
+	"validateaddress":         handleValidateAddress,
+	"verifychain":             handleVerifyChain,
+	"verifymessage":           handleVerifyMessage,
+	"version":                 handleVersion,
 }
 
 // list of commands that we recognize, but for which ucd has no support because
@@ -281,7 +284,7 @@ var rpcAskWallet = map[string]struct{}{
 	"sendfrom":                {},
 	"sendmany":                {},
 	"sendtoaddress":           {},
-	"flashsendtoaddress":           {},
+	"flashsendtoaddress":      {},
 	"setvotechoice":           {},
 	"settxfee":                {},
 	"signmessage":             {},
@@ -316,30 +319,33 @@ var rpcLimited = map[string]struct{}{
 	"help": {},
 
 	// HTTP/S-only commands
-	"createrawtransaction":  {},
-	"decoderawtransaction":  {},
-	"decodescript":          {},
-	"getbestblock":          {},
-	"getbestblockhash":      {},
-	"getblock":              {},
-	"getblockchaininfo":     {},
-	"getblockcount":         {},
-	"getblockhash":          {},
-	"getchaintips":          {},
-	"getcurrentnet":         {},
-	"getdifficulty":         {},
-	"getinfo":               {},
-	"getnettotals":          {},
-	"getnetworkhashps":      {},
-	"getrawmempool":         {},
-	"getrawtransaction":     {},
-	"gettxout":              {},
-	"searchrawtransactions": {},
-	"sendrawtransaction":    {},
-	"submitblock":           {},
-	"validateaddress":       {},
-	"verifymessage":         {},
-	"version":               {},
+	"createrawtransaction":    {},
+	"decoderawtransaction":    {},
+	"decodescript":            {},
+	"getbestblock":            {},
+	"getbestblockhash":        {},
+	"getblock":                {},
+	"getblockchaininfo":       {},
+	"getblockcount":           {},
+	"getblockhash":            {},
+	"getchaintips":            {},
+	"getcurrentnet":           {},
+	"getdifficulty":           {},
+	"getinfo":                 {},
+	"getnettotals":            {},
+	"getnetworkhashps":        {},
+	"getrawmempool":           {},
+	"gettxlockpoolinfo":       {},
+	"getrawtransaction":       {},
+	"gettxout":                {},
+	"searchrawtransactions":   {},
+	"sendrawtransaction":      {},
+	"sendflashrawtransaction": {},
+	"sendflashtxvote":         {},
+	"submitblock":             {},
+	"validateaddress":         {},
+	"verifymessage":           {},
+	"version":                 {},
 }
 
 // builderScript is a convenience function which is used for hard-coded scripts
@@ -464,14 +470,14 @@ type gbtWorkState struct {
 	minTimestamp  time.Time
 	template      *BlockTemplate
 	notifyMap     map[chainhash.Hash]map[int64]chan struct{}
-	timeSource    blockchain.MedianTimeSource
+	timeSource blockchain.MedianTimeSource
 }
 
 // newGbtWorkState returns a new instance of a gbtWorkState with all internal
 // fields initialized and ready to use.
 func newGbtWorkState(timeSource blockchain.MedianTimeSource) *gbtWorkState {
 	return &gbtWorkState{
-		notifyMap:  make(map[chainhash.Hash]map[int64]chan struct{}),
+		notifyMap: make(map[chainhash.Hash]map[int64]chan struct{}),
 		timeSource: timeSource,
 	}
 }
@@ -2332,7 +2338,7 @@ func (state *gbtWorkState) updateBlockTemplate(s *rpcServer, useCoinbaseValue bo
 	if template == nil || state.prevHash == nil ||
 		!state.prevHash.IsEqual(&best.Hash) ||
 		(state.lastTxUpdate != lastTxUpdate &&
-			time.Now().After(state.lastGenerated.Add(time.Second*
+			time.Now().After(state.lastGenerated.Add(time.Second *
 				gbtRegenerateSeconds))) {
 
 		// Reset the previous best hash the block template was generated
@@ -2738,7 +2744,7 @@ func handleGetBlockTemplateLongPoll(s *rpcServer, longPollID string, useCoinbase
 	case <-closeChan:
 		return nil, ErrClientQuit
 
-	// Wait until signal received to send the reply.
+		// Wait until signal received to send the reply.
 	case <-longPollChan:
 		// Fallthrough
 	}
@@ -3499,6 +3505,16 @@ func handleGetRawMempool(s *rpcServer, cmd interface{}, closeChan <-chan struct{
 		hashStrings = append(hashStrings, descs[i].Tx.Hash().String())
 	}
 	return hashStrings, nil
+}
+
+func handleGetTxLockpoolInfo(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error) {
+	info := s.server.txMemPool.TxLockPoolInfo()
+
+	ret := &types.GetTxLockpoolInfoResult{
+		Info: info,
+	}
+
+	return ret, nil
 }
 
 // handleGetRawTransaction implements the getrawtransaction command.
@@ -5062,9 +5078,9 @@ func handleSendRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan st
 	tx := ucutil.NewTx(msgtx)
 
 	//checkflash
-	if _, isFlash:= txscript.IsFlashTx(msgtx); isFlash{
+	if _, isFlash := txscript.IsFlashTx(msgtx); isFlash {
 		if !s.server.txMemPool.IsFlashTxExistAndVoted(tx.Hash()) {
-			return handleAiTransaction(s, closeChan, serializedTx, allowHighFees)
+			return handleFlashTransaction(s, closeChan, serializedTx, allowHighFees)
 		}
 	}
 
@@ -5112,8 +5128,7 @@ func handleSendRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan st
 	return tx.Hash().String(), nil
 }
 
-
-func handleSendAiRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error) {
+func handleSendFlashRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error) {
 	c := cmd.(*types.SendFlashRawTransactionCmd)
 	allowHighFees := *c.AllowHighFees
 	hexStr := c.HexTx
@@ -5125,25 +5140,23 @@ func handleSendAiRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan 
 		return nil, rpcDecodeHexError(hexStr)
 	}
 
-	return handleAiTransaction(s, closeChan, serializedTx, allowHighFees)
+	return handleFlashTransaction(s, closeChan, serializedTx, allowHighFees)
 
 }
 
+func handleFlashTransaction(s *rpcServer, closeChan <-chan struct{}, serializedTx []byte, allowHighFees bool) (interface{}, error) {
 
-func handleAiTransaction(s *rpcServer, closeChan <-chan struct{}, serializedTx []byte, allowHighFees bool) (interface{}, error) {
-
-	bestShot:=s.chain.BestSnapshot()
-	if bestShot!=nil{
-		height:=int64(bestShot.Height)
-		if height<s.server.chainParams.StakeEnabledHeight{
-			return nil, errors.New(fmt.Sprintf("Flashstake enable  height is too low, want %d, but get %d", s.server.chainParams.StakeEnabledHeight, height))
+	bestShot := s.chain.BestSnapshot()
+	if bestShot != nil {
+		height := int64(bestShot.Height)
+		if height < s.server.chainParams.StakeEnabledHeight {
+			return nil, errors.New(fmt.Sprintf("Flash tx enable  height is too low, want %d, but get %d", s.server.chainParams.StakeEnabledHeight, height))
 		}
 	}
 
-	if len(s.server.Peers())==0{
+	if len(s.server.Peers()) == 0 {
 		return nil, errors.New(fmt.Sprintf("please send Flash tx after  having peers"))
 	}
-
 
 	msgtx := wire.NewMsgFlashTx()
 	err := msgtx.Deserialize(bytes.NewReader(serializedTx))
@@ -5157,7 +5170,7 @@ func handleAiTransaction(s *rpcServer, closeChan <-chan struct{}, serializedTx [
 	//check lotteryHash
 	lotteryHash, ok := txscript.IsFlashTx(flashTx.MsgTx())
 	if !ok || lotteryHash == nil {
-		return nil, fmt.Errorf("flashtx error")
+		return nil, fmt.Errorf("not a standard flashtx")
 	}
 	tickets, err := s.chain.LotteryFlashDataForTxAndBlock(flashTx.Hash(), lotteryHash)
 	if err != nil || len(tickets) < 3 {
@@ -5173,7 +5186,7 @@ func handleAiTransaction(s *rpcServer, closeChan <-chan struct{}, serializedTx [
 	flashTxs := make([]*ucutil.FlashTx, 0)
 	flashTxs = append(flashTxs, flashTx)
 
-	s.server.AnnounceNewFlashTx(flashTxs)
+	s.server.AnnounceNewFlashTxs(flashTxs)
 
 	// Keep track of all the sendrawtransaction request txns so that they
 	// can be rebroadcast if they don't make their way into a block.
@@ -5184,8 +5197,152 @@ func handleAiTransaction(s *rpcServer, closeChan <-chan struct{}, serializedTx [
 
 }
 
+func handleSendFlashTxVote(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error) {
+	c := cmd.(*types.SendFlashTxVoteCmd)
 
+	hexTxVote := c.HexTxVote
+	if len(hexTxVote)%2 != 0 {
+		hexTxVote = "0" + hexTxVote
+	}
+	serializedTx, err := hex.DecodeString(hexTxVote)
+	if err != nil {
+		return nil, rpcDecodeHexError(hexTxVote)
+	}
 
+	msgFlashTxVote := wire.NewMsgFlashTxVote()
+	err = msgFlashTxVote.Deserialize(bytes.NewReader(serializedTx))
+	if err != nil {
+		return nil, rpcDeserializationError("Could not decode Flashtx vote: %v", err)
+	}
+
+	flashTxvote := ucutil.NewFlashTxVote(msgFlashTxVote)
+	flashTxHash := msgFlashTxVote.FlashTxHash
+	ticketHash := msgFlashTxVote.TicketHash
+
+	flashTxDesc, exist := s.server.txMemPool.GetFlashTxDesc(&flashTxHash)
+	if !exist {
+		return nil, fmt.Errorf("ai tx %v not exist in lock pool", flashTxHash)
+	}
+	flashTx := flashTxDesc.Tx
+	//check ticket selected
+	lotteryHash, _ := txscript.IsFlashTx(flashTx.MsgTx())
+	tickets, err := s.chain.LotteryFlashDataForTxAndBlock(&flashTxHash, lotteryHash)
+	ticketExist := false
+	for _, t := range tickets {
+		if t.IsEqual(&ticketHash) {
+			ticketExist = true
+			break
+		}
+	}
+	if !ticketExist {
+		return nil, fmt.Errorf("flashtx ticket not exist ,flashvote %v: %v", flashTxvote.Hash(),
+			err)
+	}
+
+	ticketTx, err := fetchTxInfo(s, &ticketHash)
+	if err != nil || ticketTx == nil {
+		return nil, fmt.Errorf("failed to get ticketTx  %v ,err: %v", ticketHash.String(), err)
+	}
+
+	ticketOutPuts := ticketTx.TxOut
+	if len(ticketOutPuts) == 0 {
+		return nil, fmt.Errorf("ticketTx  %v output number is zero", ticketHash.String())
+	}
+	version := ticketOutPuts[0].Version
+	pkScript := ticketOutPuts[0].PkScript
+
+	_, addrs, _, err := txscript.ExtractPkScriptAddrs(version,
+		pkScript, s.server.chainParams)
+
+	if err != nil || len(addrs) == 0 {
+		return nil, fmt.Errorf("failed to extractpkscriptaddrs of ticket  %v , err %v", ticketHash.String(), err)
+	}
+
+	sigMsg := flashTxHash.String() + ticketHash.String()
+
+	//verifymessage
+	verified, err := ucutil.VerifyMessage(sigMsg, addrs[0], flashTxvote.MsgFlashTxVote().Sig)
+	if !verified {
+		return nil, fmt.Errorf("failed to verify signature ,flashvote %v , err %v", flashTxvote.Hash(), err)
+	}
+
+	//update lockpool
+	err, reSendToMemPool := s.server.txMemPool.ProcessFlashTxVote(flashTxvote, &flashTxHash)
+	if err != nil {
+		return nil, err
+	}
+	if reSendToMemPool {
+		s.ntfnMgr.NotifyFlashTx(tickets, flashTx, true)
+	}
+
+	flashTxvotes := make([]*ucutil.FlashTxVote, 0)
+	flashTxvotes = append(flashTxvotes, flashTxvote)
+
+	//notify wallet  vote info and rely to other peers
+	s.server.AnnounceNewFlashTxVotes(flashTxvotes)
+
+	// Keep track of all the sendrawtransaction request txns so that they
+	// can be rebroadcast if they don't make their way into a block.
+
+	iv := wire.NewInvVect(wire.InvTypeFlashTxVote, flashTxvote.Hash())
+
+	s.server.AddRebroadcastInventory(iv, flashTxvote)
+
+	return nil, nil
+
+}
+
+func fetchTxInfo(s *rpcServer, txHash *chainhash.Hash) (*wire.MsgTx, error) {
+	// Try to fetch the transaction from the memory pool and if that fails,
+	// try the block database.
+	var mtx *wire.MsgTx
+
+	tx, err := s.server.txMemPool.FetchTransaction(txHash)
+	if err != nil {
+		txIndex := s.server.txIndex
+		if txIndex == nil {
+			return nil, rpcInternalError("The transaction index "+
+				"must be enabled to query the blockchain "+
+				"(specify --txindex)", "Configuration")
+		}
+
+		// Look up the location of the transaction.
+		idxEntry, err := txIndex.Entry(txHash)
+		if err != nil {
+			context := "Failed to retrieve transaction location"
+			return nil, rpcInternalError(err.Error(), context)
+		}
+		if idxEntry == nil {
+			return nil, rpcNoTxInfoError(txHash)
+		}
+		blockRegion := &idxEntry.BlockRegion
+
+		// Load the raw transaction bytes from the database.
+		var txBytes []byte
+		err = s.server.db.View(func(dbTx database.Tx) error {
+			var err error
+			txBytes, err = dbTx.FetchBlockRegion(blockRegion)
+			return err
+		})
+		if err != nil {
+			return nil, rpcNoTxInfoError(txHash)
+		}
+
+		// Deserialize the transaction
+		var msgTx wire.MsgTx
+		err = msgTx.Deserialize(bytes.NewReader(txBytes))
+		if err != nil {
+			context := "Failed to deserialize transaction"
+			return nil, rpcInternalError(err.Error(), context)
+		}
+		mtx = &msgTx
+	} else {
+
+		mtx = tx.MsgTx()
+	}
+
+	return mtx, nil
+}
 
 // handleSetGenerate implements the setgenerate command.
 func handleSetGenerate(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error) {

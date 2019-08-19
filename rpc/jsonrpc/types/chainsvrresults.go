@@ -290,6 +290,9 @@ type TxLockInfo struct {
 	Send       bool     `json:"send"`
 }
 
+type GetTxLockpoolInfoResult struct {
+	Info map[string]*TxLockInfo
+}
 
 // GetNetworkInfoResult models the data returned from the getnetworkinfo
 // command.

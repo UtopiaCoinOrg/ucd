@@ -17,9 +17,9 @@ import (
 	"github.com/UtopiaCoinOrg/ucd/blockchain/stake"
 	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/mining"
 	"github.com/UtopiaCoinOrg/ucd/txscript"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 
@@ -1707,5 +1707,10 @@ func New(cfg *Config) *TxPool {
 		orphansByPrev: make(map[wire.OutPoint]map[chainhash.Hash]*ucutil.Tx),
 		outpoints:     make(map[wire.OutPoint]*ucutil.Tx),
 		votes:         make(map[chainhash.Hash][]mining.VoteDesc),
+		lockPool: lockPool{
+			txLockPool:    make(map[chainhash.Hash]*FlashTxDesc),
+			lockOutpoints: make(map[wire.OutPoint]*ucutil.FlashTx),
+			flashTxVotes:  make(map[chainhash.Hash]*ucutil.FlashTxVote),
+		},
 	}
 }

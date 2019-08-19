@@ -308,7 +308,7 @@ func unparseScript(pops []parsedOpcode) ([]byte, error) {
 	return script, nil
 }*/
 
-// DisasmString formats a disassembled script for one line printing.  When the
+// DisasmS tring formats a disassembled script for one line printing.  When the
 // script fails to parse, the returned string will contain the disassembled
 // script up to the point the failure occurred along with the string '[error]'
 // appended.  In addition, the reason the script failed to parse is returned

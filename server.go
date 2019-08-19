@@ -244,9 +244,9 @@ type serverPeer struct {
 	requestedFlashTxs   map[chainhash.Hash]struct{}
 	requestedFlashVotes map[chainhash.Hash]struct{}
 
-	knownAddresses  lru.Cache
-	banScore        connmgr.DynamicBanScore
-	quit            chan struct{}
+	knownAddresses lru.Cache
+	banScore       connmgr.DynamicBanScore
+	quit           chan struct{}
 
 	// addrsSent and getMiningStateSent both track whether or not the peer
 	// has already sent the respective request.  It is used to prevent more
@@ -255,24 +255,28 @@ type serverPeer struct {
 	getMiningStateSent bool
 
 	// The following chans are used to sync blockmanager and server.
-	txProcessed    chan struct{}
-	blockProcessed chan struct{}
+	txProcessed          chan struct{}
+	flashTxProcessed     chan struct{}
+	flashTxVoteProcessed chan struct{}
+	blockProcessed       chan struct{}
 }
 
 // newServerPeer returns a new serverPeer instance. The peer needs to be set by
 // the caller.
 func newServerPeer(s *server, isPersistent bool) *serverPeer {
 	return &serverPeer{
-		server:          s,
-		persistent:      isPersistent,
-		requestedTxns:   make(map[chainhash.Hash]struct{}),
-		requestedBlocks: make(map[chainhash.Hash]struct{}),
+		server:               s,
+		persistent:           isPersistent,
+		requestedTxns:        make(map[chainhash.Hash]struct{}),
+		requestedBlocks:      make(map[chainhash.Hash]struct{}),
 		requestedFlashTxs:    make(map[chainhash.Hash]struct{}),
 		requestedFlashVotes:  make(map[chainhash.Hash]struct{}),
-		knownAddresses:  lru.NewCache(maxKnownAddrsPerPeer),
-		quit:            make(chan struct{}),
-		txProcessed:     make(chan struct{}, 1),
-		blockProcessed:  make(chan struct{}, 1),
+		knownAddresses:       lru.NewCache(maxKnownAddrsPerPeer),
+		quit:                 make(chan struct{}),
+		txProcessed:          make(chan struct{}, 1),
+		flashTxProcessed:     make(chan struct{}, 1),
+		flashTxVoteProcessed: make(chan struct{}, 1),
+		blockProcessed:       make(chan struct{}, 1),
 	}
 }
 
@@ -602,7 +606,7 @@ func (sp *serverPeer) OnGetMiningState(p *peer.Peer, msg *wire.MsgGetMiningState
 // requests the data advertised in the message from the peer.
 func (sp *serverPeer) OnMiningState(p *peer.Peer, msg *wire.MsgMiningState) {
 	err := sp.server.blockManager.RequestFromPeer(sp, msg.BlockHashes,
-		msg.VoteHashes,nil,nil)
+		msg.VoteHashes, nil, nil)
 	if err != nil {
 		peerLog.Warnf("couldn't handle mining state message: %v",
 			err.Error())
@@ -634,6 +638,55 @@ func (sp *serverPeer) OnTx(p *peer.Peer, msg *wire.MsgTx) {
 	// being disconnected) and wasting memory.
 	sp.server.blockManager.QueueTx(tx, sp)
 	<-sp.txProcessed
+}
+
+func (sp *serverPeer) OnFlashTx(p *peer.Peer, msg *wire.MsgFlashTx) {
+	if cfg.BlocksOnly {
+		peerLog.Tracef("Ignoring flashtx %v from %v - blocksonly enabled",
+			msg.TxHash(), p)
+		return
+	}
+
+	// Add the transaction to the known inventory for the peer.
+	// Convert the raw MsgTx to a ucutil.Tx which provides some convenience
+	// methods and things such as hash caching.
+	flashTx := ucutil.NewFlashTx(msg)
+	iv := wire.NewInvVect(wire.InvTypeFlashTx, flashTx.Hash())
+	p.AddKnownInventory(iv)
+
+	// Queue the transaction up to be handled by the block manager and
+	// intentionally block further receives until the transaction is fully
+	// processed and known good or bad.  This helps prevent a malicious peer
+	// from queuing up a bunch of bad transactions before disconnecting (or
+	// being disconnected) and wasting memory.
+	sp.server.blockManager.QueueFlashTx(flashTx, sp)
+	<-sp.flashTxProcessed
+}
+
+//deal with aitxvote from peers
+func (sp *serverPeer) OnFlashTxVote(p *peer.Peer, msg *wire.MsgFlashTxVote) {
+	if cfg.BlocksOnly {
+		peerLog.Tracef("Ignoring flashTx %v from %v - blocksonly enabled",
+			msg.Hash(), p)
+		return
+	}
+
+	// Add the ai transaction to the known inventory for the peer.
+	// Convert the raw msgTx to a hcutil.AiTx which provides some convenience
+	// methods and things such as hash caching.
+	//TODO check this ai aiTxvote inventory implement
+	flashTxVote := ucutil.NewFlashTxVote(msg)
+
+	iv := wire.NewInvVect(wire.InvTypeFlashTxVote, flashTxVote.Hash())
+	p.AddKnownInventory(iv)
+
+	// Queue the transaction up to be handled by the block manager and
+	// intentionally block further receives until the transaction is fully
+	// processed and known good or bad.  This helps prevent a malicious peer
+	// from queuing up a bunch of bad transactions before disconnecting (or
+	// being disconnected) and wasting memory.
+	sp.server.blockManager.QueueFlashTxVote(flashTxVote, sp)
+	<-sp.flashTxVoteProcessed
 }
 
 // OnBlock is invoked when a peer receives a block wire message.  It blocks
@@ -1186,8 +1239,7 @@ func (s *server) AnnounceNewTransactions(txns []*ucutil.Tx) {
 	}
 }
 
-
-func (s *server) AnnounceNewFlashTx(newFlashTxs []*ucutil.FlashTx) {
+func (s *server) AnnounceNewFlashTxs(newFlashTxs []*ucutil.FlashTx) {
 	// Generate and relay inventory vectors for all newly accepted
 	// transactions into the memory pool due to the original being
 	// accepted.
@@ -1195,7 +1247,7 @@ func (s *server) AnnounceNewFlashTx(newFlashTxs []*ucutil.FlashTx) {
 		// Generate the inventory vector and relay it.
 		//TODO check flash flashTx invvect
 		iv := wire.NewInvVect(wire.InvTypeFlashTx, flashTx.Hash())
-		s.RelayInventory(iv, flashTx,true)
+		s.RelayInventory(iv, flashTx, true)
 
 		if s.rpcServer != nil {
 			//deal with flash flashTx,
@@ -1203,7 +1255,7 @@ func (s *server) AnnounceNewFlashTx(newFlashTxs []*ucutil.FlashTx) {
 			lotteryHash, _ := txscript.IsFlashTx(flashTx.MsgTx())
 			tickets, err := s.rpcServer.chain.LotteryFlashDataForTxAndBlock(flashTx.Hash(), lotteryHash)
 			if err != nil {
-				srvrLog.Errorf("LotteryAiDataForTx %v loggeryHash %v err:%v", flashTx.Hash().String(), lotteryHash.String(), err)
+				srvrLog.Errorf("LotteryFlashDataForTx %v lotteryHash %v err:%v", flashTx.Hash().String(), lotteryHash.String(), err)
 				return
 			}
 
@@ -1213,7 +1265,7 @@ func (s *server) AnnounceNewFlashTx(newFlashTxs []*ucutil.FlashTx) {
 }
 
 //after accept this vote ,notify wallet and relay to otherpeers
-func (s *server) AnnounceNewFlashTxVote(newFlashTxVotes []*ucutil.FlashTxVote) {
+func (s *server) AnnounceNewFlashTxVotes(newFlashTxVotes []*ucutil.FlashTxVote) {
 	// Generate and relay inventory vectors for all newly accepted
 	// transactions into the memory pool due to the original being
 	// accepted.
@@ -1223,7 +1275,7 @@ func (s *server) AnnounceNewFlashTxVote(newFlashTxVotes []*ucutil.FlashTxVote) {
 		//TODO check flash flashTxvote invvect
 		//relay flashvote
 		iv := wire.NewInvVect(wire.InvTypeFlashTxVote, flashTxVote.Hash())
-		s.RelayInventory(iv, flashTxVote,true)
+		s.RelayInventory(iv, flashTxVote, true)
 
 		if s.rpcServer != nil {
 			//todo notify wallet
@@ -1231,7 +1283,6 @@ func (s *server) AnnounceNewFlashTxVote(newFlashTxVotes []*ucutil.FlashTxVote) {
 		}
 	}
 }
-
 
 // TransactionConfirmed marks the provided single confirmation transaction as
 // no longer needing rebroadcasting.
@@ -1650,7 +1701,7 @@ func (s *server) handleQuery(state *peerState, querymsg interface{}) {
 		} else {
 			msg.reply <- 0
 		}
-	// Request a list of the persistent (added) peers.
+		// Request a list of the persistent (added) peers.
 	case getAddedNodesMsg:
 		// Respond with a slice of the relevant peers.
 		peers := make([]*serverPeer, 0, len(state.persistentPeers))
@@ -1728,6 +1779,8 @@ func newPeerConfig(sp *serverPeer) *peer.Config {
 			OnGetMiningState: sp.OnGetMiningState,
 			OnMiningState:    sp.OnMiningState,
 			OnTx:             sp.OnTx,
+			OnFlashTx:        sp.OnFlashTx,
+			OnFlashTxVote:    sp.OnFlashTxVote,
 			OnBlock:          sp.OnBlock,
 			OnInv:            sp.OnInv,
 			OnHeaders:        sp.OnHeaders,
@@ -1843,24 +1896,24 @@ out:
 		case p := <-s.newPeers:
 			s.handleAddPeerMsg(state, p)
 
-		// Disconnected peers.
+			// Disconnected peers.
 		case p := <-s.donePeers:
 			s.handleDonePeerMsg(state, p)
 
-		// Block accepted in mainchain or orphan, update peer height.
+			// Block accepted in mainchain or orphan, update peer height.
 		case umsg := <-s.peerHeightsUpdate:
 			s.handleUpdatePeerHeights(state, umsg)
 
-		// Peer to ban.
+			// Peer to ban.
 		case p := <-s.banPeers:
 			s.handleBanPeerMsg(state, p)
 
-		// New inventory to potentially be relayed to other peers.
+			// New inventory to potentially be relayed to other peers.
 		case invMsg := <-s.relayInv:
 			s.handleRelayInvMsg(state, invMsg)
 
-		// Message to broadcast to all connected peers except those
-		// which are excluded by the message.
+			// Message to broadcast to all connected peers except those
+			// which are excluded by the message.
 		case bmsg := <-s.broadcast:
 			s.handleBroadcastMsg(state, &bmsg)
 
@@ -2074,8 +2127,8 @@ out:
 			case broadcastInventoryAdd:
 				pendingInvs[*msg.invVect] = msg.data
 
-			// When an InvVect has been added to a block, we can
-			// now remove it, if it was present.
+				// When an InvVect has been added to a block, we can
+				// now remove it, if it was present.
 			case broadcastInventoryDel:
 				delete(pendingInvs, *msg)
 

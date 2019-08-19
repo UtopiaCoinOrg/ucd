@@ -109,7 +109,8 @@ func MainNetParams() *Params {
 		WorkRewardProportion:     5,
 		StakeRewardProportion:    4,
 		BlockTaxProportion:       1,
-
+		//flash tx
+		FlashSendConfirmationsRequired:6,
 		// Checkpoints ordered from oldest to newest.
 		Checkpoints: []Checkpoint{
 	/*		{440, newHashFromStr("0000000000002203eb2c95ee96906730bb56b2985e174518f90eb4db29232d93")},

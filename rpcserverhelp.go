@@ -992,6 +992,7 @@ var rpcResultTypes = map[types.Method][]interface{}{
 	"getnetworkhashps":      {(*int64)(nil)},
 	"getpeerinfo":           {(*[]types.GetPeerInfoResult)(nil)},
 	"getrawmempool":         {(*[]string)(nil), (*types.GetRawMempoolVerboseResult)(nil)},
+	"gettxlockpoolinfo":     {(*types.GetTxLockpoolInfoResult)(nil)},
 	"getrawtransaction":     {(*string)(nil), (*types.TxRawResult)(nil)},
 	"getticketpoolvalue":    {(*float64)(nil)},
 	"gettxout":              {(*types.GetTxOutResult)(nil)},

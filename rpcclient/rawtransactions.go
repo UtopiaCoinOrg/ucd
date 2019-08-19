@@ -391,7 +391,8 @@ func (c *Client) CreateRawSSRtx(inputs []chainjson.TransactionInput, fee ucutil.
 // FutureSendRawTransactionResult is a future promise to deliver the result
 // of a SendRawTransactionAsync RPC invocation (or an applicable error).
 type FutureSendRawTransactionResult chan *response
-
+type FutureSendFlashRawTransactionResult chan *response
+type FutureSendFlashTxVoteResult chan *response
 // Receive waits for the response promised by the future and returns the result
 // of submitting the encoded transaction to the server which then relays it to
 // the network.
@@ -409,6 +410,31 @@ func (r FutureSendRawTransactionResult) Receive() (*chainhash.Hash, error) {
 	}
 
 	return chainhash.NewHashFromStr(txHashStr)
+}
+
+func (r FutureSendFlashRawTransactionResult) Receive() (*chainhash.Hash, error) {
+	res, err := receiveFuture(r)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unmarshal result as a string.
+	var txHashStr string
+	err = json.Unmarshal(res, &txHashStr)
+	if err != nil {
+		return nil, err
+	}
+
+	return chainhash.NewHashFromStr(txHashStr)
+}
+
+
+func (r FutureSendFlashTxVoteResult) Receive()  error {
+	_, err := receiveFuture(r)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // SendRawTransactionAsync returns an instance of a type that can be used to get
@@ -431,12 +457,47 @@ func (c *Client) SendRawTransactionAsync(tx *wire.MsgTx, allowHighFees bool) Fut
 	return c.sendCmd(cmd)
 }
 
+
+func (c *Client) SendFlashRawTransactionAsync(tx *wire.MsgTx, allowHighFees bool) FutureSendFlashRawTransactionResult {
+	txHex := ""
+	if tx != nil {
+		// Serialize the transaction and convert to hex string.
+		buf := bytes.NewBuffer(make([]byte, 0, tx.SerializeSize()))
+		if err := tx.Serialize(buf); err != nil {
+			return newFutureError(err)
+		}
+		txHex = hex.EncodeToString(buf.Bytes())
+	}
+
+	cmd := chainjson.NewSendFlashRawTransactionCmd(txHex, &allowHighFees)
+	return c.sendCmd(cmd)
+}
+func (c *Client) SendFlashTxVoteAsync(msgFlashTxVote *wire.MsgFlashTxVote) FutureSendFlashTxVoteResult {
+	txHex := ""
+	if msgFlashTxVote != nil {
+		// Serialize the transaction and convert to hex string.
+		buf := bytes.NewBuffer(make([]byte, 0, msgFlashTxVote.SerializeSize()))
+		if err := msgFlashTxVote.Serialize(buf); err != nil {
+			return newFutureError(err)
+		}
+		txHex = hex.EncodeToString(buf.Bytes())
+	}
+
+	cmd := chainjson.NewSendFlashTxVoteCmd(txHex)
+	return c.sendCmd(cmd)
+}
+
 // SendRawTransaction submits the encoded transaction to the server which will
 // then relay it to the network.
 func (c *Client) SendRawTransaction(tx *wire.MsgTx, allowHighFees bool) (*chainhash.Hash, error) {
 	return c.SendRawTransactionAsync(tx, allowHighFees).Receive()
 }
-
+func (c *Client) SendFlashRawTransaction(tx *wire.MsgTx, allowHighFees bool) (*chainhash.Hash, error) {
+	return c.SendFlashRawTransactionAsync(tx, allowHighFees).Receive()
+}
+func (c *Client) SendFlashTxVote(flashTxVote *wire.MsgFlashTxVote) error{
+	return c.SendFlashTxVoteAsync(flashTxVote).Receive()
+}
 // FutureSignRawTransactionResult is a future promise to deliver the result
 // of one of the SignRawTransactionAsync family of RPC invocations (or an
 // applicable error).

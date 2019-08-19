@@ -450,11 +450,10 @@ func (f *wsClientFilter) existsUnspentOutPoint(op *wire.OutPoint) bool {
 }
 
 type FlashTxNtfnData struct {
-	resend    bool
-	flashTx 		*ucutil.FlashTx
-	tickets   []chainhash.Hash
+	resend  bool
+	flashTx *ucutil.FlashTx
+	tickets []chainhash.Hash
 }
-
 
 // Notification types
 type notificationBlockConnected ucutil.Block
@@ -470,6 +469,7 @@ type notificationTxAcceptedByMempool struct {
 }
 type notificationFlashTx FlashTxNtfnData
 type notificationFlashTxVote ucutil.FlashTxVote
+
 // Notification control requests
 type notificationRegisterClient wsClient
 type notificationUnregisterClient wsClient
@@ -1740,8 +1740,8 @@ out:
 			}
 			waiting = true
 
-		// This channel is notified when a notification has been sent
-		// across the network socket.
+			// This channel is notified when a notification has been sent
+			// across the network socket.
 		case <-ntfnSentChan:
 			// No longer waiting if there are no more messages in
 			// the pending messages queue.
@@ -2086,13 +2086,12 @@ func handleStopNotifyNewTransactions(wsc *wsClient, icmd interface{}) (interface
 	return nil, nil
 }
 
-
 //just notify wallet to sign
 func (m *wsNotificationManager) NotifyFlashTx(tickets []chainhash.Hash, flashTx *ucutil.FlashTx, resend bool) {
 	n := &notificationFlashTx{
-		resend:    resend,
+		resend:  resend,
 		flashTx: flashTx,
-		tickets:   tickets,
+		tickets: tickets,
 	}
 
 	rpcsLog.Debug("notificationFlashTx:", n.resend, n.flashTx.Hash())
@@ -2116,7 +2115,6 @@ func (m *wsNotificationManager) NotifyFlashTxVote(vote *ucutil.FlashTxVote) {
 	case <-m.quit:
 	}
 }
-
 
 // rescanBlock rescans a block for any relevant transactions for the passed
 // lookup keys.  Any discovered transactions are returned hex encoded as a

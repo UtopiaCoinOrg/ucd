@@ -18,7 +18,7 @@ import (
 	"github.com/UtopiaCoinOrg/ucd/ucec/secp256k1"
 	"github.com/UtopiaCoinOrg/ucd/ucjson"
 	"github.com/UtopiaCoinOrg/ucd/ucutil"
-	"github.com/UtopiaCoinOrg/ucd/rpcclient/v3"
+	"github.com/UtopiaCoinOrg/ucd/rpcclient"
 	"github.com/UtopiaCoinOrg/ucd/txscript"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 )

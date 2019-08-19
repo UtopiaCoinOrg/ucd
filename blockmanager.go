@@ -8,7 +8,9 @@ package main
 import (
 	"container/list"
 	"encoding/binary"
+	"errors"
 	"fmt"
+	"github.com/UtopiaCoinOrg/ucd/txscript"
 	"math/rand"
 	"os"
 	"path/filepath"
@@ -107,6 +109,15 @@ type txMsg struct {
 	peer *serverPeer
 }
 
+type flashTxMsg struct {
+	tx   *ucutil.FlashTx
+	peer *serverPeer
+}
+
+type flashTxVoteMsg struct {
+	flashTxVote *ucutil.FlashTxVote
+	peer     *serverPeer
+}
 // getSyncPeerMsg is a message type to be sent across the message channel for
 // retrieving the current sync peer.
 type getSyncPeerMsg struct {
@@ -314,7 +325,8 @@ type PeerNotifier interface {
 	// notifies both websocket and getblocktemplate long poll clients of
 	// the passed transactions.
 	AnnounceNewTransactions(txns []*ucutil.Tx)
-
+	AnnounceNewFlashTxs(txns []*ucutil.FlashTx)
+	AnnounceNewFlashTxVotes(txns []*ucutil.FlashTxVote)
 	// UpdatePeerHeights updates the heights of all peers who have have
 	// announced the latest connected main chain block, or a recognized orphan.
 	UpdatePeerHeights(latestBlkHash *chainhash.Hash, latestHeight int64, updateSource *serverPeer)
@@ -712,6 +724,141 @@ func (b *blockManager) handleTxMsg(tmsg *txMsg) {
 
 	b.cfg.PeerNotifier.AnnounceNewTransactions(acceptedTxs)
 }
+
+
+
+
+func (b *blockManager) handleFlashTxMsg(flashTxMsg *flashTxMsg) {
+	//TODO verify conflict with mempool
+	flashTx := flashTxMsg.tx
+	txHash := flashTx.Hash()
+
+	if _, exists := b.rejectedTxns[*txHash]; exists {
+		bmgrLog.Debugf("Ignoring unsolicited previously rejected "+
+			"transaction %v from %s", txHash, flashTxMsg.peer)
+		return
+	}
+
+	lotteryHash,is:=txscript.IsFlashTx(flashTx.MsgTx())
+	if !is{
+		bmgrLog.Errorf("Ignoring not reqular aitx")
+		return
+	}
+	height,err:=b.chain.BlockHeightByHash(lotteryHash)
+	if err!=nil{
+		bmgrLog.Errorf("Ignoring lotteryHash err "+
+			"transaction %v lotteryHash %v,err %v", txHash, lotteryHash,err)
+		return
+	}
+
+	if height+int64(b.cfg.ChainParams.FlashSendConfirmationsRequired)*2<b.chain.BestSnapshot().Height{
+		bmgrLog.Errorf("Ignoring lotteryHash  "+
+			"transaction %v lotteryHash %v,height %d", txHash, lotteryHash,height)
+		return
+	}
+
+
+	err = b.cfg.TxMemPool.MayBeAddToLockPool(flashTx, true, false, false)
+
+	delete(flashTxMsg.peer.requestedFlashTxs, *txHash)
+	delete(b.requestedFlashTxs, *txHash)
+
+	if err != nil {
+		// Do not request this transaction again until a new block
+		// has been processed.
+		b.rejectedTxns[*txHash] = struct{}{}
+		b.limitMap(b.rejectedTxns, maxRejectedTxns)
+
+		bmgrLog.Errorf("Flash tx %v is failed to add lockpool : %s", flashTx.Hash(), err.Error())
+		return
+	}
+
+	flashTxs := make([]*ucutil.FlashTx, 0)
+
+	flashTxs = append(flashTxs, flashTx)
+
+	//notify wallet and peers
+	b.cfg.PeerNotifier.AnnounceNewFlashTxs(flashTxs)
+}
+
+
+//deal aixvote from peers
+func (b *blockManager) handleFlashTxVoteMsg(msg *flashTxVoteMsg) {
+
+	flashTxVote := msg.flashTxVote
+	flashTxHash := flashTxVote.MsgFlashTxVote().FlashTxHash
+	ticketHash := flashTxVote.MsgFlashTxVote().TicketHash
+
+	flashTxDesc, exist := b.cfg.TxMemPool.GetFlashTxDesc(&flashTxHash)
+	if !exist {
+		bmgrLog.Errorf("flash tx %v not exist in lock pool", flashTxHash)
+		return
+	}
+	flashTx := flashTxDesc.Tx
+
+	//check ticket selected
+	lotteryHash, _ := txscript.IsFlashTx(flashTx.MsgTx())
+	tickets, err := b.chain.LotteryFlashDataForTxAndBlock(&flashTxHash, lotteryHash)
+	ticketExist := false
+	for _, t := range tickets {
+		if t.IsEqual(&ticketHash) {
+			ticketExist = true
+			break
+		}
+	}
+	if !ticketExist {
+		bmgrLog.Errorf("flashtx ticket not exist ,flashvote %v: %v", flashTxVote.Hash())
+		return
+	}
+
+	ticketTx, err := fetchTxInfo(b.cfg.RpcServer(), &ticketHash)
+	if err != nil || ticketTx == nil {
+		bmgrLog.Errorf("failed to get ticketTx  %v ,err: %v", ticketHash.String(), err)
+		return
+	}
+
+
+	ticketOutPuts := ticketTx.TxOut
+	if len(ticketOutPuts) == 0 {
+		bmgrLog.Errorf("ticketTx  %v output number is zero", ticketHash.String())
+		return
+	}
+	version := ticketOutPuts[0].Version
+	pkScript := ticketOutPuts[0].PkScript
+
+	_, addrs, _, err := txscript.ExtractPkScriptAddrs(version,
+		pkScript, b.cfg.ChainParams)
+
+	if err != nil || len(addrs) == 0 {
+		bmgrLog.Errorf("failed to extractpkscript of ticket  %v,err %v", ticketHash.String(), err)
+		return
+	}
+
+	sigMsg := flashTxHash.String() + ticketHash.String()
+
+	//verifymessage
+	verified, err := ucutil.VerifyMessage(sigMsg, addrs[0], flashTxVote.MsgFlashTxVote().Sig)
+	if !verified {
+		bmgrLog.Errorf("failed  verify signature ,aivote %v,err: %v", flashTxVote.Hash(), err)
+		return
+	}
+
+	//update lockpool
+	err, reSendToMemPool := b.cfg.TxMemPool.ProcessFlashTxVote(flashTxVote, &flashTxHash)
+	if err != nil {
+		bmgrLog.Error(err)
+		return
+	}
+	if reSendToMemPool {
+		b.cfg.RpcServer().ntfnMgr.NotifyFlashTx(tickets, flashTx, true)
+	}
+
+	flashTxVotes := make([]*ucutil.FlashTxVote, 0)
+	flashTxVotes = append(flashTxVotes, flashTxVote)
+	//notify wallet vote and rely to other peers
+	b.cfg.PeerNotifier.AnnounceNewFlashTxVotes(flashTxVotes)
+}
+
 
 // current returns true if we believe we are synced with our peers, false if we
 // still have blocks to check
@@ -1563,7 +1710,12 @@ out:
 			case *txMsg:
 				b.handleTxMsg(msg)
 				msg.peer.txProcessed <- struct{}{}
-
+			case *flashTxMsg://handle p2p flash tx msg
+				b.handleFlashTxMsg(msg)
+				msg.peer.flashTxProcessed<- struct{}{}
+			case *flashTxVoteMsg:
+				b.handleFlashTxVoteMsg(msg)
+				msg.peer.flashTxVoteProcessed <- struct{}{}
 			case *blockMsg:
 				b.handleBlockMsg(msg)
 				msg.peer.blockProcessed <- struct{}{}
@@ -1684,6 +1836,41 @@ out:
 				msg.reply <- processTransactionResponse{
 					acceptedTxs: acceptedTxs,
 					err:         err,
+				}
+			case processFlashTxMsg://handle rpc flash tx
+				lotteryHash,is:=txscript.IsFlashTx(msg.tx.MsgTx())
+				if !is{
+					bmgrLog.Errorf("Ignoring not reqular aitx")
+					msg.reply <- processFlashTxResponse{
+						missedParent: nil,
+						err:          errors.New("Ignoring not reqular aitx"),
+					}
+					continue
+				}
+				height,err:=b.chain.BlockHeightByHash(lotteryHash)
+				if err!=nil{
+					bmgrLog.Errorf("Ignoring lotteryHash err "+
+						"transaction %v lotteryHash %v,err %v", msg.tx.Hash(), lotteryHash,err)
+					msg.reply <- processFlashTxResponse{
+						missedParent: nil,
+						err:          err,
+					}
+					continue
+				}
+
+				if height+int64(b.cfg.ChainParams.FlashSendConfirmationsRequired)*2<b.chain.BestSnapshot().Height{
+					bmgrLog.Errorf("Ignoring lotteryHash too old "+
+						"transaction %v lotteryHash %v,height %d", msg.tx.Hash(), lotteryHash,height)
+					msg.reply <- processFlashTxResponse{
+						missedParent: nil,
+						err:          errors.New("Ignoring lotteryHash too old"),
+					}
+					continue
+				}
+				err = b.cfg.TxMemPool.MayBeAddToLockPool(msg.tx, true, msg.rateLimit, msg.allowHighFees)
+				msg.reply <- processFlashTxResponse{
+					missedParent: nil,
+					err:          err,
 				}
 
 			case isCurrentMsg:
@@ -2143,6 +2330,28 @@ func (b *blockManager) QueueTx(tx *ucutil.Tx, sp *serverPeer) {
 	}
 
 	b.msgChan <- &txMsg{tx: tx, peer: sp}
+}
+
+
+func (b *blockManager) QueueFlashTx(tx *ucutil.FlashTx, sp *serverPeer) {
+	// Don't accept more transactions if we're shutting down.
+	if atomic.LoadInt32(&b.shutdown) != 0 {
+		sp.flashTxProcessed <- struct{}{}
+		return
+	}
+
+	b.msgChan <- &flashTxMsg{tx: tx, peer: sp}
+}
+
+
+func (b *blockManager) QueueFlashTxVote(txVote *ucutil.FlashTxVote, sp *serverPeer) {
+	// Don't accept more transactions if we're shutting down.
+	if atomic.LoadInt32(&b.shutdown) != 0 {
+		sp.flashTxVoteProcessed <- struct{}{}
+		return
+	}
+
+	b.msgChan <- &flashTxVoteMsg{flashTxVote: txVote, peer: sp}
 }
 
 // QueueBlock adds the passed block message and peer to the block handling queue.

@@ -1025,20 +1025,23 @@ type SendFlashRawTransactionCmd struct {
 type SendFlashTxVoteCmd struct {
 	HexTxVote string
 }
+type GetTxlockPoolInfoCmd struct {}
 
-func NewSendFlashRawTransactionCmd(hexTx string, allowHighFees *bool) *SendFlashRawTransactionCmd{
-	return &SendFlashRawTransactionCmd{
-		HexTx:         hexTx,
-		AllowHighFees: allowHighFees,
+func NewGetTxlockPoolInfoCmd()*GetTxlockPoolInfoCmd  {
+	return &GetTxlockPoolInfoCmd{}
+}
+
+type FetchPendingLockTxCmd struct {
+	BehindNums int64 `json:"behind_nums"`
+}
+
+func NewFetchPendingLockTxCmd(behindNums int64)*FetchPendingLockTxCmd  {
+	return &FetchPendingLockTxCmd{
+		BehindNums:behindNums,
 	}
 }
 
 
-func NewSendFlashTxVoteCmd(hexTx string) *SendFlashTxVoteCmd{
-	return &SendFlashTxVoteCmd{
-		HexTxVote:         hexTx,
-	}
-}
 
 // NewSendRawTransactionCmd returns a new instance which can be used to issue a
 // sendrawtransaction JSON-RPC command.
@@ -1049,6 +1052,19 @@ func NewSendRawTransactionCmd(hexTx string, allowHighFees *bool) *SendRawTransac
 	return &SendRawTransactionCmd{
 		HexTx:         hexTx,
 		AllowHighFees: allowHighFees,
+	}
+}
+
+func NewSendFlashRawTransactionCmd(hexTx string, allowHighFees *bool) *SendFlashRawTransactionCmd {
+	return &SendFlashRawTransactionCmd{
+		HexTx:         hexTx,
+		AllowHighFees: allowHighFees,
+	}
+}
+
+func NewSendFlashTxVoteCmd(hexTx string) *SendFlashTxVoteCmd {
+	return &SendFlashTxVoteCmd{
+		HexTxVote: hexTx,
 	}
 }
 
@@ -1267,6 +1283,7 @@ func init() {
 	ucjson.MustRegister(Method("getnetworkhashps"), (*GetNetworkHashPSCmd)(nil), flags)
 	ucjson.MustRegister(Method("getpeerinfo"), (*GetPeerInfoCmd)(nil), flags)
 	ucjson.MustRegister(Method("getrawmempool"), (*GetRawMempoolCmd)(nil), flags)
+	ucjson.MustRegister(Method("gettxlockpoolinfo"), (*GetTxlockPoolInfoCmd)(nil), flags)
 	ucjson.MustRegister(Method("getrawtransaction"), (*GetRawTransactionCmd)(nil), flags)
 	ucjson.MustRegister(Method("getstakedifficulty"), (*GetStakeDifficultyCmd)(nil), flags)
 	ucjson.MustRegister(Method("getstakeversioninfo"), (*GetStakeVersionInfoCmd)(nil), flags)
@@ -1285,6 +1302,8 @@ func init() {
 	ucjson.MustRegister(Method("rebroadcastwinners"), (*RebroadcastWinnersCmd)(nil), flags)
 	ucjson.MustRegister(Method("searchrawtransactions"), (*SearchRawTransactionsCmd)(nil), flags)
 	ucjson.MustRegister(Method("sendrawtransaction"), (*SendRawTransactionCmd)(nil), flags)
+	ucjson.MustRegister(Method("sendflashrawtransaction"), (*SendFlashRawTransactionCmd)(nil), flags)
+	ucjson.MustRegister(Method("sendflashtxvote"), (*SendFlashTxVoteCmd)(nil), flags)
 	ucjson.MustRegister(Method("setgenerate"), (*SetGenerateCmd)(nil), flags)
 	ucjson.MustRegister(Method("stop"), (*StopCmd)(nil), flags)
 	ucjson.MustRegister(Method("submitblock"), (*SubmitBlockCmd)(nil), flags)

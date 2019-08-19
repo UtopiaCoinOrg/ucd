@@ -310,6 +310,9 @@ type Params struct {
 	// Special case: disable taxes with a value of 0
 	BlockTaxProportion uint16
 
+	//for utxo used in aisend tx
+	FlashSendConfirmationsRequired  int32
+
 	// Checkpoints ordered from oldest to newest.
 	Checkpoints []Checkpoint
 
