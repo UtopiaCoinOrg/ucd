@@ -2707,7 +2707,7 @@ func getStakeTreeFees(subsidyCache *SubsidyCache, height int64, params *chaincfg
 // transaction inputs for a transaction list given a predetermined TxStore.
 // After ensuring the transaction is valid, the transaction is connected to the
 // UTXO viewpoint.  TxTree true == Regular, false == Stake
-func (b *BlockChain) checkTransactionsAndConnect(subsidyCache *SubsidyCache, inputFees ucutil.Amount, node *blockNode, txs []*ucutil.Tx, view *UtxoViewpoint, stxos *[]spentTxOut, txTree bool) error {
+func (b *BlockChain) checkTransactionsAndConnect(subsidyCache *SubsidyCache, inputFees ucutil.Amount, node *blockNode, txs []*ucutil.Tx, view *UtxoViewpoint, stxos *[]spentTxOut, txTree bool, stakeTxs []*ucutil.Tx) error {
 	// Perform several checks on the inputs for each transaction.  Also
 	// accumulate the total fees.  This could technically be combined with
 	// the loop above instead of running another loop over the
@@ -2716,6 +2716,7 @@ func (b *BlockChain) checkTransactionsAndConnect(subsidyCache *SubsidyCache, inp
 	// scripts) checks against all the inputs when the signature operations
 	// are out of bounds.
 	totalFees := int64(inputFees) // Stake tx tree carry forward
+	totalFlashFees := int64(0)
 	var cumulativeSigOps int
 	for idx, tx := range txs {
 		// Ensure that the number of signature operations is not beyond
@@ -2736,6 +2737,44 @@ func (b *BlockChain) checkTransactionsAndConnect(subsidyCache *SubsidyCache, inp
 			log.Tracef("CheckTransactionInputs failed; error "+
 				"returned: %v", err)
 			return err
+		}
+
+		if _, ok := txscript.IsFlashTx(tx.MsgTx()); ok {
+			lenOut := len(tx.MsgTx().TxOut)
+			var haveChange bool = false
+			if lenOut > 2 {
+				_, addr, _, err := txscript.ExtractPkScriptAddrs(0, tx.MsgTx().TxOut[lenOut-1].PkScript, b.chainParams)
+				if err == nil && len(addr) > 0 {
+					for _, txIn := range (tx.MsgTx().TxIn) {
+						utxoEntry, exists := view.entries[txIn.PreviousOutPoint.Hash]
+						if !exists || utxoEntry == nil {
+							str := fmt.Sprintf("unable to find input "+
+								"transaction %v for transaction %v",
+								txIn.PreviousOutPoint.Hash, txIn.PreviousOutPoint.Hash)
+							return ruleError(ErrMissingTxOut, str)
+						}
+
+						//check every input exist block
+						if utxoEntry.BlockHeight() > node.height-6 {
+							return ruleError(ErrMissingTxOut, "flash tx input have not been fully confirmed")
+						}
+
+						originTxIndex := txIn.PreviousOutPoint.Index
+						txInPkScript := utxoEntry.PkScriptByIndex(originTxIndex)
+						if txInPkScript != nil {
+							_, txInAddr, _, _ := txscript.ExtractPkScriptAddrs(0, txInPkScript, b.chainParams)
+							if len(txInAddr) > 0 && txInAddr[0].String() == addr[0].String() {
+								haveChange = true
+								break
+							}
+						}
+					}
+				}
+			}
+
+			flashFees := tx.MsgTx().GetFlashTxFee(haveChange)
+			totalFlashFees += flashFees
+			txFee -= flashFees
 		}
 
 		// Sum the total fees and ensure we don't overflow the
@@ -2802,6 +2841,47 @@ func (b *BlockChain) checkTransactionsAndConnect(subsidyCache *SubsidyCache, inp
 				"of %v", node.hash, totalAtomOutRegular,
 				expAtomOut)
 			return ruleError(ErrBadCoinbaseValue, str)
+		}
+
+		//check flash vote fee subsidy
+
+		if totalFlashFees == 0 || int64(node.height) < b.chainParams.StakeEnabledHeight {
+			return nil
+		}
+		flashVoteFee := int64(0)
+		flashFeeReward := int64(0)
+		for _, txSSGen := range (stakeTxs) {
+			if stake.IsSSGen(txSSGen.MsgTx()) {
+				_, addrSSGen, _, err := txscript.ExtractPkScriptAddrs(0, txSSGen.MsgTx().TxOut[2].PkScript, b.chainParams)
+				find := false
+				if len(addrSSGen) < 1 || err != nil {
+					return fmt.Errorf("no SSGen addr ")
+				}
+				for _, txOut := range(txs[0].MsgTx().TxOut){
+					_,addr,_, err := txscript.ExtractPkScriptAddrs(0, txOut.PkScript, b.chainParams)
+					if err == nil && len(addr) > 0{
+						if addrSSGen[0].String() == addr[0].String() {
+							if txOut.Value == totalFlashFees/int64(node.voters){
+								find = true
+								flashVoteFee += txOut.Value
+								if flashFeeReward != 0 && flashFeeReward != txOut.Value {
+									return fmt.Errorf("Flash reward must be the same value .")
+								}
+								flashFeeReward = txOut.Value
+								break;
+							}else{
+								return fmt.Errorf("Flash reward must be the %d, but received %d", txOut.Value, totalFlashFees/int64(node.voters))
+							}
+						}
+					}
+				}
+				if find == false {
+					return fmt.Errorf("SSGen ticket has no reward .")
+				}
+			}
+		}
+		if flashVoteFee > totalFlashFees {
+			return fmt.Errorf("Flash reward too big.")
 		}
 	} else { // TxTreeStake
 		if len(txs) == 0 &&
@@ -2978,7 +3058,7 @@ func (b *BlockChain) checkConnectBlock(node *blockNode, block, parent *ucutil.Bl
 	}
 
 	err = b.checkTransactionsAndConnect(b.subsidyCache, 0, node,
-		block.STransactions(), view, stxos, false)
+		block.STransactions(), view, stxos, false, block.STransactions())
 	if err != nil {
 		log.Tracef("checkTransactionsAndConnect failed for "+
 			"TxTreeStake: %v", err)
@@ -3037,7 +3117,7 @@ func (b *BlockChain) checkConnectBlock(node *blockNode, block, parent *ucutil.Bl
 	}
 
 	err = b.checkTransactionsAndConnect(b.subsidyCache, stakeTreeFees, node,
-		block.Transactions(), view, stxos, true)
+		block.Transactions(), view, stxos, true, block.STransactions())
 	if err != nil {
 		log.Tracef("checkTransactionsAndConnect failed for cur "+
 			"TxTreeRegular: %v", err)

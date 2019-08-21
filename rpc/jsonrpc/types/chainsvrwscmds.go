@@ -71,6 +71,16 @@ func NewNotifyWinningTicketsCmd() *NotifyWinningTicketsCmd {
 	return &NotifyWinningTicketsCmd{}
 }
 
+type NotifyNewFlashTxCmd struct {}
+type StopNotifyNewFlashTxCmd struct {}
+
+func NewNotifyNewFlashTxCmd() *NotifyNewFlashTxCmd {
+	return &NotifyNewFlashTxCmd{}
+}
+func NewStopNotifyNewFlashTxCmd() *StopNotifyNewFlashTxCmd {
+	return &StopNotifyNewFlashTxCmd{}
+}
+
 // NotifySpentAndMissedTicketsCmd is a type handling custom marshaling and
 // unmarshaling of notifyspentandmissedtickets JSON websocket extension
 // commands.
@@ -176,6 +186,7 @@ func init() {
 		(*NotifyStakeDifficultyCmd)(nil), flags)
 	ucjson.MustRegister(Method("notifywinningtickets"),
 		(*NotifyWinningTicketsCmd)(nil), flags)
+	ucjson.MustRegister(Method("notifynewflashtx"),(*NotifyNewFlashTxCmd)(nil),flags)
 	ucjson.MustRegister(Method("session"), (*SessionCmd)(nil), flags)
 	ucjson.MustRegister(Method("stopnotifyblocks"), (*StopNotifyBlocksCmd)(nil), flags)
 	ucjson.MustRegister(Method("stopnotifynewtransactions"), (*StopNotifyNewTransactionsCmd)(nil), flags)

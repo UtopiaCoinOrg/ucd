@@ -105,6 +105,12 @@ func makeEmptyMessage(command string) (Message, error) {
 	case CmdTx:
 		msg = &MsgTx{}
 
+	case CmdFlashTx:
+		msg = &MsgFlashTx{}
+
+	case CmdFlashTxVote:
+		msg = &MsgFlashTxVote{}
+
 	case CmdPing:
 		msg = &MsgPing{}
 

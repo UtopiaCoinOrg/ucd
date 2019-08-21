@@ -167,7 +167,13 @@ func messageSummary(msg wire.Message) string {
 		return fmt.Sprintf("hash %s, %d inputs, %d outputs, lock %s",
 			msg.TxHash(), len(msg.TxIn), len(msg.TxOut),
 			formatLockTime(msg.LockTime))
-
+	case *wire.MsgFlashTx:
+		return fmt.Sprintf("hash %s, %d inputs, %d outputs, lock %s",
+			msg.TxHash(), len(msg.TxIn), len(msg.TxOut),
+			formatLockTime(msg.LockTime))
+	case *wire.MsgFlashTxVote:
+		return fmt.Sprintf("hash %s",
+			msg.Hash())
 	case *wire.MsgBlock:
 		header := &msg.Header
 		return fmt.Sprintf("hash %s, ver %d, %d tx, %s", msg.BlockHash(),

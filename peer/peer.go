@@ -1367,7 +1367,14 @@ out:
 			if p.cfg.Listeners.OnTx != nil {
 				p.cfg.Listeners.OnTx(p, msg)
 			}
-
+		case *wire.MsgFlashTx:
+			if p.cfg.Listeners.OnFlashTx!=nil{
+				p.cfg.Listeners.OnFlashTx(p,msg)
+			}
+		case *wire.MsgFlashTxVote:
+			if p.cfg.Listeners.OnFlashTxVote!=nil{
+				p.cfg.Listeners.OnFlashTxVote(p,msg)
+			}
 		case *wire.MsgBlock:
 			if p.cfg.Listeners.OnBlock != nil {
 				p.cfg.Listeners.OnBlock(p, msg, buf)

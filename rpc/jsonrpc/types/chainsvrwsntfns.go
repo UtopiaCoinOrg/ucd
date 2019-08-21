@@ -52,6 +52,9 @@ const (
 	// WinningTicketsNtfnMethod is the method of the daemon winningtickets
 	// notification.
 	WinningTicketsNtfnMethod Method = "winningtickets"
+
+	NewFlashTxNtfnMethod  = "FlashTxNtfn"
+	FlashTxVoteNtfnMethod = "FlashTxVoteNtfn"
 )
 
 // BlockConnectedNtfn defines the blockconnected JSON-RPC notification.
@@ -172,6 +175,35 @@ func NewTxAcceptedNtfn(txHash string, amount float64) *TxAcceptedNtfn {
 	}
 }
 
+type FlashTxNtfn struct {
+	FlashTx string
+	Tickets   map[string]string
+	Resend    bool
+}
+
+type FlashTxVoteNtfn struct {
+	FlashTxVoteHash string
+	FlashTxHash     string
+	TicketHash        string
+	Vote              bool
+	Sig               string
+}
+
+func NewFlashTxNtfn(flashTx string, tickets map[string]string, resend bool) *FlashTxNtfn {
+	return &FlashTxNtfn{FlashTx: flashTx, Tickets: tickets, Resend: resend}
+}
+
+func NewFlashTxVoteNtfn(flashTxVoteHash string, flashTxHash string, tickeHash string, vote bool, sig string) *FlashTxVoteNtfn {
+	return &FlashTxVoteNtfn{
+		FlashTxVoteHash: flashTxVoteHash,
+		FlashTxHash:     flashTxHash,
+		TicketHash:        tickeHash,
+		Vote:              vote,
+		Sig:               sig,
+	}
+}
+
+
 // TxAcceptedVerboseNtfn defines the txacceptedverbose JSON-RPC notification.
 type TxAcceptedVerboseNtfn struct {
 	RawTx TxRawResult `json:"rawtx"`
@@ -229,4 +261,6 @@ func init() {
 	ucjson.MustRegister(SpentAndMissedTicketsNtfnMethod, (*SpentAndMissedTicketsNtfn)(nil), flags)
 	ucjson.MustRegister(StakeDifficultyNtfnMethod, (*StakeDifficultyNtfn)(nil), flags)
 	ucjson.MustRegister(WinningTicketsNtfnMethod, (*WinningTicketsNtfn)(nil), flags)
+	ucjson.MustRegister(NewFlashTxNtfnMethod, (*FlashTxNtfn)(nil), flags)
+	ucjson.MustRegister(FlashTxVoteNtfnMethod, (*FlashTxVoteNtfn)(nil), flags)
 }

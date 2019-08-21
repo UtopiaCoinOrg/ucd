@@ -13,8 +13,8 @@ import (
 	"strconv"
 
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
-	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	chainjson "github.com/UtopiaCoinOrg/ucd/rpc/jsonrpc/types"
+	"github.com/UtopiaCoinOrg/ucd/ucutil"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 	walletjson "github.com/UtopiaCoinOrg/ucwallet/rpc/jsonrpc/types"
 )
@@ -34,6 +34,7 @@ var (
 type notificationState struct {
 	notifyBlocks                bool
 	notifyWinningTickets        bool
+	notifyNewFlashTx            bool
 	notifySpentAndMissedTickets bool
 	notifyNewTickets            bool
 	notifyStakeDifficulty       bool
@@ -46,6 +47,7 @@ func (s *notificationState) Copy() *notificationState {
 	var stateCopy notificationState
 	stateCopy.notifyBlocks = s.notifyBlocks
 	stateCopy.notifyWinningTickets = s.notifyWinningTickets
+	stateCopy.notifyNewFlashTx = s.notifyNewFlashTx
 	stateCopy.notifySpentAndMissedTickets = s.notifySpentAndMissedTickets
 	stateCopy.notifyNewTickets = s.notifyNewTickets
 	stateCopy.notifyStakeDifficulty = s.notifyStakeDifficulty
@@ -100,6 +102,8 @@ type NotificationHandlers struct {
 	// OnRelevantTxAccepted is invoked when an unmined transaction passes
 	// the client's transaction filter.
 	OnRelevantTxAccepted func(transaction []byte)
+
+	OnNewFlashTx func(flashTxHash []byte, tickets []*chainhash.Hash, resend bool)
 
 	// OnReorganization is invoked when the blockchain begins reorganizing.
 	// It will only be invoked if a preceding call to NotifyBlocks has been
@@ -234,7 +238,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnBlockConnected(blockHeader, transactions)
 
-	// OnBlockDisconnected
+		// OnBlockDisconnected
 	case chainjson.BlockDisconnectedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -251,7 +255,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnBlockDisconnected(blockHeader)
 
-	// OnRelevantTxAccepted
+		// OnRelevantTxAccepted
 	case chainjson.RelevantTxAcceptedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -268,7 +272,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnRelevantTxAccepted(transaction)
 
-	// OnReorganization
+		// OnReorganization
 	case chainjson.ReorganizationNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -286,7 +290,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnReorganization(oldHash, oldHeight, newHash, newHeight)
 
-	// OnWinningTickets
+		// OnWinningTickets
 	case chainjson.WinningTicketsNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -304,7 +308,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnWinningTickets(blockHash, blockHeight, tickets)
 
-	// OnSpentAndMissedTickets
+		// OnSpentAndMissedTickets
 	case chainjson.SpentAndMissedTicketsNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -325,7 +329,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 			stakeDifficulty,
 			tickets)
 
-	// OnNewTickets
+		// OnNewTickets
 	case chainjson.NewTicketsNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -346,7 +350,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 			stakeDifficulty,
 			tickets)
 
-	// OnStakeDifficulty
+		// OnStakeDifficulty
 	case chainjson.StakeDifficultyNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -355,7 +359,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 		}
 
 		blockSha, blockHeight, stakeDiff,
-			err := parseStakeDifficultyNtfnParams(ntfn.Params)
+		err := parseStakeDifficultyNtfnParams(ntfn.Params)
 		if err != nil {
 			log.Warnf("Received invalid stake difficulty "+
 				"notification: %v", err)
@@ -366,7 +370,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 			blockHeight,
 			stakeDiff)
 
-	// OnTxAccepted
+		// OnTxAccepted
 	case chainjson.TxAcceptedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -383,7 +387,21 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnTxAccepted(hash, amt)
 
-	// OnTxAcceptedVerbose
+
+	case chainjson.NewFlashTxNtfnMethod:
+		if c.ntfnHandlers.OnNewFlashTx == nil {
+			return
+		}
+		flashTxBytes, tickets,resend,err := parseFlashTxParams(ntfn.Params)
+
+		if err != nil {
+			log.Warnf("Received invalid ai tx accepted "+
+				"notification: %v", err)
+			return
+		}
+		c.ntfnHandlers.OnNewFlashTx(flashTxBytes, tickets,resend)
+
+		// OnTxAcceptedVerbose
 	case chainjson.TxAcceptedVerboseNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -428,7 +446,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnUcdConnected(connected)
 
-	// OnAccountBalance
+		// OnAccountBalance
 	case walletjson.AccountBalanceNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -445,7 +463,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnAccountBalance(account, bal, conf)
 
-	// OnTicketPurchased:
+		// OnTicketPurchased:
 	case walletjson.TicketPurchasedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -462,7 +480,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnTicketsPurchased(txHash, amount)
 
-	// OnVotesCreated:
+		// OnVotesCreated:
 	case walletjson.VoteCreatedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -480,7 +498,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnVotesCreated(txHash, blockHash, height, sstxIn, voteBits)
 
-	// OnRevocationsCreated:
+		// OnRevocationsCreated:
 	case walletjson.RevocationCreatedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -497,7 +515,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnRevocationsCreated(txHash, sstxIn)
 
-	// OnWalletLockState
+		// OnWalletLockState
 	case walletjson.WalletLockStateNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
@@ -516,7 +534,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnWalletLockState(locked)
 
-	// OnUnknownNotification
+		// OnUnknownNotification
 	default:
 		if c.ntfnHandlers.OnUnknownNotification == nil {
 			return
@@ -911,6 +929,47 @@ func parseTxAcceptedNtfnParams(params []json.RawMessage) (*chainhash.Hash,
 	return txHash, amt, nil
 }
 
+func parseFlashTxParams(params []json.RawMessage) ([]byte, []*chainhash.Hash, bool,error) {
+	if len(params) != 3 {
+		return nil, nil, false,wrongNumParams(len(params))
+	}
+
+	flashTxBytes,err:=parseHexParam(params[0])
+	if err != nil {
+		return nil, nil,false, err
+	}
+
+
+	tickets := make(map[string]string)
+	err = json.Unmarshal(params[1], &tickets)
+	if err != nil {
+		return nil, nil,false, err
+	}
+	t := make([]*chainhash.Hash, len(tickets))
+
+	for i, ticketHashStr := range tickets {
+		// Create and cache Hash from tx hash.
+		ticketHash, err := chainhash.NewHashFromStr(ticketHashStr)
+		if err != nil {
+			return nil, nil,false, err
+		}
+
+		itr, err := strconv.Atoi(i)
+		if err != nil {
+			return nil, nil,false, err
+		}
+
+		t[itr] = ticketHash
+	}
+
+	var resend bool
+	err = json.Unmarshal(params[2], &resend)
+
+	return flashTxBytes, t,resend, nil
+
+}
+
+
 // parseTxAcceptedVerboseNtfnParams parses out details about a raw transaction
 // from the parameters of a txacceptedverbose notification.
 func parseTxAcceptedVerboseNtfnParams(params []json.RawMessage) (*chainjson.TxRawResult,
@@ -1191,12 +1250,22 @@ func (c *Client) NotifyBlocks() error {
 // FutureNotifyWinningTicketsResult is a future promise to deliver the result of a
 // NotifyWinningTicketsAsync RPC invocation (or an applicable error).
 type FutureNotifyWinningTicketsResult chan *response
+type FutureNotifyNewFlashTxResult chan *response
 
 // Receive waits for the response promised by the future and returns an error
 // if the registration was not successful.
 func (r FutureNotifyWinningTicketsResult) Receive() error {
 	_, err := receiveFuture(r)
 	return err
+}
+
+func (r FutureNotifyNewFlashTxResult) Receive() error {
+	_, err := receiveFuture(r)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // NotifyWinningTicketsAsync returns an instance of a type that can be used
@@ -1236,6 +1305,27 @@ func (c *Client) NotifyWinningTicketsAsync() FutureNotifyWinningTicketsResult {
 // NOTE: This is a ucd extension and requires a websocket connection.
 func (c *Client) NotifyWinningTickets() error {
 	return c.NotifyWinningTicketsAsync().Receive()
+}
+
+func (c *Client) NotifyNewFlashTx() error {
+	return c.NotifyNewFlashTxAsync().Receive()
+}
+
+func (c *Client) NotifyNewFlashTxAsync() FutureNotifyNewFlashTxResult {
+	// Not supported in HTTP POST mode.
+	if c.config.HTTPPostMode {
+		return newFutureError(ErrWebsocketsRequired)
+	}
+
+	// Ignore the notification if the client is not interested in
+	// notifications.
+	if c.ntfnHandlers == nil {
+		return newNilFutureResult()
+	}
+
+	cmd := chainjson.NewNotifyNewFlashTxCmd()
+
+	return c.sendCmd(cmd)
 }
 
 // FutureNotifySpentAndMissedTicketsResult is a future promise to deliver the result of a

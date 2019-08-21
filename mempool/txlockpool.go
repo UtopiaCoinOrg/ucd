@@ -387,16 +387,17 @@ func (mp *TxPool) maybeAddtoLockPool(flashTx *ucutil.FlashTx, isNew, rateLimit, 
 		}
 	}
 	log.Tracef("haveChange %v",haveChange)
-	//serializedSize := int64(msgTx.SerializeSize())
-	//minFee := calcMinRequiredTxRelayFee(serializedSize,
-	//	mp.cfg.Policy.MinRelayTxFee)
+	serializedSize := int64(msgTx.SerializeSize())
+	minFee := calcMinRequiredTxRelayFee(serializedSize,
+		mp.cfg.Policy.MinRelayTxFee)
 
-	//if _, ok := txscript.IsFlashTx(tx.MsgTx()); ok {
-	//	aiFee := tx.MsgTx().GetTxAiFee(haveChange)
-	//	if amountIn - amountOut <flashFee + minFee{
-	//		return fmt.Errorf("flashfee is too low")
-	//	}
-	//}
+	if _, ok := txscript.IsFlashTx(tx.MsgTx()); ok {
+		flashFee := tx.MsgTx().GetFlashTxFee(haveChange)
+		if amountIn - amountOut < flashFee + minFee{
+			return fmt.Errorf("flash fee is too low")
+		}
+	}
+
 	bestHeight := mp.cfg.BestHeight()
 	mp.txLockPool[*flashTx.Hash()] = &FlashTxDesc{
 		Tx:         flashTx,
@@ -658,8 +659,8 @@ func (mp *TxPool) checkFlashTxWithMem(flashTx *ucutil.FlashTx, isNew, rateLimit,
 
 	if _, ok := txscript.IsFlashTx(msgTx); ok {
 		if int64(nextBlockHeight) >= mp.cfg.ChainParams.StakeEnabledHeight {
-			//haveChange := mp.haveAiChange(tx)
-			//minFee += msgTx.GetTxAiFee(haveChange)
+			haveChange := mp.haveFlashChange(tx)
+			minFee += msgTx.GetFlashTxFee(haveChange)
 		} else {
 			return nil, fmt.Errorf("flashtx is refused for the insufficient block height")
 		}
@@ -728,10 +729,10 @@ func (mp *TxPool) checkFlashTxWithMem(flashTx *ucutil.FlashTx, isNew, rateLimit,
 
 		if _, ok := txscript.IsFlashTx(msgTx); ok {
 			if int64(nextBlockHeight) >= mp.cfg.ChainParams.StakeEnabledHeight {
-				//haveChange := mp.haveAiChange(tx)
-				//maxFee += msgTx.GetTxAiFee(haveChange)
+				haveChange := mp.haveFlashChange(tx)
+				maxFee += msgTx.GetFlashTxFee(haveChange)
 			} else {
-				return nil, fmt.Errorf("flashtx is refused for the insufficient block height")
+				return nil, fmt.Errorf("flash tx is refused for the insufficient block height")
 			}
 		}
 
@@ -761,7 +762,7 @@ func (mp *TxPool) checkFlashTxWithMem(flashTx *ucutil.FlashTx, isNew, rateLimit,
 	return nil, nil
 }
 
-func (mp *TxPool) FetchFlashTx(txHash *chainhash.Hash, includeRecentBlock bool) (*ucutil.FlashTx, error) {
+func (mp *TxPool) FetchFlashTx(txHash *chainhash.Hash) (*ucutil.FlashTx, error) {
 	// Protect concurrent access.
 	mp.mtx.RLock()
 	txDesc, exists := mp.txLockPool[*txHash]

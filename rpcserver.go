@@ -5174,7 +5174,7 @@ func handleFlashTransaction(s *rpcServer, closeChan <-chan struct{}, serializedT
 	}
 	tickets, err := s.chain.LotteryFlashDataForTxAndBlock(flashTx.Hash(), lotteryHash)
 	if err != nil || len(tickets) < 3 {
-		return nil, fmt.Errorf("faield to lottery ticket use lottery hash %v ,err %v", lotteryHash.String(), err)
+		return nil, fmt.Errorf("faield to lottery ticket use lottery hash %v ,err: %v", lotteryHash.String(), err)
 	}
 
 	//check conflict with mempool
@@ -5221,7 +5221,7 @@ func handleSendFlashTxVote(s *rpcServer, cmd interface{}, closeChan <-chan struc
 
 	flashTxDesc, exist := s.server.txMemPool.GetFlashTxDesc(&flashTxHash)
 	if !exist {
-		return nil, fmt.Errorf("ai tx %v not exist in lock pool", flashTxHash)
+		return nil, fmt.Errorf("flash tx %v not exist in lock pool", flashTxHash)
 	}
 	flashTx := flashTxDesc.Tx
 	//check ticket selected

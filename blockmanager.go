@@ -741,7 +741,7 @@ func (b *blockManager) handleFlashTxMsg(flashTxMsg *flashTxMsg) {
 
 	lotteryHash,is:=txscript.IsFlashTx(flashTx.MsgTx())
 	if !is{
-		bmgrLog.Errorf("Ignoring not reqular aitx")
+		bmgrLog.Errorf("Ignoring not reqular flashtx")
 		return
 	}
 	height,err:=b.chain.BlockHeightByHash(lotteryHash)
@@ -839,7 +839,7 @@ func (b *blockManager) handleFlashTxVoteMsg(msg *flashTxVoteMsg) {
 	//verifymessage
 	verified, err := ucutil.VerifyMessage(sigMsg, addrs[0], flashTxVote.MsgFlashTxVote().Sig)
 	if !verified {
-		bmgrLog.Errorf("failed  verify signature ,aivote %v,err: %v", flashTxVote.Hash(), err)
+		bmgrLog.Errorf("failed  verify signature ,flashvote %v,err: %v", flashTxVote.Hash(), err)
 		return
 	}
 
@@ -1840,10 +1840,10 @@ out:
 			case processFlashTxMsg://handle rpc flash tx
 				lotteryHash,is:=txscript.IsFlashTx(msg.tx.MsgTx())
 				if !is{
-					bmgrLog.Errorf("Ignoring not reqular aitx")
+					bmgrLog.Errorf("Ignoring not reqular flashtx")
 					msg.reply <- processFlashTxResponse{
 						missedParent: nil,
-						err:          errors.New("Ignoring not reqular aitx"),
+						err:          errors.New("Ignoring not reqular flashtx"),
 					}
 					continue
 				}
@@ -2161,6 +2161,25 @@ func (b *blockManager) handleBlockchainNotification(notification *blockchain.Not
 				if err != nil && !isDoubleSpendOrDuplicateError(err) {
 					txMemPool.RemoveTransaction(tx, true)
 				}
+			}
+		} else if r := b.cfg.RpcServer(); r != nil {
+			for _, tx := range parentBlock.Transactions()[1:] {
+				var iv *wire.InvVect
+				if _, is := txscript.IsFlashTx(tx.MsgTx()); is {
+					iv = wire.NewInvVect(wire.InvTypeFlashTx, tx.Hash())
+					//remove txvote rebroadcast
+					if flashTxDesc, exist := txMemPool.GetFlashTxDesc(tx.Hash()); exist {
+						for _, vote := range flashTxDesc.Votes {
+							ivVote := wire.NewInvVect(wire.InvTypeFlashTxVote, vote.Hash())
+
+							r.server.RemoveRebroadcastInventory(ivVote)
+						}
+					}
+				} else {
+					iv = wire.NewInvVect(wire.InvTypeTx, tx.Hash())
+				}
+				r.server.RemoveRebroadcastInventory(iv)
+				r.server.txMemPool.RemoveConfirmedFlashTx(parentBlock.Height())
 			}
 		}
 

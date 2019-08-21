@@ -264,6 +264,9 @@ func (c *Client) trackRegisteredNtfns(cmd interface{}) {
 	case *chainjson.NotifyWinningTicketsCmd:
 		c.ntfnState.notifyWinningTickets = true
 
+	case *chainjson.NotifyNewFlashTxCmd:
+		c.ntfnState.notifyNewFlashTx = true
+
 	case *chainjson.NotifySpentAndMissedTicketsCmd:
 		c.ntfnState.notifySpentAndMissedTickets = true
 
@@ -548,6 +551,13 @@ func (c *Client) reregisterNtfns() error {
 	if stateCopy.notifyWinningTickets {
 		log.Debugf("Reregistering [notifywinningtickets]")
 		if err := c.NotifyWinningTickets(); err != nil {
+			return err
+		}
+	}
+
+	if stateCopy.notifyNewFlashTx{
+		log.Debugf("Reregistering [notifynewflashtx]")
+		if err:=c.NotifyNewFlashTx();err!=nil{
 			return err
 		}
 	}

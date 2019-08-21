@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/UtopiaCoinOrg/ucd/ucutil"
-	"github.com/UtopiaCoinOrg/ucd/rpcclient/v3"
+	"github.com/UtopiaCoinOrg/ucd/rpcclient"
 )
 
 func main() {

@@ -19,7 +19,7 @@ import (
 	"github.com/UtopiaCoinOrg/ucd/chaincfg"
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 	"github.com/UtopiaCoinOrg/ucd/ucutil"
-	"github.com/UtopiaCoinOrg/ucd/rpcclient/v3"
+	"github.com/UtopiaCoinOrg/ucd/rpcclient"
 	"github.com/UtopiaCoinOrg/ucd/wire"
 )
 

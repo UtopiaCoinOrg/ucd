@@ -518,6 +518,21 @@ func (msg *MsgTx) Copy() *MsgTx {
 	return &newTx
 }
 
+func (msg *MsgTx) GetFlashTxFee(haveChange bool) int64 {
+	return msg.getFeeByAmount(haveChange)/1000
+}
+
+func (msg *MsgTx) getFeeByAmount(haveChange bool) int64 {
+	amount := int64(0)
+	for i, txOut := range(msg.TxOut){
+		amount +=txOut.Value
+		if haveChange && i == len(msg.TxOut) - 1{
+			amount -=txOut.Value
+		}
+	}
+	return amount
+}
+
 // writeTxScriptsToMsgTx allocates the memory for variable length fields in a
 // MsgTx TxIns, TxOuts, or both as a contiguous chunk of memory, then fills
 // in these fields for the MsgTx by copying to a contiguous piece of memory

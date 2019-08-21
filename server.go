@@ -663,7 +663,7 @@ func (sp *serverPeer) OnFlashTx(p *peer.Peer, msg *wire.MsgFlashTx) {
 	<-sp.flashTxProcessed
 }
 
-//deal with aitxvote from peers
+//deal with flashtxvote from peers
 func (sp *serverPeer) OnFlashTxVote(p *peer.Peer, msg *wire.MsgFlashTxVote) {
 	if cfg.BlocksOnly {
 		peerLog.Tracef("Ignoring flashTx %v from %v - blocksonly enabled",
@@ -671,10 +671,10 @@ func (sp *serverPeer) OnFlashTxVote(p *peer.Peer, msg *wire.MsgFlashTxVote) {
 		return
 	}
 
-	// Add the ai transaction to the known inventory for the peer.
-	// Convert the raw msgTx to a hcutil.AiTx which provides some convenience
+	// Add the flash transaction to the known inventory for the peer.
+	// Convert the raw msgTx to a hcutil.FlashTx which provides some convenience
 	// methods and things such as hash caching.
-	//TODO check this ai aiTxvote inventory implement
+	//TODO check this flash flashTxvote inventory implement
 	flashTxVote := ucutil.NewFlashTxVote(msg)
 
 	iv := wire.NewInvVect(wire.InvTypeFlashTxVote, flashTxVote.Hash())
@@ -794,6 +794,10 @@ func (sp *serverPeer) OnGetData(p *peer.Peer, msg *wire.MsgGetData) {
 			err = sp.server.pushTxMsg(sp, &iv.Hash, c, waitChan)
 		case wire.InvTypeBlock:
 			err = sp.server.pushBlockMsg(sp, &iv.Hash, c, waitChan)
+		case wire.InvTypeFlashTx:
+			err = sp.server.pushFlashTxMsg(sp, &iv.Hash, c, waitChan)
+		case wire.InvTypeFlashTxVote:
+			err = sp.server.pushFlashTxVoteMsg(sp, &iv.Hash, c, waitChan)
 		default:
 			peerLog.Warnf("Unknown type in inventory request %d",
 				iv.Type)
@@ -1369,6 +1373,65 @@ func (s *server) pushBlockMsg(sp *serverPeer, hash *chainhash.Hash, doneChan cha
 	return nil
 }
 
+
+func (s *server) pushFlashTxMsg(sp *serverPeer, hash *chainhash.Hash, doneChan chan<- struct{}, waitChan <-chan struct{}) error {
+	// Attempt to fetch the requested transaction from the pool.  A
+	// call could be made to check for existence first, but simply trying
+	// to fetch a missing transaction results in the same behavior.
+	// Do not allow peers to request transactions already in a block
+	// but are unconfirmed, as they may be expensive. Restrict that
+	// to the authenticated RPC only.
+
+	flashTx, err := s.txMemPool.FetchFlashTx(hash)
+	if err != nil {
+		peerLog.Tracef("Unable to fetch flashTx %v from tx lock "+
+			"pool: %v", hash, err)
+
+		if doneChan != nil {
+			doneChan <- struct{}{}
+		}
+		return err
+	}
+
+	// Once we have fetched data wait for any previous operation to finish.
+	if waitChan != nil {
+		<-waitChan
+	}
+
+	sp.QueueMessage(flashTx.MsgFlashTx(), doneChan)
+
+	return nil
+}
+
+func (s *server) pushFlashTxVoteMsg(sp *serverPeer, hash *chainhash.Hash, doneChan chan<- struct{}, waitChan <-chan struct{}) error {
+	// Attempt to fetch the requested transaction from the pool.  A
+	// call could be made to check for existence first, but simply trying
+	// to fetch a missing transaction results in the same behavior.
+	// Do not allow peers to request transactions already in a block
+	// but are unconfirmed, as they may be expensive. Restrict that
+	// to the authenticated RPC only.
+
+	flashTxVote, err := s.txMemPool.FetchFlashTxVote(hash)
+	if err != nil {
+		peerLog.Tracef("Unable to fetch flashTxVote %v from lock "+
+			"pool: %v", hash, err)
+
+		if doneChan != nil {
+			doneChan <- struct{}{}
+		}
+		return err
+	}
+
+	// Once we have fetched data wait for any previous operation to finish.
+	if waitChan != nil {
+		<-waitChan
+	}
+
+	sp.QueueMessage(flashTxVote.MsgFlashTxVote(), doneChan)
+
+	return nil
+}
+
 // handleUpdatePeerHeight updates the heights of all peers who were known to
 // announce a block we recently accepted.
 func (s *server) handleUpdatePeerHeights(state *peerState, umsg updatePeerHeightsMsg) {
@@ -1554,6 +1617,14 @@ func (s *server) handleRelayInvMsg(state *peerState, msg relayMsg) {
 			if sp.relayTxDisabled() {
 				return
 			}
+		}
+
+		if msg.invVect.Type == wire.InvTypeFlashTx {
+
+		}
+
+		if msg.invVect.Type == wire.InvTypeFlashTxVote {
+
 		}
 
 		// Either queue the inventory to be relayed immediately or with

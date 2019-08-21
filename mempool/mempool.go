@@ -1214,6 +1214,16 @@ func (mp *TxPool) maybeAcceptTransaction(tx *ucutil.Tx, isNew, rateLimit, allowH
 	serializedSize := int64(msgTx.SerializeSize())
 	minFee := calcMinRequiredTxRelayFee(serializedSize,
 		mp.cfg.Policy.MinRelayTxFee)
+
+	if _, ok := txscript.IsFlashTx(msgTx); ok{
+		if int64(nextBlockHeight) >= mp.cfg.ChainParams.StakeEnabledHeight{
+			haveChange := mp.haveFlashChange(tx)
+			minFee += msgTx.GetFlashTxFee(haveChange)
+		}else{
+			return nil, fmt.Errorf("flash tx is refused for the insufficient block height")
+		}
+	}
+
 	if txType == stake.TxTypeRegular { // Non-stake only
 		if serializedSize >= (DefaultBlockPrioritySize-1000) &&
 			txFee < minFee {
@@ -1290,6 +1300,16 @@ func (mp *TxPool) maybeAcceptTransaction(tx *ucutil.Tx, isNew, rateLimit, allowH
 	if !allowHighFees {
 		maxFee := calcMinRequiredTxRelayFee(serializedSize*maxRelayFeeMultiplier,
 			mp.cfg.Policy.MinRelayTxFee)
+
+		if _, ok := txscript.IsFlashTx(msgTx); ok{
+			if int64(nextBlockHeight) >= mp.cfg.ChainParams.StakeEnabledHeight{
+				haveChange := mp.haveFlashChange(tx)
+				maxFee += msgTx.GetFlashTxFee(haveChange)
+			}else{
+				return nil, fmt.Errorf("flash tx is refused for the insufficient block height")
+			}
+		}
+
 		if txFee > maxFee {
 			err = fmt.Errorf("transaction %v has %v fee which is above the "+
 				"allowHighFee check threshold amount of %v", txHash,
@@ -1687,6 +1707,44 @@ func (mp *TxPool) MiningDescs() []*mining.TxDesc {
 	mp.mtx.RUnlock()
 
 	return descs
+}
+
+func (mp *TxPool) HaveFlashChange(tx *ucutil.Tx) bool {
+	mp.mtx.RLock()
+	defer mp.mtx.RUnlock()
+	return mp.haveFlashChange(tx)
+}
+
+func (mp *TxPool) haveFlashChange(tx *ucutil.Tx) bool {
+	utxoView, err := mp.fetchInputUtxos(tx)
+	if err != nil {
+		return false
+	}
+
+	lenOut :=len(tx.MsgTx().TxOut)
+	var haveChange bool = false
+	if lenOut > 1 {
+		_, addr, _, _ := txscript.ExtractPkScriptAddrs(0, tx.MsgTx().TxOut[lenOut-1].PkScript, mp.cfg.ChainParams)
+		if len(addr) <1 {
+			return haveChange
+		}
+		for _, txIn := range (tx.MsgTx().TxIn) {
+			utxoEntry := utxoView.LookupEntry(&txIn.PreviousOutPoint.Hash)
+			if utxoEntry == nil {
+				return false
+			}
+			originTxIndex := txIn.PreviousOutPoint.Index
+			txInPkScript := utxoEntry.PkScriptByIndex(originTxIndex)
+			if txInPkScript != nil {
+				_, txInAddr,_,_:= txscript.ExtractPkScriptAddrs(0, txInPkScript, mp.cfg.ChainParams)
+				if len(txInAddr) > 0 && txInAddr[0].String() == addr[0].String(){
+					haveChange = true
+					break;
+				}
+			}
+		}
+	}
+	return haveChange
 }
 
 // LastUpdated returns the last time a transaction was added to or removed from

@@ -66,6 +66,7 @@ var wsHandlersBeforeInit = map[types.Method]wsCommandHandler{
 	"loadtxfilter":                handleLoadTxFilter,
 	"notifyblocks":                handleNotifyBlocks,
 	"notifywinningtickets":        handleWinningTickets,
+	"notifynewflashtx":            handleFlashTx,
 	"notifyspentandmissedtickets": handleSpentAndMissedTickets,
 	"notifynewtickets":            handleNewTickets,
 	"notifystakedifficulty":       handleStakeDifficulty,
@@ -477,6 +478,8 @@ type notificationRegisterBlocks wsClient
 type notificationUnregisterBlocks wsClient
 type notificationRegisterWinningTickets wsClient
 type notificationUnregisterWinningTickets wsClient
+type notificationRegisterNewFlashTx wsClient
+type notificationUnregisterNewFlashTx wsClient
 type notificationRegisterSpentAndMissedTickets wsClient
 type notificationUnregisterSpentAndMissedTickets wsClient
 type notificationRegisterNewTickets wsClient
@@ -505,6 +508,9 @@ func (m *wsNotificationManager) notificationHandler() {
 	ticketNewNotifications := make(map[chan struct{}]*wsClient)
 	stakeDifficultyNotifications := make(map[chan struct{}]*wsClient)
 	txNotifications := make(map[chan struct{}]*wsClient)
+
+	//TODO register fo flashTxnotifications
+	newFlashTxNotifications := make(map[chan struct{}]*wsClient)
 
 out:
 	for {
@@ -556,6 +562,12 @@ out:
 				}
 				m.notifyRelevantTxAccepted(n.tx, clients)
 
+			case *notificationFlashTx:
+				m.notifyForNewFlashTx(newFlashTxNotifications, (*FlashTxNtfnData)(n))
+
+			case *notificationFlashTxVote:
+				m.notifyForFlashTxVote(newFlashTxNotifications, (*ucutil.FlashTxVote)(n))
+
 			case *notificationRegisterBlocks:
 				wsc := (*wsClient)(n)
 				blockNotifications[wsc.quit] = wsc
@@ -571,6 +583,14 @@ out:
 			case *notificationUnregisterWinningTickets:
 				wsc := (*wsClient)(n)
 				delete(winningTicketNotifications, wsc.quit)
+
+			case *notificationRegisterNewFlashTx:
+				wsc := (*wsClient)(n)
+				newFlashTxNotifications[wsc.quit] = wsc
+
+			case *notificationUnregisterNewFlashTx:
+				wsc := (*wsClient)(n)
+				delete(newFlashTxNotifications, wsc.quit)
 
 			case *notificationRegisterSpentAndMissedTickets:
 				wsc := (*wsClient)(n)
@@ -834,6 +854,14 @@ func (m *wsNotificationManager) UnregisterWinningTickets(wsc *wsClient) {
 	m.queueNotification <- (*notificationUnregisterWinningTickets)(wsc)
 }
 
+func (m *wsNotificationManager) RegisterNewFlashTx(wsc *wsClient) {
+	m.queueNotification <- (*notificationRegisterNewFlashTx)(wsc)
+}
+
+func (m *wsNotificationManager) UnregisterNewFlashTx(wsc *wsClient) {
+	m.queueNotification <- (*notificationUnregisterNewFlashTx)(wsc)
+}
+
 // notifyWinningTickets notifies websocket clients that have registered for
 // winning ticket updates.
 func (*wsNotificationManager) notifyWinningTickets(
@@ -860,6 +888,7 @@ func (*wsNotificationManager) notifyWinningTickets(
 		wsc.QueueNotification(marshalledJSON)
 	}
 }
+
 
 // RegisterSpentAndMissedTickets requests spent/missed tickets update notifications
 // to the passed websocket client.
@@ -1028,6 +1057,47 @@ func (m *wsNotificationManager) notifyForNewTx(clients map[chan struct{}]*wsClie
 		} else {
 			wsc.QueueNotification(marshalledJSON)
 		}
+	}
+}
+
+func (m *wsNotificationManager) notifyForNewFlashTx(clients map[chan struct{}]*wsClient, flashTxNtfnData *FlashTxNtfnData) {
+	// Create a ticket map to export as JSON.
+	ticketMap := make(map[string]string)
+	for i, ticket := range flashTxNtfnData.tickets {
+		ticketMap[strconv.Itoa(i)] = ticket.String()
+	}
+
+	msgTx := flashTxNtfnData.flashTx.MsgTx()
+	ntfn := types.NewFlashTxNtfn(txHexString(msgTx), ticketMap, flashTxNtfnData.resend)
+
+	marshalledJSON, err := ucjson.MarshalCmd("1.0", nil, ntfn)
+	if err != nil {
+		rpcsLog.Errorf("Failed to marshal flashTx notification: %s",
+			err.Error())
+		return
+	}
+
+	for _, wsc := range clients {
+		//TODO  verboseTxUpdates
+		wsc.QueueNotification(marshalledJSON)
+	}
+}
+
+func (m *wsNotificationManager) notifyForFlashTxVote(clients map[chan struct{}]*wsClient, flashTxVote *ucutil.FlashTxVote) {
+
+	ntfn := types.NewFlashTxVoteNtfn(flashTxVote.Hash().String(), flashTxVote.MsgFlashTxVote().FlashTxHash.String(),
+		flashTxVote.MsgFlashTxVote().TicketHash.String(), flashTxVote.MsgFlashTxVote().Vote, hex.EncodeToString(flashTxVote.MsgFlashTxVote().Sig))
+
+	marshalledJSON, err := ucjson.MarshalCmd("1.0", nil, ntfn)
+	if err != nil {
+		rpcsLog.Errorf("Failed to marshal flashTxVote notification: %s",
+			err.Error())
+		return
+	}
+
+	for _, wsc := range clients {
+		//TODO  verboseTxUpdates
+		wsc.QueueNotification(marshalledJSON)
 	}
 }
 
@@ -2035,6 +2105,11 @@ func handleSession(wsc *wsClient, icmd interface{}) (interface{}, error) {
 // extension for websocket connections.
 func handleWinningTickets(wsc *wsClient, icmd interface{}) (interface{}, error) {
 	wsc.server.ntfnMgr.RegisterWinningTickets(wsc)
+	return nil, nil
+}
+
+func handleFlashTx(wsc *wsClient, icmd interface{}) (interface{}, error) {
+	wsc.server.ntfnMgr.RegisterNewFlashTx(wsc)
 	return nil, nil
 }
 

@@ -1024,6 +1024,7 @@ var rpcResultTypes = map[types.Method][]interface{}{
 	"loadtxfilter":                nil,
 	"session":                     {(*types.SessionResult)(nil)},
 	"notifywinningtickets":        nil,
+	"notifynewflashtx":nil,
 	"notifyspentandmissedtickets": nil,
 	"notifynewtickets":            nil,
 	"notifystakedifficulty":       nil,

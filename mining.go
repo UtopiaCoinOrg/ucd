@@ -1332,6 +1332,7 @@ mempoolLoop:
 	// release should fix it. TODO
 	blockSigOps := int64(0)
 	totalFees := int64(0)
+	totalFlashFees := int64(0)
 
 	numSStx := 0
 
@@ -1785,9 +1786,16 @@ mempoolLoop:
 			return nil, fmt.Errorf("couldn't find fee for tx %v",
 				*tx.Hash())
 		}
-		totalFees += fee
-		txFees = append(txFees, fee)
-
+		if _, ok := txscript.IsFlashTx(tx.MsgTx()); ok{
+			haveChange := g.blockManager.cfg.TxMemPool.HaveFlashChange(tx)
+			flashFee := tx.MsgTx().GetFlashTxFee(haveChange)
+			totalFlashFees += flashFee
+			totalFees += fee - flashFee
+			txFees = append(txFees, fee - flashFee)
+		} else {
+			totalFees += fee
+			txFees = append(txFees, fee)
+		}
 		tsos, ok := txSigOpCountsMap[*tx.Hash()]
 		if !ok {
 			return nil, fmt.Errorf("couldn't find sig ops count for tx %v",
@@ -1796,12 +1804,23 @@ mempoolLoop:
 		txSigOpCounts = append(txSigOpCounts, tsos)
 	}
 
+	var SSGenAddrs []ucutil.Address
 	for _, tx := range blockTxnsStake {
 		fee, ok := txFeesMap[*tx.Hash()]
 		if !ok {
 			return nil, fmt.Errorf("couldn't find fee for stx %v",
 				*tx.Hash())
 		}
+
+		if stake.IsSSGen(tx.MsgTx()) && totalFlashFees > 0  && int64(nextBlockHeight) >= ucutil.ActiveNet.StakeEnabledHeight{
+			_, addrs, _, _ :=
+				txscript.ExtractPkScriptAddrs(txscript.DefaultScriptVersion,
+					tx.MsgTx().TxOut[2].PkScript, ucutil.ActiveNet)
+			if len(addrs) > 0{
+				SSGenAddrs = append(SSGenAddrs, addrs[0])
+			}
+		}
+
 		totalFees += fee
 		txFees = append(txFees, fee)
 
@@ -1829,6 +1848,17 @@ mempoolLoop:
 				uint64(len(blockTxnsStake))))
 		coinbaseTx.MsgTx().TxOut[2].Value += totalFees
 		txFees[0] = -totalFees
+		for i := 0; i< len(SSGenAddrs); i++{
+			pk, err := txscript.PayToAddrScript(SSGenAddrs[i])
+			if err != nil{
+				continue;
+			}
+			coinbaseTx.MsgTx().AddTxOut(&wire.TxOut{
+				Value:    totalFlashFees / int64(len(SSGenAddrs)),
+				PkScript:pk,
+			})
+		}
+
 	}
 
 	// Calculate the required difficulty for the block.  The timestamp
