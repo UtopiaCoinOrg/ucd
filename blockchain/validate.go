@@ -2821,12 +2821,12 @@ func (b *BlockChain) checkTransactionsAndConnect(subsidyCache *SubsidyCache, inp
 				node.height, node.voters, b.chainParams)
 			subsidyTax := CalcBlockTaxSubsidy(subsidyCache,
 				node.height, node.voters, b.chainParams)
-			expAtomOut = subsidyWork + subsidyTax + totalFees
+			expAtomOut = subsidyWork + subsidyTax + totalFees + totalFlashFees
 		}
 
 		// AmountIn for the input should be equal to the subsidy.
 		coinbaseIn := txs[0].MsgTx().TxIn[0]
-		subsidyWithoutFees := expAtomOut - totalFees
+		subsidyWithoutFees := expAtomOut - totalFees - totalFlashFees
 		if (coinbaseIn.ValueIn != subsidyWithoutFees) &&
 			(node.height > 0) {
 			errStr := fmt.Sprintf("bad coinbase subsidy in input;"+
