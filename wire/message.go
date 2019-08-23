@@ -29,34 +29,36 @@ const MaxMessagePayload = (1024 * 1024 * 32) // 32MB
 
 // Commands used in message headers which describe the type of message.
 const (
-	CmdVersion        = "version"
-	CmdVerAck         = "verack"
-	CmdGetAddr        = "getaddr"
-	CmdAddr           = "addr"
-	CmdGetBlocks      = "getblocks"
-	CmdInv            = "inv"
-	CmdGetData        = "getdata"
-	CmdNotFound       = "notfound"
-	CmdBlock          = "block"
-	CmdTx             = "tx"
-	CmdGetHeaders     = "getheaders"
-	CmdHeaders        = "headers"
-	CmdPing           = "ping"
-	CmdPong           = "pong"
-	CmdMemPool        = "mempool"
-	CmdMiningState    = "miningstate"
-	CmdGetMiningState = "getminings"
-	CmdReject         = "reject"
-	CmdSendHeaders    = "sendheaders"
-	CmdFeeFilter      = "feefilter"
-	CmdGetCFilter     = "getcfilter"
-	CmdGetCFHeaders   = "getcfheaders"
-	CmdGetCFTypes     = "getcftypes"
-	CmdCFilter        = "cfilter"
-	CmdCFHeaders      = "cfheaders"
-	CmdCFTypes        = "cftypes"
-	CmdFlashTx        = "flashtx"
-	CmdFlashTxVote    = "flashvote"
+	CmdVersion          = "version"
+	CmdVerAck           = "verack"
+	CmdGetAddr          = "getaddr"
+	CmdAddr             = "addr"
+	CmdGetBlocks        = "getblocks"
+	CmdInv              = "inv"
+	CmdGetData          = "getdata"
+	CmdNotFound         = "notfound"
+	CmdBlock            = "block"
+	CmdTx               = "tx"
+	CmdGetHeaders       = "getheaders"
+	CmdHeaders          = "headers"
+	CmdPing             = "ping"
+	CmdPong             = "pong"
+	CmdMemPool          = "mempool"
+	CmdMiningState      = "miningstate"
+	CmdGetMiningState   = "getminings"
+	CmdReject           = "reject"
+	CmdSendHeaders      = "sendheaders"
+	CmdFeeFilter        = "feefilter"
+	CmdGetCFilter       = "getcfilter"
+	CmdGetCFHeaders     = "getcfheaders"
+	CmdGetCFTypes       = "getcftypes"
+	CmdCFilter          = "cfilter"
+	CmdCFHeaders        = "cfheaders"
+	CmdCFTypes          = "cftypes"
+	CmdFlashTx          = "flashtx"
+	CmdFlashTxVote      = "flashvote"
+	CmdGetLockPoolState = "getlockpool"
+	CmdLockPoolState    = "lockstate"
 )
 
 // Message is an interface that describes a Utopia message.  A type that
@@ -125,6 +127,12 @@ func makeEmptyMessage(command string) (Message, error) {
 
 	case CmdMemPool:
 		msg = &MsgMemPool{}
+
+	case CmdGetLockPoolState:
+		msg = &MsgGetLockPoolState{}
+
+	case CmdLockPoolState:
+		msg = &MsgLockPoolState{}
 
 	case CmdMiningState:
 		msg = &MsgMiningState{}

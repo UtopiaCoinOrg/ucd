@@ -251,8 +251,9 @@ type serverPeer struct {
 	// addrsSent and getMiningStateSent both track whether or not the peer
 	// has already sent the respective request.  It is used to prevent more
 	// than one response per connection.
-	addrsSent          bool
-	getMiningStateSent bool
+	addrsSent            bool
+	getMiningStateSent   bool
+	getLockPoolStateSent bool
 
 	// The following chans are used to sync blockmanager and server.
 	txProcessed          chan struct{}
@@ -496,6 +497,63 @@ func (sp *serverPeer) OnMemPool(p *peer.Peer, msg *wire.MsgMemPool) {
 	// Send the inventory message if there is anything to send.
 	if len(invMsg.InvList) > 0 {
 		p.QueueMessage(invMsg, nil)
+	}
+}
+
+func (sp *serverPeer) OnGetLockPoolState(p *peer.Peer, msg *wire.MsgGetLockPoolState) {
+	if sp.getLockPoolStateSent {
+		peerLog.Tracef("Ignoring getlockpoolstate from %v - already sent", sp.Peer)
+		return
+	}
+	sp.getLockPoolStateSent = true
+
+	bm := sp.server.blockManager
+	mp := sp.server.txMemPool
+
+	if !bm.IsCurrent() {
+		peerLog.Tracef("Ignoring getlockpoolstate from %v - is syncing to the latest block", sp.Peer)
+		return
+	}
+
+	aiTxHashs, aiTxVoteHashs := mp.FetchLockPoolState()
+	err := sp.pushLockPoolMsg(aiTxHashs, aiTxVoteHashs)
+
+	if err != nil {
+		peerLog.Warnf("unexpected error while pushing data for "+
+			"lockpool state request: %v", err.Error())
+	}
+}
+
+func (sp *serverPeer) pushLockPoolMsg(flashTxHashs []*chainhash.Hash, flashTxVoteHashs []*chainhash.Hash) error {
+	if len(flashTxHashs) == 0 {
+		return nil
+	}
+
+	msg := wire.NewMsgLockPoolState()
+
+	for i := range flashTxHashs {
+		err := msg.AddFlashTxHash(flashTxHashs[i])
+
+		if err != nil {
+			return err
+		}
+	}
+
+	for i := range flashTxVoteHashs {
+		err := msg.AddFlashTxVoteHash(flashTxVoteHashs[i])
+		if err != nil {
+			return err
+		}
+	}
+	sp.QueueMessage(msg, nil)
+	return nil
+}
+
+func (sp *serverPeer) OnLockPoolState(p *peer.Peer, msg *wire.MsgLockPoolState) {
+	err := sp.server.blockManager.RequestFromPeer(sp, nil, nil, msg.FlashTxHashes, msg.FlashTxVoteHashes)
+	if err != nil {
+		peerLog.Warnf("couldn't handle lockpool state message: %v",
+			err.Error())
 	}
 }
 
@@ -1373,7 +1431,6 @@ func (s *server) pushBlockMsg(sp *serverPeer, hash *chainhash.Hash, doneChan cha
 	return nil
 }
 
-
 func (s *server) pushFlashTxMsg(sp *serverPeer, hash *chainhash.Hash, doneChan chan<- struct{}, waitChan <-chan struct{}) error {
 	// Attempt to fetch the requested transaction from the pool.  A
 	// call could be made to check for existence first, but simply trying
@@ -1845,26 +1902,28 @@ func newPeerConfig(sp *serverPeer) *peer.Config {
 
 	return &peer.Config{
 		Listeners: peer.MessageListeners{
-			OnVersion:        sp.OnVersion,
-			OnMemPool:        sp.OnMemPool,
-			OnGetMiningState: sp.OnGetMiningState,
-			OnMiningState:    sp.OnMiningState,
-			OnTx:             sp.OnTx,
-			OnFlashTx:        sp.OnFlashTx,
-			OnFlashTxVote:    sp.OnFlashTxVote,
-			OnBlock:          sp.OnBlock,
-			OnInv:            sp.OnInv,
-			OnHeaders:        sp.OnHeaders,
-			OnGetData:        sp.OnGetData,
-			OnGetBlocks:      sp.OnGetBlocks,
-			OnGetHeaders:     sp.OnGetHeaders,
-			OnGetCFilter:     sp.OnGetCFilter,
-			OnGetCFHeaders:   sp.OnGetCFHeaders,
-			OnGetCFTypes:     sp.OnGetCFTypes,
-			OnGetAddr:        sp.OnGetAddr,
-			OnAddr:           sp.OnAddr,
-			OnRead:           sp.OnRead,
-			OnWrite:          sp.OnWrite,
+			OnVersion:          sp.OnVersion,
+			OnMemPool:          sp.OnMemPool,
+			OnGetLockPoolState: sp.OnGetLockPoolState,
+			OnLockPoolState:    sp.OnLockPoolState,
+			OnGetMiningState:   sp.OnGetMiningState,
+			OnMiningState:      sp.OnMiningState,
+			OnTx:               sp.OnTx,
+			OnFlashTx:          sp.OnFlashTx,
+			OnFlashTxVote:      sp.OnFlashTxVote,
+			OnBlock:            sp.OnBlock,
+			OnInv:              sp.OnInv,
+			OnHeaders:          sp.OnHeaders,
+			OnGetData:          sp.OnGetData,
+			OnGetBlocks:        sp.OnGetBlocks,
+			OnGetHeaders:       sp.OnGetHeaders,
+			OnGetCFilter:       sp.OnGetCFilter,
+			OnGetCFHeaders:     sp.OnGetCFHeaders,
+			OnGetCFTypes:       sp.OnGetCFTypes,
+			OnGetAddr:          sp.OnGetAddr,
+			OnAddr:             sp.OnAddr,
+			OnRead:             sp.OnRead,
+			OnWrite:            sp.OnWrite,
 		},
 		NewestBlock:       sp.newestBlock,
 		HostToNetAddress:  sp.server.addrManager.HostToNetAddress,

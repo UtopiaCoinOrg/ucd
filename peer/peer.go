@@ -111,6 +111,9 @@ type MessageListeners struct {
 	// OnMemPool is invoked when a peer receives a mempool wire message.
 	OnMemPool func(p *Peer, msg *wire.MsgMemPool)
 
+	OnGetLockPoolState func(p *Peer, msg *wire.MsgGetLockPoolState)
+
+	OnLockPoolState func(p *Peer, msg *wire.MsgLockPoolState)
 	// OnGetMiningState is invoked when a peer receives a getminings wire
 	// message.
 	OnGetMiningState func(p *Peer, msg *wire.MsgGetMiningState)
@@ -1368,12 +1371,12 @@ out:
 				p.cfg.Listeners.OnTx(p, msg)
 			}
 		case *wire.MsgFlashTx:
-			if p.cfg.Listeners.OnFlashTx!=nil{
-				p.cfg.Listeners.OnFlashTx(p,msg)
+			if p.cfg.Listeners.OnFlashTx != nil {
+				p.cfg.Listeners.OnFlashTx(p, msg)
 			}
 		case *wire.MsgFlashTxVote:
-			if p.cfg.Listeners.OnFlashTxVote!=nil{
-				p.cfg.Listeners.OnFlashTxVote(p,msg)
+			if p.cfg.Listeners.OnFlashTxVote != nil {
+				p.cfg.Listeners.OnFlashTxVote(p, msg)
 			}
 		case *wire.MsgBlock:
 			if p.cfg.Listeners.OnBlock != nil {
@@ -1514,8 +1517,8 @@ out:
 		case msg := <-p.outputQueue:
 			waiting = queuePacket(msg, &pendingMsgs, waiting)
 
-		// This channel is notified when a message has been sent across
-		// the network socket.
+			// This channel is notified when a message has been sent across
+			// the network socket.
 		case <-p.sendDoneQueue:
 			// No longer waiting if there are no more messages
 			// in the pending messages queue.
@@ -1595,7 +1598,7 @@ cleanup:
 			}
 		case <-p.outputInvChan:
 			// Just drain channel
-		// sendDoneQueue is buffered so doesn't need draining.
+			// sendDoneQueue is buffered so doesn't need draining.
 		default:
 			break cleanup
 		}
