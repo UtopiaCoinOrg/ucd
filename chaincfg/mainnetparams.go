@@ -94,18 +94,18 @@ func MainNetParams() *Params {
 		GenerateSupported:        false,
 		MaximumBlockSizes:        []int{393216},
 		MaxTxSize:                393216,
-		TargetTimePerBlock:       time.Minute * 1,
+		TargetTimePerBlock:       time.Second * 90, //1.5min
 		WorkDiffAlpha:            1,
 		WorkDiffWindowSize:       144,
 		WorkDiffWindows:          20,
-		TargetTimespan:           time.Minute * 1 * 144, // TimePerBlock * WindowSize
+		TargetTimespan:           time.Second * 90 * 144, // TimePerBlock * WindowSize
 		RetargetAdjustmentFactor: 4,
 
 		// Subsidy parameters.
-		BaseSubsidy:              500000000000, // 5000 coin
-		MulSubsidy:               91874,
-		DivSubsidy:               100000,
-		SubsidyReductionInterval: 6144,
+		BaseSubsidy:              250000000000, // 2500 coin //total 8982456140.350817 + 10e8
+		MulSubsidy:               9943,
+		DivSubsidy:               10000,
+		SubsidyReductionInterval: 20480,
 		WorkRewardProportion:     5,
 		StakeRewardProportion:    4,
 		BlockTaxProportion:       1,
@@ -291,7 +291,7 @@ func MainNetParams() *Params {
 		LegacyCoinType:   20, // for backwards compatibility
 
 		// Utopia PoS parameters
-		MinimumStakeDiff:        50000 * 1e8, // 500 Coin
+		MinimumStakeDiff:        50000 * 1e8, // 50000 Coin
 		TicketPoolSize:          820,
 		TicketsPerBlock:         5,
 		TicketMaturity:          32,//256,
@@ -305,7 +305,7 @@ func MainNetParams() *Params {
 		StakeVersionInterval:    144 * 2 * 7, // ~1 week
 		MaxFreshStakePerBlock:   20,          // 4*TicketsPerBlock
 		StakeEnabledHeight:      256 + 32,   // CoinbaseMaturity + TicketMaturity
-		StakeValidationHeight:   1028,        // ~17 hours
+		StakeValidationHeight:   1028,        // ~24 hours
 		StakeBaseSigScript:      []byte{0x00, 0x00},
 		StakeMajorityMultiplier: 3,
 		StakeMajorityDivisor:    4,

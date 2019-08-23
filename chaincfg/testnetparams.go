@@ -96,10 +96,10 @@ func TestNet3Params() *Params {
 		RetargetAdjustmentFactor: 4,
 
 		// Subsidy parameters.
-		BaseSubsidy:              500000000000, //5000 coins
-		MulSubsidy:               91874,
-		DivSubsidy:               100000,
-		SubsidyReductionInterval: 2048,
+		BaseSubsidy:              250000000000, //2500 coins
+		MulSubsidy:               9943,
+		DivSubsidy:               10000,
+		SubsidyReductionInterval: 20480,
 		WorkRewardProportion:     5,
 		StakeRewardProportion:    4,
 		BlockTaxProportion:       1,
@@ -185,7 +185,7 @@ func TestNet3Params() *Params {
 		LegacyCoinType:   11, // for backwards compatibility
 
 		// Utopia PoS parameters
-		MinimumStakeDiff:        20000000000, // 2 Coin
+		MinimumStakeDiff:        50000 * 1e8, // 50000 Coin
 		TicketPoolSize:          820,
 		TicketsPerBlock:         5,
 		TicketMaturity:          16,
