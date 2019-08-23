@@ -1333,6 +1333,29 @@ func (mp *TxPool) maybeAcceptTransaction(tx *ucutil.Tx, isNew, rateLimit, allowH
 		return nil, err
 	}
 
+
+	//check  with lockpool
+	//aitx type must be regular
+	if txType == stake.TxTypeRegular {
+		if _, isAiTx := txscript.IsFlashTx(msgTx); isAiTx {
+			//check exist and vote number
+			if desc, exist := mp.getFlashTxDesc(txHash); exist {
+				if !desc.Confirm {
+					return nil, fmt.Errorf("flashtx %v too few votes", txHash)
+				}
+			} else {
+				return nil, fmt.Errorf("flashtx %v not exist in lockpool", txHash)
+			}
+		}
+	}
+
+	//check double spend with tx in lockpool
+	//if common tx is conflict with txlockpool ,we will reject the common tx(include common tx and aitx not confirmed)
+	err=mp.checkTxWithLockPool(tx)
+	if err!=nil{
+		return nil,err
+	}
+
 	// Add to transaction pool.
 	mp.addTransaction(utxoView, tx, txType, bestHeight, txFee)
 

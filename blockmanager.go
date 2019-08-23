@@ -116,8 +116,9 @@ type flashTxMsg struct {
 
 type flashTxVoteMsg struct {
 	flashTxVote *ucutil.FlashTxVote
-	peer     *serverPeer
+	peer        *serverPeer
 }
+
 // getSyncPeerMsg is a message type to be sent across the message channel for
 // retrieving the current sync peer.
 type getSyncPeerMsg struct {
@@ -129,12 +130,12 @@ type getSyncPeerMsg struct {
 // this through the block manager so the block manager doesn't ban the peer
 // when it sends this information back.
 type requestFromPeerMsg struct {
-	peer   *serverPeer
-	blocks []*chainhash.Hash
-	txs    []*chainhash.Hash
+	peer       *serverPeer
+	blocks     []*chainhash.Hash
+	txs        []*chainhash.Hash
 	flashTxs   []*chainhash.Hash
 	flashVotes []*chainhash.Hash
-	reply  chan requestFromPeerResponse
+	reply      chan requestFromPeerResponse
 }
 
 // requestFromPeerResponse is a response sent to the reply channel of a
@@ -725,9 +726,6 @@ func (b *blockManager) handleTxMsg(tmsg *txMsg) {
 	b.cfg.PeerNotifier.AnnounceNewTransactions(acceptedTxs)
 }
 
-
-
-
 func (b *blockManager) handleFlashTxMsg(flashTxMsg *flashTxMsg) {
 	//TODO verify conflict with mempool
 	flashTx := flashTxMsg.tx
@@ -739,24 +737,23 @@ func (b *blockManager) handleFlashTxMsg(flashTxMsg *flashTxMsg) {
 		return
 	}
 
-	lotteryHash,is:=txscript.IsFlashTx(flashTx.MsgTx())
-	if !is{
+	lotteryHash, is := txscript.IsFlashTx(flashTx.MsgTx())
+	if !is {
 		bmgrLog.Errorf("Ignoring not reqular flashtx")
 		return
 	}
-	height,err:=b.chain.BlockHeightByHash(lotteryHash)
-	if err!=nil{
+	height, err := b.chain.BlockHeightByHash(lotteryHash)
+	if err != nil {
 		bmgrLog.Errorf("Ignoring lotteryHash err "+
-			"transaction %v lotteryHash %v,err %v", txHash, lotteryHash,err)
+			"transaction %v lotteryHash %v,err %v", txHash, lotteryHash, err)
 		return
 	}
 
-	if height+int64(b.cfg.ChainParams.FlashSendConfirmationsRequired)*2<b.chain.BestSnapshot().Height{
+	if height+int64(b.cfg.ChainParams.FlashSendConfirmationsRequired)*2 < b.chain.BestSnapshot().Height {
 		bmgrLog.Errorf("Ignoring lotteryHash  "+
-			"transaction %v lotteryHash %v,height %d", txHash, lotteryHash,height)
+			"transaction %v lotteryHash %v,height %d", txHash, lotteryHash, height)
 		return
 	}
-
 
 	err = b.cfg.TxMemPool.MayBeAddToLockPool(flashTx, true, false, false)
 
@@ -780,7 +777,6 @@ func (b *blockManager) handleFlashTxMsg(flashTxMsg *flashTxMsg) {
 	//notify wallet and peers
 	b.cfg.PeerNotifier.AnnounceNewFlashTxs(flashTxs)
 }
-
 
 //deal aixvote from peers
 func (b *blockManager) handleFlashTxVoteMsg(msg *flashTxVoteMsg) {
@@ -816,7 +812,6 @@ func (b *blockManager) handleFlashTxVoteMsg(msg *flashTxVoteMsg) {
 		bmgrLog.Errorf("failed to get ticketTx  %v ,err: %v", ticketHash.String(), err)
 		return
 	}
-
 
 	ticketOutPuts := ticketTx.TxOut
 	if len(ticketOutPuts) == 0 {
@@ -858,7 +853,6 @@ func (b *blockManager) handleFlashTxVoteMsg(msg *flashTxVoteMsg) {
 	//notify wallet vote and rely to other peers
 	b.cfg.PeerNotifier.AnnounceNewFlashTxVotes(flashTxVotes)
 }
-
 
 // current returns true if we believe we are synced with our peers, false if we
 // still have blocks to check
@@ -1710,9 +1704,9 @@ out:
 			case *txMsg:
 				b.handleTxMsg(msg)
 				msg.peer.txProcessed <- struct{}{}
-			case *flashTxMsg://handle p2p flash tx msg
+			case *flashTxMsg: //handle p2p flash tx msg
 				b.handleFlashTxMsg(msg)
-				msg.peer.flashTxProcessed<- struct{}{}
+				msg.peer.flashTxProcessed <- struct{}{}
 			case *flashTxVoteMsg:
 				b.handleFlashTxVoteMsg(msg)
 				msg.peer.flashTxVoteProcessed <- struct{}{}
@@ -1733,7 +1727,7 @@ out:
 				msg.reply <- b.syncPeer
 
 			case requestFromPeerMsg:
-				err := b.requestFromPeer(msg.peer, msg.blocks, msg.txs,msg.flashTxs,msg.flashVotes)
+				err := b.requestFromPeer(msg.peer, msg.blocks, msg.txs, msg.flashTxs, msg.flashVotes)
 				msg.reply <- requestFromPeerResponse{
 					err: err,
 				}
@@ -1837,9 +1831,9 @@ out:
 					acceptedTxs: acceptedTxs,
 					err:         err,
 				}
-			case processFlashTxMsg://handle rpc flash tx
-				lotteryHash,is:=txscript.IsFlashTx(msg.tx.MsgTx())
-				if !is{
+			case processFlashTxMsg: //handle rpc flash tx
+				lotteryHash, is := txscript.IsFlashTx(msg.tx.MsgTx())
+				if !is {
 					bmgrLog.Errorf("Ignoring not reqular flashtx")
 					msg.reply <- processFlashTxResponse{
 						missedParent: nil,
@@ -1847,10 +1841,10 @@ out:
 					}
 					continue
 				}
-				height,err:=b.chain.BlockHeightByHash(lotteryHash)
-				if err!=nil{
+				height, err := b.chain.BlockHeightByHash(lotteryHash)
+				if err != nil {
 					bmgrLog.Errorf("Ignoring lotteryHash err "+
-						"transaction %v lotteryHash %v,err %v", msg.tx.Hash(), lotteryHash,err)
+						"transaction %v lotteryHash %v,err %v", msg.tx.Hash(), lotteryHash, err)
 					msg.reply <- processFlashTxResponse{
 						missedParent: nil,
 						err:          err,
@@ -1858,9 +1852,9 @@ out:
 					continue
 				}
 
-				if height+int64(b.cfg.ChainParams.FlashSendConfirmationsRequired)*2<b.chain.BestSnapshot().Height{
+				if height+int64(b.cfg.ChainParams.FlashSendConfirmationsRequired)*2 < b.chain.BestSnapshot().Height {
 					bmgrLog.Errorf("Ignoring lotteryHash too old "+
-						"transaction %v lotteryHash %v,height %d", msg.tx.Hash(), lotteryHash,height)
+						"transaction %v lotteryHash %v,height %d", msg.tx.Hash(), lotteryHash, height)
 					msg.reply <- processFlashTxResponse{
 						missedParent: nil,
 						err:          errors.New("Ignoring lotteryHash too old"),
@@ -2033,13 +2027,18 @@ func (b *blockManager) handleBlockchainNotification(notification *blockchain.Not
 				bmgrLog.Errorf("Couldn't calculate winning tickets for "+
 					"accepted block %v: %v", blockHash, err.Error())
 			} else {
+
+				//check conflict with txlockpool , if this block is conflict ,do not notify winningTickets to wallet
+				ok, _ := b.cfg.TxMemPool.CheckBlkConflictWithTxLockPool(block)
 				// Notify registered websocket clients of newly
 				// eligible tickets to vote on.
-				b.cfg.NotifyWinningTickets(&WinningTicketsNtfnData{
-					BlockHash:   *blockHash,
-					BlockHeight: blockHeight,
-					Tickets:     wt,
-				})
+				if ok {
+					b.cfg.NotifyWinningTickets(&WinningTicketsNtfnData{
+						BlockHash:   *blockHash,
+						BlockHeight: blockHeight,
+						Tickets:     wt,
+					})
+				}
 
 				b.lotteryDataBroadcastMutex.Lock()
 				b.lotteryDataBroadcast[*blockHash] = struct{}{}
@@ -2130,6 +2129,14 @@ func (b *blockManager) handleBlockchainNotification(notification *blockchain.Not
 				// transaction (except the coinbase) as no longer needing
 				// rebroadcasting.
 				b.cfg.PeerNotifier.TransactionConfirmed(tx)
+
+				//block connect success,we can believe parent are voted successfully,
+				//now we update the locktx height in the lockpool
+				b.cfg.TxMemPool.ModifyFlashTxHeight(tx, block.Height())
+
+				//parent block are voted successfully ,now we can remove doubleSpends tx
+				// conflict with parent block from lockPool
+				b.cfg.TxMemPool.RemoveFlashTxDoubleSpends(tx)
 			}
 		}
 		handleConnectedBlockTxns(block.Transactions()[1:])
@@ -2179,9 +2186,9 @@ func (b *blockManager) handleBlockchainNotification(notification *blockchain.Not
 					iv = wire.NewInvVect(wire.InvTypeTx, tx.Hash())
 				}
 				r.server.RemoveRebroadcastInventory(iv)
-				r.server.txMemPool.RemoveConfirmedFlashTx(parentBlock.Height())
 			}
 		}
+		b.cfg.TxMemPool.RemoveConfirmedFlashTx(parentBlock.Height())
 
 		if r := b.cfg.RpcServer(); r != nil {
 			// Filter and update the rebroadcast inventory.
@@ -2351,7 +2358,6 @@ func (b *blockManager) QueueTx(tx *ucutil.Tx, sp *serverPeer) {
 	b.msgChan <- &txMsg{tx: tx, peer: sp}
 }
 
-
 func (b *blockManager) QueueFlashTx(tx *ucutil.FlashTx, sp *serverPeer) {
 	// Don't accept more transactions if we're shutting down.
 	if atomic.LoadInt32(&b.shutdown) != 0 {
@@ -2361,7 +2367,6 @@ func (b *blockManager) QueueFlashTx(tx *ucutil.FlashTx, sp *serverPeer) {
 
 	b.msgChan <- &flashTxMsg{tx: tx, peer: sp}
 }
-
 
 func (b *blockManager) QueueFlashTxVote(txVote *ucutil.FlashTxVote, sp *serverPeer) {
 	// Don't accept more transactions if we're shutting down.
@@ -2454,9 +2459,9 @@ func (b *blockManager) SyncPeer() *serverPeer {
 // RequestFromPeer allows an outside caller to request blocks or transactions
 // from a peer. The requests are logged in the blockmanager's internal map of
 // requests so they do not later ban the peer for sending the respective data.
-func (b *blockManager) RequestFromPeer(p *serverPeer, blocks, txs []*chainhash.Hash,flashTxs []*chainhash.Hash, flashVotes []*chainhash.Hash) error {
+func (b *blockManager) RequestFromPeer(p *serverPeer, blocks, txs []*chainhash.Hash, flashTxs []*chainhash.Hash, flashVotes []*chainhash.Hash) error {
 	reply := make(chan requestFromPeerResponse)
-	b.msgChan <- requestFromPeerMsg{peer: p, blocks: blocks, txs: txs,flashTxs: flashTxs, flashVotes: flashVotes,
+	b.msgChan <- requestFromPeerMsg{peer: p, blocks: blocks, txs: txs, flashTxs: flashTxs, flashVotes: flashVotes,
 		reply: reply}
 	response := <-reply
 
@@ -2742,18 +2747,18 @@ func (b *blockManager) SetParentTemplate(bt *BlockTemplate) {
 // Use Start to begin processing asynchronous block and inv updates.
 func newBlockManager(config *blockManagerConfig) (*blockManager, error) {
 	bm := blockManager{
-		cfg:              config,
-		chain:            config.Chain,
-		rejectedTxns:     make(map[chainhash.Hash]struct{}),
-		requestedTxns:    make(map[chainhash.Hash]struct{}),
-		requestedBlocks:  make(map[chainhash.Hash]struct{}),
+		cfg:                 config,
+		chain:               config.Chain,
+		rejectedTxns:        make(map[chainhash.Hash]struct{}),
+		requestedTxns:       make(map[chainhash.Hash]struct{}),
+		requestedBlocks:     make(map[chainhash.Hash]struct{}),
 		requestedFlashTxs:   make(map[chainhash.Hash]struct{}),
 		requestedFlashVotes: make(map[chainhash.Hash]struct{}),
-		progressLogger:   newBlockProgressLogger("Processed", bmgrLog),
-		msgChan:          make(chan interface{}, cfg.MaxPeers*3),
-		headerList:       list.New(),
-		AggressiveMining: !cfg.NonAggressive,
-		quit:             make(chan struct{}),
+		progressLogger:      newBlockProgressLogger("Processed", bmgrLog),
+		msgChan:             make(chan interface{}, cfg.MaxPeers*3),
+		headerList:          list.New(),
+		AggressiveMining:    !cfg.NonAggressive,
+		quit:                make(chan struct{}),
 	}
 
 	best := bm.chain.BestSnapshot()
