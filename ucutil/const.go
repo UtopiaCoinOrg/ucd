@@ -14,5 +14,5 @@ const (
 
 	// MaxAmount is the maximum transaction amount allowed in atoms.
 	// Utopia - Changeme for release
-	MaxAmount = 21e8 * AtomsPerCoin
+	MaxAmount = 100e8 * AtomsPerCoin
 )
