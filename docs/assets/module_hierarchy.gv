@@ -4,7 +4,7 @@ digraph {
 
 	certgen [label="certgen" fillcolor=darkkhaki]
 	chainhash [label="chaincfg/chainhash" fillcolor=aquamarine]
-	ucjson [label="ucjson/v3" fillcolor=indianred]
+	ucjson [label="ucjson" fillcolor=indianred]
 	types [label="rpc/jsonrpc/types" fillcolor=tomato]
 	wire [label="wire" fillcolor=coral]
 	addrmgr [label="addrmgr" fillcolor=lightsalmon]
@@ -24,7 +24,7 @@ digraph {
 	mining [label="mining" fillcolor=chartreuse]
 	lru  [label="lru" fillcolor=royalblue3]
 	peer [label="peer" fillcolor=khaki]
-	rpcclient [label="rpcclient/v3" fillcolor=mediumseagreen]
+	rpcclient [label="rpcclient" fillcolor=mediumseagreen]
 	fees [label="fees" fillcolor=darkolivegreen2]
 	ucd [label="ucd" fillcolor=chocolate]
 

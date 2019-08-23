@@ -12,7 +12,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/UtopiaCoinOrg/ucd/ucjson/v3"
+	"github.com/UtopiaCoinOrg/ucd/ucjson"
 )
 
 // TestChainSvrWsCmds tests all of the chain server websocket-specific commands

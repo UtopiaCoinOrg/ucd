@@ -169,9 +169,9 @@ https://utopia.org/community
 
 The following versioned modules are provided by ucd repository:
 
-* [rpcclient/v3](https://github.com/UtopiaCoinOrg/ucd/tree/master/rpcclient) - Implements
+* [rpcclient](https://github.com/UtopiaCoinOrg/ucd/tree/master/rpcclient) - Implements
   a robust and easy to use Websocket-enabled Utopia JSON-RPC client
-* [ucjson/v3](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucjson) - Provides
+* [ucjson](https://github.com/UtopiaCoinOrg/ucd/tree/master/ucjson) - Provides
   infrastructure for working with Utopia JSON-RPC APIs
 * [rpc/jsonrpc/types](https://github.com/UtopiaCoinOrg/ucd/tree/master/rpc/jsonrpc/types) -
   Provides concrete types via ucjson for the chain server JSON-RPC commands,

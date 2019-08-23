@@ -33,7 +33,7 @@
 <!-- ucjson -->
 <g id="node3" class="node"><title>ucjson</title>
 <path fill="indianred" stroke="black" d="M605.5,-684C605.5,-684 553.5,-684 553.5,-684 547.5,-684 541.5,-678 541.5,-672 541.5,-672 541.5,-660 541.5,-660 541.5,-654 547.5,-648 553.5,-648 553.5,-648 605.5,-648 605.5,-648 611.5,-648 617.5,-654 617.5,-660 617.5,-660 617.5,-672 617.5,-672 617.5,-678 611.5,-684 605.5,-684"/>
-<text text-anchor="middle" x="579.5" y="-662.3" font-family="Times New Roman,serif" font-size="14.00">ucjson/v3</text>
+<text text-anchor="middle" x="579.5" y="-662.3" font-family="Times New Roman,serif" font-size="14.00">ucjson</text>
 </g>
 <!-- chainhash&#45;&gt;ucjson -->
 <g id="edge1" class="edge"><title>chainhash&#45;&gt;ucjson</title>
@@ -73,7 +73,7 @@
 <!-- rpcclient -->
 <g id="node23" class="node"><title>rpcclient</title>
 <path fill="mediumseagreen" stroke="black" d="M603.5,-108C603.5,-108 545.5,-108 545.5,-108 539.5,-108 533.5,-102 533.5,-96 533.5,-96 533.5,-84 533.5,-84 533.5,-78 539.5,-72 545.5,-72 545.5,-72 603.5,-72 603.5,-72 609.5,-72 615.5,-78 615.5,-84 615.5,-84 615.5,-96 615.5,-96 615.5,-102 609.5,-108 603.5,-108"/>
-<text text-anchor="middle" x="574.5" y="-86.3" font-family="Times New Roman,serif" font-size="14.00">rpcclient/v3</text>
+<text text-anchor="middle" x="574.5" y="-86.3" font-family="Times New Roman,serif" font-size="14.00">rpcclient</text>
 </g>
 <!-- types&#45;&gt;rpcclient -->
 <g id="edge24" class="edge"><title>types&#45;&gt;rpcclient</title>
