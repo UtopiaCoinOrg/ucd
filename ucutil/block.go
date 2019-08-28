@@ -8,10 +8,9 @@ package ucutil
 import (
 	"bytes"
 	"fmt"
-	"io"
-
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 	"github.com/UtopiaCoinOrg/ucd/wire"
+	"io"
 )
 
 // OutOfRangeError describes an error due to accessing an element that is out
@@ -20,7 +19,7 @@ type OutOfRangeError string
 
 // assertBlockImmutability throws a panic when a block has been
 // mutated.
-var assertBlockImmutability = false
+//var assertBlockImmutability = true
 
 // BlockHeightUnknown is the value returned for a block height that is unknown.
 // This is typically because the block has not been inserted into the main chain
@@ -94,16 +93,19 @@ func (b *Block) BlockHeaderBytes() ([]byte, error) {
 // calling BlockHash on the underlying wire.MsgBlock, however it caches the
 // result so subsequent calls are more efficient.
 func (b *Block) Hash() *chainhash.Hash {
-	if assertBlockImmutability {
+	hash := b.msgBlock.BlockHash()
+	return &hash
+/*	if assertBlockImmutability {
 		hash := b.msgBlock.BlockHash()
 		if !hash.IsEqual(&b.hash) {
 			str := fmt.Sprintf("ASSERT: mutated util.block detected, old hash "+
 				"%v, new hash %v", b.hash, hash)
+			log.Fatal()
 			panic(str)
 		}
 	}
 
-	return &b.hash
+	return &b.hash*/
 }
 
 // Tx returns a wrapped transaction (ucutil.Tx) for the transaction at the
