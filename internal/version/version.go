@@ -37,14 +37,14 @@ var (
 	// '-ldflags "-X github.com/UtopiaCoinOrg/ucd/internal/version.PreRelease=foo"'
 	// if needed.  It MUST only contain characters from semanticAlphabet per
 	// the semantic versioning spec.
-	PreRelease = "pre"
+	PreRelease = ""
 
 	// BuildMetadata is defined as a variable so it can be overridden during the
 	// build process with:
 	// '-ldflags "-X github.com/UtopiaCoinOrg/ucd/internal/version.BuildMetadata=foo"'
 	// if needed.  It MUST only contain characters from semanticBuildAlphabet
 	// per the semantic versioning spec.
-	BuildMetadata = "dev"
+	BuildMetadata = ""
 )
 
 // String returns the application version as a properly formed string per the
