@@ -19,7 +19,7 @@ import (
 func TestNet3Params() *Params {
 	// testNetPowLimit is the highest proof of work value a Utopia block
 	// can have for the test network.  It is the value 2^232 - 1.
-	testNetPowLimit := new(big.Int).Sub(new(big.Int).Lsh(bigOne, 232), bigOne)
+	testNetPowLimit := new(big.Int).Sub(new(big.Int).Lsh(bigOne, 236), bigOne)
 
 	// genesisBlock defines the genesis block of the block chain which serves as
 	// the public transaction ledger for the test network (version 3).
@@ -29,7 +29,7 @@ func TestNet3Params() *Params {
 			PrevBlock: chainhash.Hash{},
 			// MerkleRoot: Calculated below.
 			Timestamp:    time.Unix(1533513600, 0), // 2018-08-06 00:00:00 +0000 UTC
-			Bits:         0x1e00ffff,               // Difficulty 1 [000000ffff000000000000000000000000000000000000000000000000000000]
+			Bits:         0x1e0fffff,               // Difficulty 1 [00000fffff000000000000000000000000000000000000000000000000000000]
 			SBits:        20000000,
 			Nonce:        0x18aea41a,
 			StakeVersion: 6,
@@ -82,7 +82,7 @@ func TestNet3Params() *Params {
 		GenesisBlock:             &genesisBlock,
 		GenesisHash:              genesisBlock.BlockHash(),
 		PowLimit:                 testNetPowLimit,
-		PowLimitBits:             0x1e00ffff,
+		PowLimitBits:             0x1e0fffff,
 		ReduceMinDifficulty:      false,
 		MinDiffReductionTime:     0, // ~99.3% chance to be mined before reduction
 		GenerateSupported:        true,
