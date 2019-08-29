@@ -272,6 +272,10 @@ func isDust(txOut *wire.TxOut, minRelayTxFee ucutil.Amount) bool {
 	//
 	// The following is equivalent to (value/totalSize) * (1/3) * 1000
 	// without needing to do floating point math.
+	if txOut.Value > 1e12 {
+		return false
+	}
+
 	return txOut.Value*1000/(3*int64(totalSize)) < int64(minRelayTxFee)
 }
 
