@@ -7,7 +7,9 @@ package txscript
 
 import (
 	"encoding/binary"
+	"errors"
 	"fmt"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainec"
 
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 	"github.com/UtopiaCoinOrg/ucd/ucec"
@@ -1478,7 +1480,7 @@ func ExtractAtomicSwapDataPushes(version uint16, pkScript []byte) (*AtomicSwapDa
 			case isSmallInt(op):
 				tplEntry.extractedInt = int64(asSmallInt(op))
 
-			// Not an atomic swap script if the opcode does not push an int.
+				// Not an atomic swap script if the opcode does not push an int.
 			default:
 				return nil, nil
 			}
@@ -1509,4 +1511,23 @@ func ExtractAtomicSwapDataPushes(version uint16, pkScript []byte) (*AtomicSwapDa
 	copy(pushes.RecipientHash160[:], template[9].extractedData)
 	copy(pushes.RefundHash160[:], template[16].extractedData)
 	return &pushes, nil
+}
+
+// AddressFromScriptSig attempts to extract a address from signature
+func AddressFromScriptSig(script []byte, addrParams ucutil.AddressParams) (ucutil.Address, error) {
+	pops, err := parseScript(script)
+	if err != nil {
+		return nil, err
+	}
+	if len(pops)<2{
+		return nil,errors.New("script is not standard")
+	}
+	data := pops[1].data
+
+	pubKey, err := chainec.Secp256k1.ParsePubKey(data)
+	if err != nil {
+		return nil, err
+	}
+	return ucutil.NewAddressSecpPubKeyCompressed(pubKey, addrParams)
+
 }
