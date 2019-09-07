@@ -3,6 +3,7 @@ SRCS =aes_helper.c gost_streebog.c mod_blakecoin.c sph_blake.c sph_bmw.c sph_cub
 OBJS = aes_helper.o gost_streebog.o mod_blakecoin.o sph_blake.o sph_bmw.o sph_cubehash.o sph_echo.o sph_fugue.o sph_groestl.o sph_hamsi_helper.o sph_hamsi.o sph_haval.o sph_hefty1.o sph_jh.o sph_keccak.o sph_luffa.o sph_ripemd.o sph_sha2.o sph_sha2big.o sph_shabal.o sph_shavite.o sph_simd.o sph_skein.o sph_whirlpool.o x17r.o
 
 CC = gcc
+#CC = arm-linux-gcc #for android
 CCFLAGS =
 
 a : $(OBJS)
