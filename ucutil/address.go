@@ -172,7 +172,7 @@ func NewAddressPubKey(decoded []byte, net AddressParams) (Address, error) {
 // DecodeAddress decodes the string encoding of an address and returns the
 // Address if it is a valid encoding for a known address type and is for the
 // provided network.
-func DecodeAddress(addr string, net AddressParams) (Address, error) {
+func DecodeAddress(addr string) (Address, error) {
 	// Switch on decoded length to determine the type.
 	decoded, netID, err := base58.CheckDecode(addr)
 	if err != nil {
@@ -180,6 +180,10 @@ func DecodeAddress(addr string, net AddressParams) (Address, error) {
 			return nil, ErrChecksumMismatch
 		}
 		return nil, fmt.Errorf("decoded address is of unknown format: %v", err)
+	}
+	net, err := detectNetworkForAddress(addr)
+	if err != nil {
+		return nil, ErrUnknownAddressType
 	}
 
 	switch netID {
@@ -201,6 +205,16 @@ func DecodeAddress(addr string, net AddressParams) (Address, error) {
 	default:
 		return nil, ErrUnknownAddressType
 	}
+}
+
+// detectNetworkForAddress pops the first character from a string encoded
+// address and detects what network type it is for.
+func detectNetworkForAddress(addr string) (*chaincfg.Params, error) {
+	if len(addr) < 1 {
+		return nil, fmt.Errorf("empty string given for network detection")
+	}
+
+	return chaincfg.ParamsByNetAddrPrefix(addr[0:1])
 }
 
 // AddressPubKeyHash is an Address for a pay-to-pubkey-hash (P2PKH)

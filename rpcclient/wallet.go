@@ -930,7 +930,7 @@ func (r FutureAddMultisigAddressResult) Receive() (ucutil.Address, error) {
 		return nil, err
 	}
 
-	return ucutil.DecodeAddress(addr, ucutil.ActiveNet)
+	return ucutil.DecodeAddress(addr)
 }
 
 // AddMultisigAddressAsync returns an instance of a type that can be used to get
@@ -1044,7 +1044,7 @@ func (r FutureGetNewAddressResult) Receive() (ucutil.Address, error) {
 		return nil, err
 	}
 
-	return ucutil.DecodeAddress(addr, ucutil.ActiveNet)
+	return ucutil.DecodeAddress(addr)
 }
 
 // GapPolicy defines the policy to use when the BIP0044 unused address gap limit
@@ -1110,7 +1110,7 @@ func (r FutureGetRawChangeAddressResult) Receive() (ucutil.Address, error) {
 		return nil, err
 	}
 
-	return ucutil.DecodeAddress(addr, ucutil.ActiveNet)
+	return ucutil.DecodeAddress(addr)
 }
 
 // GetRawChangeAddressAsync returns an instance of a type that can be used to
@@ -1149,7 +1149,7 @@ func (r FutureGetAccountAddressResult) Receive() (ucutil.Address, error) {
 		return nil, err
 	}
 
-	return ucutil.DecodeAddress(addr, ucutil.ActiveNet)
+	return ucutil.DecodeAddress(addr)
 }
 
 // GetAccountAddressAsync returns an instance of a type that can be used to get
@@ -1227,7 +1227,7 @@ func (r FutureGetAddressesByAccountResult) Receive() ([]ucutil.Address, error) {
 
 	addrs := make([]ucutil.Address, 0, len(addrStrings))
 	for _, addrStr := range addrStrings {
-		addr, err := ucutil.DecodeAddress(addrStr, ucutil.ActiveNet)
+		addr, err := ucutil.DecodeAddress(addrStr)
 		if err != nil {
 			return nil, err
 		}

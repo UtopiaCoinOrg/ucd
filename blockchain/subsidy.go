@@ -266,7 +266,7 @@ func blockOneCoinbasePaysTokens(tx *ucutil.Tx, params *chaincfg.Params) error {
 			return ruleError(ErrBlockOneOutputs, errStr)
 		}
 
-		addrLedger, err := ucutil.DecodeAddress(ledger[i].Address, params)
+		addrLedger, err := ucutil.DecodeAddress(ledger[i].Address)
 		if err != nil {
 			return err
 		}

@@ -993,7 +993,7 @@ func loadConfig() (*config, []string, error) {
 	// Check mining addresses are valid and saved parsed versions.
 	cfg.miningAddrs = make([]ucutil.Address, 0, len(cfg.MiningAddrs))
 	for _, strAddr := range cfg.MiningAddrs {
-		addr, err := ucutil.DecodeAddress(strAddr, activeNetParams.Params)
+		addr, err := ucutil.DecodeAddress(strAddr)
 		if err != nil {
 			str := "%s: mining address '%s' failed to decode: %v"
 			err := fmt.Errorf(str, funcName, strAddr, err)

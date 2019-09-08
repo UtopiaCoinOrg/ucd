@@ -2885,7 +2885,7 @@ func newServer(listenAddrs []string, db database.DB, chainParams *chaincfg.Param
 
 	s.cpuMiner = newCPUMiner(&cpuminerConfig{
 		ChainParams:                s.chainParams,
-		PermitConnectionlessMining: cfg.SimNet || cfg.TestNet,
+		PermitConnectionlessMining: cfg.SimNet,
 		BlockTemplateGenerator:     tg,
 		MiningAddrs:                cfg.miningAddrs,
 		ProcessBlock:               s.blockManager.ProcessBlock,
