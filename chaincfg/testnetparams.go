@@ -181,7 +181,7 @@ func TestNet3Params() *Params {
 
 		// BIP44 coin type used in the hierarchical deterministic path for
 		// address generation.
-		SLIP0044CoinType: 1,  // SLIP0044, Testnet (all coins)
+		SLIP0044CoinType: 401,  // SLIP0044, Testnet (all coins)
 		LegacyCoinType:   11, // for backwards compatibility
 
 		// Utopia PoS parameters
@@ -205,8 +205,8 @@ func TestNet3Params() *Params {
 		StakeMajorityDivisor:    4,
 
 		// Utopia organization related parameters.
-		// Organization address is TcrypGAcGCRVXrES7hWqVZb5oLJKCZEtoL1.
-		OrganizationPkScript:        hexDecode("a914d585cd7426d25b4ea5faf1e6987aacfeda3db94287"),
+		// Organization address is TCaowBdDEu9877qkATPju4Ug1L4ASnnC7kn.
+		OrganizationPkScript:        hexDecode("76a9147ef6513c048101bf44823ad391e2f1eb0b6b0d3988ac"),
 		OrganizationPkScriptVersion: 0,
 		BlockOneLedger:              BlockOneLedgerTestNet3,
 	}

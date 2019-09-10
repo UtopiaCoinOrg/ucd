@@ -16,10 +16,10 @@ def main():
     total = a0 *(1) /(1-q)
     print(total/unit)
 
-    Qdcr = 100/101.0
-    Bdcr = 31.2 * 6144 * (1-Qdcr **17) /(1-Qdcr)
-    print(Bdcr)
-    print(Bdcr)    #=24e8
+    QTestDc = 100/101.0
+    BTestDc = 31.2 * 6144 * (1-QTestDc **17) /(1-QTestDc)
+    print(BTestDc)
+    print(BTestDc)    #=24e8
 
         
 if __name__ == '__main__':
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 #总量 8982456140.350817 + 10e8 = 99.82亿
 #平均90秒出一个块
 #50年挖完
-#衰减周期和dcr保持一致
+#衰减周期和TestDc保持一致
 #等比衰减
 #第一年出币8.3亿
-#dcr第一年出币301.3万，乘以500 大约是15亿。
+#TestDc第一年出币301.3万，乘以500 大约是15亿。

@@ -286,7 +286,7 @@ var regNetParams = &chaincfg.Params{
 
 	// BIP44 coin type used in the hierarchical deterministic path for
 	// address generation.
-	SLIP0044CoinType: 1, // SLIP0044, Testnet (all coins)
+	SLIP0044CoinType: 401, // SLIP0044, Testnet (all coins)
 	LegacyCoinType:   1,
 
 	// Utopia PoS parameters

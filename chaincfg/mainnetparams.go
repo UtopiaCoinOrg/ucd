@@ -287,7 +287,7 @@ func MainNetParams() *Params {
 
 		// BIP44 coin type used in the hierarchical deterministic path for
 		// address generation.
-		SLIP0044CoinType: 42, // SLIP0044, Utopia
+		SLIP0044CoinType: 401, // SLIP0044, Utopia
 		LegacyCoinType:   20, // for backwards compatibility
 
 		// Utopia PoS parameters

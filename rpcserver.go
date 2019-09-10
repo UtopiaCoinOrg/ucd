@@ -681,7 +681,7 @@ func handleCreateRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan 
 		}
 
 		// Decode the provided address.
-		addr, err := ucutil.DecodeAddress(encodedAddr, activeNetParams.Params)
+		addr, err := ucutil.DecodeAddress(encodedAddr)
 		if err != nil {
 			return nil, rpcAddressKeyError("Could not decode "+
 				"address: %v", err)
@@ -791,7 +791,7 @@ func handleCreateRawSStx(s *rpcServer, cmd interface{}, closeChan <-chan struct{
 		}
 
 		// Decode the provided address.
-		addr, err := ucutil.DecodeAddress(encodedAddr, activeNetParams.Params)
+		addr, err := ucutil.DecodeAddress(encodedAddr)
 		if err != nil {
 			return nil, rpcAddressKeyError("Could not decode "+
 				"address: %v", err)
@@ -857,7 +857,7 @@ func handleCreateRawSStx(s *rpcServer, cmd interface{}, closeChan <-chan struct{
 
 	for i, cout := range c.COuts {
 		// 1. Append future commitment output.
-		addr, err := ucutil.DecodeAddress(cout.Addr, activeNetParams.Params)
+		addr, err := ucutil.DecodeAddress(cout.Addr)
 		if err != nil {
 			return nil, rpcAddressKeyError("Could not decode "+
 				"address: %v", err)
@@ -900,7 +900,7 @@ func handleCreateRawSStx(s *rpcServer, cmd interface{}, closeChan <-chan struct{
 		}
 
 		// Decode the provided address.
-		addr, err = ucutil.DecodeAddress(cout.ChangeAddr, activeNetParams.Params)
+		addr, err = ucutil.DecodeAddress(cout.ChangeAddr)
 		if err != nil {
 			return nil, rpcAddressKeyError("Wrong network: %v",
 				addr)
@@ -1479,7 +1479,7 @@ func handleExistsAddress(s *rpcServer, cmd interface{}, closeChan <-chan struct{
 	c := cmd.(*types.ExistsAddressCmd)
 
 	// Attempt to decode the supplied address.
-	addr, err := ucutil.DecodeAddress(c.Address, activeNetParams.Params)
+	addr, err := ucutil.DecodeAddress(c.Address)
 	if err != nil {
 		return nil, rpcAddressKeyError("Could not decode address: %v",
 			err)
@@ -1505,7 +1505,7 @@ func handleExistsAddresses(s *rpcServer, cmd interface{}, closeChan <-chan struc
 	addresses := make([]ucutil.Address, len(c.Addresses))
 	for i := range c.Addresses {
 		// Attempt to decode the supplied address.
-		addr, err := ucutil.DecodeAddress(c.Addresses[i], activeNetParams.Params)
+		addr, err := ucutil.DecodeAddress(c.Addresses[i])
 		if err != nil {
 			return nil, rpcAddressKeyError("Could not decode "+
 				"address: %v", err)
@@ -4812,7 +4812,7 @@ func handleSearchRawTransactions(s *rpcServer, cmd interface{}, closeChan <-chan
 	}
 
 	// Attempt to decode the supplied address.
-	addr, err := ucutil.DecodeAddress(c.Address, activeNetParams.Params)
+	addr, err := ucutil.DecodeAddress(c.Address)
 	if err != nil {
 		return nil, rpcAddressKeyError("Could not decode address: %v",
 			err)
@@ -5716,7 +5716,7 @@ func handleTicketFeeInfo(s *rpcServer, cmd interface{}, closeChan <-chan struct{
 func handleTicketsForAddress(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error) {
 	c := cmd.(*types.TicketsForAddressCmd)
 
-	addr, err := ucutil.DecodeAddress(c.Address, activeNetParams.Params)
+	addr, err := ucutil.DecodeAddress(c.Address)
 	if err != nil {
 		return nil, rpcInvalidError("Invalid address: %v", err)
 	}
@@ -5886,7 +5886,7 @@ func handleTxFeeInfo(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (
 func handleValidateAddress(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error) {
 	c := cmd.(*types.ValidateAddressCmd)
 	result := types.ValidateAddressChainResult{}
-	addr, err := ucutil.DecodeAddress(c.Address, activeNetParams.Params)
+	addr, err := ucutil.DecodeAddress(c.Address)
 	if err != nil || !addr.IsForNet(s.server.chainParams) {
 		// Return the default value (false) for IsValid.
 		return result, nil
@@ -5954,7 +5954,7 @@ func handleVerifyMessage(s *rpcServer, cmd interface{}, closeChan <-chan struct{
 	c := cmd.(*types.VerifyMessageCmd)
 
 	// Decode the provided address.
-	addr, err := ucutil.DecodeAddress(c.Address, activeNetParams.Params)
+	addr, err := ucutil.DecodeAddress(c.Address)
 	if err != nil {
 		return nil, rpcAddressKeyError("Could not decode address: %v",
 			err)

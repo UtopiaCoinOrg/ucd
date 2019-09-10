@@ -7,6 +7,7 @@ package chaincfg
 
 import (
 	"encoding/hex"
+	"errors"
 	"math/big"
 	"time"
 
@@ -591,4 +592,87 @@ func (p *Params) LatestCheckpointHeight() int64 {
 		return 0
 	}
 	return p.Checkpoints[len(p.Checkpoints)-1].Height
+}
+
+var (
+	// ErrDuplicateNet describes an error where the parameters for a Utopiacoin
+	// network could not be set due to the network already being a standard
+	// network or previously-registered into this package.
+	ErrDuplicateNet = errors.New("duplicate Utopiacoin network")
+
+	// ErrUnknownHDKeyID describes an error where the provided id which
+	// is intended to identify the network for a hierarchical deterministic
+	// private extended key is not registered.
+	ErrUnknownHDKeyID = errors.New("unknown hd private extended key bytes")
+
+	// ErrDuplicateNetAddrPrefix describes an error where the parameters for a
+	// Utopiacoin network could not be set due to the network prefix colliding with
+	// a standard or previously-registered network in this package.
+	ErrDuplicateNetAddrPrefix = errors.New("duplicate network address prefix")
+
+	// ErrUnknownNetAddrPrefix describes an error where the provided network
+	// address prefix is not registered.
+	ErrUnknownNetAddrPrefix = errors.New("unknown network address prefix")
+)
+
+var (
+	registeredNets    = make(map[wire.CurrencyNet]struct{})
+	pubKeyAddrIDs     = make(map[[2]byte]struct{})
+	pubKeyHashAddrIDs = make(map[[2]byte]struct{})
+	pkhEdwardsAddrIDs = make(map[[2]byte]struct{})
+	pkhSchnorrAddrIDs = make(map[[2]byte]struct{})
+	scriptHashAddrIDs = make(map[[2]byte]struct{})
+	hdPrivToPubKeyIDs = make(map[[4]byte][]byte)
+	netPrefixToParams = make(map[string]*Params)
+)
+
+// Register registers the network parameters for a Utopiacoin network.  This may
+// error with ErrDuplicateNet if the network is already registered (either
+// due to a previous Register call, or the network being one of the default
+// networks).
+//
+// Network parameters should be registered into this package by a main package
+// as early as possible.  Then, library packages may lookup networks or network
+// parameters based on inputs and work regardless of the network being standard
+// or not.
+func Register(params *Params) error {
+	if _, ok := registeredNets[params.Net]; ok {
+		return ErrDuplicateNet
+	}
+	if _, ok := netPrefixToParams[params.NetworkAddressPrefix]; ok {
+		return ErrDuplicateNetAddrPrefix
+	}
+	registeredNets[params.Net] = struct{}{}
+	pubKeyAddrIDs[params.PubKeyAddrID] = struct{}{}
+	pubKeyHashAddrIDs[params.PubKeyHashAddrID] = struct{}{}
+	scriptHashAddrIDs[params.ScriptHashAddrID] = struct{}{}
+	hdPrivToPubKeyIDs[params.HDPrivateKeyID] = params.HDPublicKeyID[:]
+	netPrefixToParams[params.NetworkAddressPrefix] = params
+	return nil
+}
+
+// mustRegister performs the same function as Register except it panics if there
+// is an error.  This should only be called from package init functions.
+func mustRegister(params *Params) {
+	if err := Register(params); err != nil {
+		panic("failed to register network: " + err.Error())
+	}
+}
+
+// ParamsByNetAddrPrefix the parameters registered for  the provided network
+// address prefix.  An error is returned if the prefix is not registered.
+func ParamsByNetAddrPrefix(prefix string) (*Params, error) {
+	params, ok := netPrefixToParams[prefix]
+	if !ok {
+		return nil, ErrUnknownNetAddrPrefix
+	}
+	return params, nil
+}
+
+func init() {
+	// Register all default networks when the package is initialized.
+	mustRegister(MainNetParams())
+	mustRegister(TestNet3Params())
+	mustRegister(SimNetParams())
+	mustRegister(RegNetParams())
 }
