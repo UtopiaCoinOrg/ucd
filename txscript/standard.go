@@ -82,6 +82,10 @@ type multiSigDetails struct {
 	valid        bool
 }
 
+func ExtractMultisigScriptDetails(scriptVersion uint16, script []byte, extractPubKeys bool) multiSigDetails {
+	return extractMultisigScriptDetails(scriptVersion,script,extractPubKeys)
+}
+
 // extractMultisigScriptDetails attempts to extract details from the passed
 // script if it is a standard multisig script.  The returned details struct will
 // have the valid flag set to false otherwise.

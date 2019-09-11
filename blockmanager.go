@@ -839,7 +839,7 @@ func (b *blockManager) handleFlashTxVoteMsg(msg *flashTxVoteMsg) {
 	version := ticketOutPuts[0].Version
 	pkScript := ticketOutPuts[0].PkScript
 
-	_, addrs, _, err := txscript.ExtractPkScriptAddrs(version,
+	class, addrs, _, err := txscript.ExtractPkScriptAddrs(version,
 		pkScript, b.cfg.ChainParams)
 
 	if err != nil || len(addrs) == 0 {
@@ -849,8 +849,27 @@ func (b *blockManager) handleFlashTxVoteMsg(msg *flashTxVoteMsg) {
 
 	sigMsg := flashTxHash.String() + ticketHash.String()
 
+	var verified bool
+	if class==txscript.MultiSigTy||class == txscript.StakeSubmissionTy{
+
+		_, pkAddrs, _, err := txscript.ExtractPkScriptAddrs(
+			txscript.DefaultScriptVersion, flashTxVote.GetPubKey(), b.cfg.ChainParams)
+		if err!=nil{
+			bmgrLog.Errorf("failed to extractpkscriptaddrs of ticket  %v ,redeemscript %v , err %v" ,
+				ticketHash.String(),flashTxVote.GetPubKey(),err)
+			return
+		}
+		for _,addr:=range pkAddrs{
+			verified, err = ucutil.VerifyMessage(sigMsg, addr, flashTxVote.MsgFlashTxVote().Sig)
+			if verified{
+				break
+			}
+		}
+	}else{
 	//verifymessage
-	verified, err := ucutil.VerifyMessage(sigMsg, addrs[0], flashTxVote.MsgFlashTxVote().Sig)
+		verified, err = ucutil.VerifyMessage(sigMsg, addrs[0], flashTxVote.MsgFlashTxVote().Sig)
+	}
+
 	if !verified {
 		bmgrLog.Errorf("failed  verify signature ,flashvote %v,err: %v", flashTxVote.Hash(), err)
 		return

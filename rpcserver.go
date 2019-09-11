@@ -5251,7 +5251,7 @@ func handleSendFlashTxVote(s *rpcServer, cmd interface{}, closeChan <-chan struc
 	version := ticketOutPuts[0].Version
 	pkScript := ticketOutPuts[0].PkScript
 
-	_, addrs, _, err := txscript.ExtractPkScriptAddrs(version,
+	class, addrs, _, err := txscript.ExtractPkScriptAddrs(version,
 		pkScript, s.server.chainParams)
 
 	if err != nil || len(addrs) == 0 {
@@ -5260,8 +5260,28 @@ func handleSendFlashTxVote(s *rpcServer, cmd interface{}, closeChan <-chan struc
 
 	sigMsg := flashTxHash.String() + ticketHash.String()
 
-	//verifymessage
-	verified, err := ucutil.VerifyMessage(sigMsg, addrs[0], flashTxvote.MsgFlashTxVote().Sig)
+
+	var verified bool
+	if class==txscript.MultiSigTy||class == txscript.StakeSubmissionTy{
+
+		_, pkAddrs, _, err := txscript.ExtractPkScriptAddrs(
+			txscript.DefaultScriptVersion, flashTxvote.GetPubKey(), s.server.chainParams)
+		if err!=nil{
+			return nil, fmt.Errorf("failed to extractpkscriptaddrs of ticket  %v ,redeemscript %v , err %v" ,
+				ticketHash.String(),flashTxvote.GetPubKey(),err)
+		}
+		for _,addr:=range pkAddrs{
+			verified, err = ucutil.VerifyMessage(sigMsg, addr, flashTxvote.MsgFlashTxVote().Sig)
+			if verified{
+				break
+			}
+		}
+	}else{
+		//verifymessage
+		verified, err = ucutil.VerifyMessage(sigMsg, addrs[0], flashTxvote.MsgFlashTxVote().Sig)
+	}
+
+
 	if !verified {
 		return nil, fmt.Errorf("failed to verify signature ,flashvote %v , err %v", flashTxvote.Hash(), err)
 	}
