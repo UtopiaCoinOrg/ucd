@@ -1813,9 +1813,10 @@ mempoolLoop:
 		}
 
 		if stake.IsSSGen(tx.MsgTx()) && totalFlashFees > 0  && int64(nextBlockHeight) >= ucutil.ActiveNet.StakeEnabledHeight{
+			length := len(tx.MsgTx().TxOut)
 			_, addrs, _, _ :=
 				txscript.ExtractPkScriptAddrs(txscript.DefaultScriptVersion,
-					tx.MsgTx().TxOut[2].PkScript, ucutil.ActiveNet)
+					tx.MsgTx().TxOut[length - 1].PkScript, ucutil.ActiveNet)
 			if len(addrs) > 0{
 				SSGenAddrs = append(SSGenAddrs, addrs[0])
 			}
