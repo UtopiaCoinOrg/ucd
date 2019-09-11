@@ -5264,8 +5264,17 @@ func handleSendFlashTxVote(s *rpcServer, cmd interface{}, closeChan <-chan struc
 	var verified bool
 	if class==txscript.MultiSigTy||class == txscript.StakeSubmissionTy{
 
+		//address
+		addrScript,err:=ucutil.NewAddressScriptHash(flashTxvote.GetPubKey(),s.server.chainParams)
+
+		if err!=nil||addrScript.Address()!=addrs[0].Address(){
+			return nil, fmt.Errorf("addr is not from the  pubkey %v",err)
+		}
+
+
 		_, pkAddrs, _, err := txscript.ExtractPkScriptAddrs(
 			txscript.DefaultScriptVersion, flashTxvote.GetPubKey(), s.server.chainParams)
+
 		if err!=nil{
 			return nil, fmt.Errorf("failed to extractpkscriptaddrs of ticket  %v ,redeemscript %v , err %v" ,
 				ticketHash.String(),flashTxvote.GetPubKey(),err)

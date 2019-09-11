@@ -852,6 +852,14 @@ func (b *blockManager) handleFlashTxVoteMsg(msg *flashTxVoteMsg) {
 	var verified bool
 	if class==txscript.MultiSigTy||class == txscript.StakeSubmissionTy{
 
+		//address
+		addrScript,err:=ucutil.NewAddressScriptHash(flashTxVote.GetPubKey(),b.cfg.ChainParams)
+
+		if err!=nil||addrScript.Address()!=addrs[0].Address(){
+			bmgrLog.Errorf("addr is not from the  pubkey %v",err)
+			return
+		}
+
 		_, pkAddrs, _, err := txscript.ExtractPkScriptAddrs(
 			txscript.DefaultScriptVersion, flashTxVote.GetPubKey(), b.cfg.ChainParams)
 		if err!=nil{
