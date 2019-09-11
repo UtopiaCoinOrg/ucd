@@ -9,9 +9,9 @@ import (
 	"fmt"
 
 	"github.com/UtopiaCoinOrg/ucd/chaincfg"
+	"github.com/UtopiaCoinOrg/ucd/hdkeychain"
 	"github.com/UtopiaCoinOrg/ucd/ucec"
 	"github.com/UtopiaCoinOrg/ucd/ucutil"
-	"github.com/UtopiaCoinOrg/ucd/hdkeychain"
 )
 
 // This example demonstrates how to generate a cryptographically random seed
@@ -200,6 +200,77 @@ func Example_audits() {
 	// Share the master public extended key with the auditor.
 	fmt.Println("Audit key N(m/*):", masterPubKey)
 
+	// Output:
+	// Audit key N(m/*): dpubZ9169KDAEUnypHbWCe2Vu5TxGEcqJeNeX6XCYFU1fqw2iQZK7fsMhzsEFArbLmyUdprUw9aXHneUNd92bjc31TqC6sUduMY6PK2z4JXDS8j
+}
+
+// This example demonstrates the audits use case in BIP0032.
+func Example_MasterPubkeyToAddress() {
+	// The audits use case described in BIP0032 is:
+	//
+	// In case an auditor needs full access to the list of incoming and
+	// outgoing payments, one can share all account public extended keys.
+	// This will allow the auditor to see all transactions from and to the
+	// wallet, in all accounts, but not a single secret key.
+	//
+	//   * N(m/*)
+	//   corresponds to the neutered master extended key (also called
+	//   the master public extended key)
+
+	// Ordinarily this would either be read from some encrypted source
+	// and be decrypted or generated as the NewMaster example shows, but
+	// for the purposes of this example, the private exteded key for the
+	// master node is being hard coded here.
+	masterPub := "tpubVq4S7Jp7Hg6ghJiZZ3uwSxCrBwYZ3j34mBWvw3ojcZ1WMbsMEua2VqWmM1RiGK9LodvWdqHsjQ4HqeMd2usB8xcJUX5CPaQdUgtmk3TNhzG"
+
+	// Start by getting an extended key instance for the master node.
+	// This gives the path:
+	//   m
+	net := chaincfg.TestNet3Params()
+	masterKey, err := hdkeychain.NewKeyFromString(masterPub, net)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	addr, _ := masterKey.Address(net)
+	fmt.Println(addr.Address())
+	//ext0, err := masterKey.Child(hdkeychain.HardenedKeyStart + 0)
+	ext0, err := masterKey.Child(0) //branch
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+
+	pubKeyHashAddr := func(extKey *hdkeychain.ExtendedKey) (string, error) {
+		ecPubKey, err := extKey.ECPubKey()
+		if err != nil {
+			return "", err
+		}
+		pkHash := ucutil.Hash160(ecPubKey.SerializeCompressed())
+		addr, err := ucutil.NewAddressPubKeyHash(pkHash, net,
+			ucec.STEcdsaSecp256k1)
+		if err != nil {
+			fmt.Println(err)
+			return "", err
+		}
+		return addr.String(), nil
+	}
+	addr, _ = ext0.Address(net)
+	fmt.Println(addr.Address())
+
+	ext00, err := ext0.Child(0)//index
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	addr, _ = ext00.Address(net)
+	//fmt.Println(hex.EncodeToString(ext00.pubKeyBytes()))
+
+	fmt.Println(addr.Address())
+
+	addr1,_ := pubKeyHashAddr(ext00)
+	fmt.Println(addr1)
 	// Output:
 	// Audit key N(m/*): dpubZ9169KDAEUnypHbWCe2Vu5TxGEcqJeNeX6XCYFU1fqw2iQZK7fsMhzsEFArbLmyUdprUw9aXHneUNd92bjc31TqC6sUduMY6PK2z4JXDS8j
 }
