@@ -17,7 +17,8 @@ import (
 func MainNetParams() *Params {
 	// mainPowLimit is the highest proof of work value a Utopia block can have
 	// for the main network.  It is the value 2^224 - 1.
-	mainPowLimit := new(big.Int).Sub(new(big.Int).Lsh(bigOne, 224), bigOne)
+	//mainPowLimit := new(big.Int).Sub(new(big.Int).Lsh(bigOne, 224), bigOne)
+	mainPowLimit := new(big.Int).Sub(new(big.Int).Lsh(bigOne, 236), bigOne) //test uc
 
 	// genesisBlock defines the genesis block of the block chain which serves as
 	// the public transaction ledger for the main network.
@@ -39,8 +40,12 @@ func MainNetParams() *Params {
 			PrevBlock: chainhash.Hash{}, // All zero.
 			// MerkleRoot: Calculated below.
 			StakeRoot:    chainhash.Hash{},
-			Timestamp:    time.Unix(1496275201, 0), // 2017-06-01 0:0:01 GMT
+/*			Timestamp:    time.Unix(1496275201, 0), // 2017-06-01 0:0:01 GMT
 			Bits:         0x1b01ffff,               // Difficulty 32767
+*/
+			Timestamp:    time.Unix(1533513600, 0), // 2018-08-06 00:00:00 +0000 UTC  //test uc
+			Bits:         0x1e0fffff,               // Difficulty 1 [00000fffff000000000000000000000000000000000000000000000000000000]  //test uc
+
 			SBits:        500 * 1e8,                  // 500 Coin
 			Nonce:        0x00000000,
 			StakeVersion: 0,
@@ -91,7 +96,8 @@ func MainNetParams() *Params {
 		GenesisBlock:             &genesisBlock,
 		GenesisHash:              genesisBlock.BlockHash(),
 		PowLimit:                 mainPowLimit,
-		PowLimitBits:             0x1d00ffff,
+		//PowLimitBits:             0x1d00ffff,
+		PowLimitBits:             0x1e0fffff, //test uc
 		ReduceMinDifficulty:      false,
 		MinDiffReductionTime:     0, // Does not apply since ReduceMinDifficulty false
 		GenerateSupported:        false,
