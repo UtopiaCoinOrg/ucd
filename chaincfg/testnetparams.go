@@ -73,6 +73,9 @@ func TestNet3Params() *Params {
 		Net:         wire.TestNet3,
 		DefaultPort: "11508",
 		DNSSeeds: []DNSSeed{
+			{"testnetseed.utopiacoin.org", true},
+			{"testnetseed1.utopiacoin.org", true},
+			{"testnetseed2.utopiacoin.org", true},
 //			{"testnet-seed.utopia.mindcry.org", true},
 //			{"testnet-seed.utopia.netpurgatory.com", true},
 //			{"testnet-seed.utopia.org", true},
