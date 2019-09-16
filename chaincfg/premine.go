@@ -9,19 +9,19 @@ package chaincfg
 // network.
 
 var BlockOneLedgerMainNet = []*TokenPayout{
-	{"UCMiFJAa1aQ3r6RyTpZjWyL2RSdmRCgrNaa", 5000000 * 1e8},
-	{"UCXa1L4rmMThrX1wvna45dpvAxSprVJosuC", 5000000 * 1e8},
-	{"UCTrSQHeJXtwhzPXzUTBLXmaghcCvGYs24U", 5000000 * 1e8},
-	{"UCWvLSvNSoviCsniynZ5dLqHD4c6uXP8D1J", 5000000 * 1e8},
-	{"UCdq8HUMpmP8K5h5qqHBUGcYQNW4hSTy2DH", 5000000 * 1e8},
-	{"UCPpXiCDhhBNhqN8rTLxg8MnD2Rm4q776mN", 5000000 * 1e8},
-	{"UCc5SK87FAKHryfZ4Z7UimLZbHxLUmbvTxi", 5000000 * 1e8},
-	{"UCSdJp6Rr2rYBdLNtEoqFPLW3oRYKWDtyZG", 5000000 * 1e8},
-	{"UCdRCS1JzGb2yJvmYEgKbLemeNnvTzKfg7q", 500000 * 1e8},
-	{"UCZJcB23f6G6ohEBhvtbYfcMvNqvc2QUwrr", 500000 * 1e8},
-	{"UCe7PCoYHwbLPHqoKEAa57N2HcT3bQMdtNp", 500000 * 1e8},
-	{"UCVEpxhbwSqoyaQusBGjMn39PYMrLToX9fN", 500000 * 1e8},
-	{"UCVEpxhbwSqoyaQusBGjMn39PYMrLToX9fN", 958 * 1e14},
+	{"UCLf91Euh2a9baoeCyoAmuRnYXLbczGbShy", 5000000 * 1e8},
+	{"UCQGvbm7ghGuY1UCnbXC35vgRL1HD5RdUSG", 5000000 * 1e8},
+	{"UCem9jrdHQ7fniFptdeP3dYQMQSxRetssCz", 5000000 * 1e8},
+	{"UCNnwds81m9CtCcMRrL8mkNZrPRXEXTH8jc", 5000000 * 1e8},
+	{"UCVt6qiQ34VyrAQ6n6rDGb68phT9e2MahyP", 5000000 * 1e8},
+	{"UCdjU6mEgiC55A2ZPBVC18uzcRwrWs6Sjeo", 5000000 * 1e8},
+	{"UCjBYf4djWSgyiqPnFnoQMRL44hRRASmyEk", 5000000 * 1e8},
+	{"UCVvv4a8DvEdEYPQVtmhpEvdTCxCGHr87Km", 5000000 * 1e8},
+	{"UCT4zACLxUmk6uXhmEYaPoVMLrVQWBM5Hdu", 500000 * 1e8},
+	{"UCRyfGoG45n3LE8TytYHqYxYsXzMdyYEHec", 500000 * 1e8},
+	{"UCTPBVxSwSys1KE9y8mMD6adfHQ854cke59", 500000 * 1e8},
+	{"UCXyfQk4AAsR88TChE1F7vAoq9msiPZE7Nm", 500000 * 1e8},
+	{"UCQvTHi2tNgeCs9GP47HCEZJrPMCvzHvaZE", 958 * 1e14},
 }
 
 // BlockOneLedgerTestNet3 is the block one output ledger for testnet version 3.
