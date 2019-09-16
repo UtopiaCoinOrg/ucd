@@ -320,8 +320,8 @@ func MainNetParams() *Params {
 		StakeMajorityDivisor:    4,
 
 		// Utopia organization related parameters
-		// Organization address is Dcur2mcGjmENx4DhNqDctW5wJCVyT3Qeqkx
-		OrganizationPkScript:        hexDecode("a914f5916158e3e2c4551c1796708db8367207ed13bb87"),
+		// Organization address is UCLf91Euh2a9baoeCyoAmuRnYXLbczGbShy
+		OrganizationPkScript:        hexDecode("76a9140841d124308f30da1e2a6f97f60d1d83ab7e9a4888ac"),
 		OrganizationPkScriptVersion: 0,
 		BlockOneLedger:              BlockOneLedgerMainNet,
 	}
