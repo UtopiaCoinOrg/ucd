@@ -1,7 +1,7 @@
 #include "x17r.h"
 #include <string.h>
 #include <windows.h>
-#include <stdint.h>
+
 
 int main()
 {

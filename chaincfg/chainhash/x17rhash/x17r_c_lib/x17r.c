@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #include "sph_blake.h"
 #include "sph_bmw.h"
@@ -44,24 +45,21 @@ enum Algo {
 	SHABAL,
 	WHIRLPOOL,
 	SHA512,
-  HAVAL,//
 	HASH_FUNC_COUNT
 };
 
 static void getAlgoString(const uint8_t* prevblock, char *output)
 {
 	char *sptr = output;
-	for (int j = 0; j < HASH_FUNC_COUNT; j++) {
-		//uint8_t b = (16 - j) >> 1; // 16 first ascii hex chars (lsb in uint256)
-		//printf ("the prevblock is %d\n",prevblock[j]);
-		//uint8_t algoDigit = (j & 1) ? (prevblock[b] & 0xF) : prevblock[b] >> 4;//
-		uint8_t algoDigit = prevblock[j] % HASH_FUNC_COUNT;
+	uint8_t* data = (uint8_t*)prevblock;
 
-		//printf ("the algoDigit is %d\n",algoDigit);
+	for (int j = 0; j < HASH_FUNC_COUNT; j++) {
+		uint8_t b = (15 - j) >> 1; // 16 ascii hex chars, reversed
+		uint8_t algoDigit = (j & 1) ? data[b] & 0xF : data[b] >> 4;
 		if (algoDigit >= 10)
 			sprintf(sptr, "%c", 'A' + (algoDigit - 10));
 		else
-			sprintf(sptr, "%u", (uint32_t) algoDigit);
+			sprintf(sptr, "%u", (uint32_t)algoDigit);
 		sptr++;
 	}
 	*sptr = '\0';
@@ -91,7 +89,7 @@ void x17r_hash(void* output, const void* input, const int in_len)
 	sph_shabal512_context    ctx_shabal1;
 	sph_whirlpool_context    ctx_whirlpool1;
 	sph_sha512_context       ctx_sha512;
-    sph_haval256_5_context   ctx_haval;//
+  //sph_haval256_5_context   ctx_haval;//
 
 	void *in = (void*) input;
 	int size = in_len;
@@ -101,11 +99,11 @@ void x17r_hash(void* output, const void* input, const int in_len)
 		getAlgoString(&in8[4], hashOrder);
 	}
 
-	for (int i = 0; i < 17; i++)//
+	for (int i = 0; i < 16; i++)//
 	{
 		const char elem = hashOrder[i];
 		const uint8_t algo = elem >= 'A' ? elem - 'A' + 10 : elem - '0';
-		//printf ("the algo is %d\n",algo);
+
 		switch (algo) {
 		case BLAKE:
 			sph_blake512_init(&ctx_blake);
@@ -187,12 +185,6 @@ void x17r_hash(void* output, const void* input, const int in_len)
 			sph_sha512(&ctx_sha512,(const void*) in, size);
 			sph_sha512_close(&ctx_sha512,(void*) hash);
 			break;
-    case HAVAL:
-			sph_haval256_5_init(&ctx_haval);
-			sph_haval256_5(&ctx_haval, (const void*)in, size);
-			sph_haval256_5_close(&ctx_haval, hash);
-			memset(hash+8,0x00000000,32);
-      break;
 		}
 		in = (void*) hash;
 		size = 64;
