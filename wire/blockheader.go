@@ -96,7 +96,11 @@ func (h *BlockHeader) BlockHash() chainhash.Hash {
 	buf := bytes.NewBuffer(make([]byte, 0, MaxBlockHeaderPayload))
 	_ = writeBlockHeader(buf, 0, h)
 
-	return chainhash.HashHx17(buf.Bytes())
+	temBuf := buf.Bytes()
+	hash := chainhash.HashH(temBuf[:100])
+	copy(temBuf[144:176], hash[:])
+
+	return chainhash.HashHx17(temBuf[100:])
 }
 
 // BtcDecode decodes r using the bitcoin protocol encoding into the receiver.
@@ -193,7 +197,7 @@ func readBlockHeader(r io.Reader, pver uint32, bh *BlockHeader) error {
 		&bh.StakeRoot, &bh.VoteBits, &bh.FinalState, &bh.Voters,
 		&bh.FreshStake, &bh.Revocations, &bh.PoolSize, &bh.Bits,
 		&bh.SBits, &bh.Height, &bh.Size, (*uint32Time)(&bh.Timestamp),
-		&bh.Nonce, &bh.ExtraData, &bh.StakeVersion)
+		&bh.StakeVersion, &bh.ExtraData, &bh.Nonce)
 }
 
 // writeBlockHeader writes a Utopia block header to w.  See Serialize for
@@ -204,6 +208,6 @@ func writeBlockHeader(w io.Writer, pver uint32, bh *BlockHeader) error {
 	return writeElements(w, bh.Version, &bh.PrevBlock, &bh.MerkleRoot,
 		&bh.StakeRoot, bh.VoteBits, bh.FinalState, bh.Voters,
 		bh.FreshStake, bh.Revocations, bh.PoolSize, bh.Bits, bh.SBits,
-		bh.Height, bh.Size, sec, bh.Nonce, bh.ExtraData,
-		bh.StakeVersion)
+		bh.Height, bh.Size, sec, bh.StakeVersion, bh.ExtraData,
+		bh.Nonce)
 }
