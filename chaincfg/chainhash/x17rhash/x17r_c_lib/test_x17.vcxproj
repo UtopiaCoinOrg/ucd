@@ -44,7 +44,7 @@
     <ClCompile Include="sph_sha2.c" />
     <ClCompile Include="streebog.c" />
     <ClCompile Include="whirlpool.c" />
-    <ClCompile Include="x16r.c" />
+    <ClCompile Include="x17r.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blake2b.h" />
@@ -70,8 +70,7 @@
     <ClInclude Include="sph_streebog.h" />
     <ClInclude Include="sph_types.h" />
     <ClInclude Include="sph_whirlpool.h" />
-    <ClInclude Include="unistd.h" />
-    <ClInclude Include="x16r.h" />
+    <ClInclude Include="x17r.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

@@ -1,6 +1,6 @@
 ﻿
 #include <windows.h>
-//#include "x16r.h"
+//#include "x17r.h"
 #include <stdint.h>
 
 void HexStrToByte(const char* source, unsigned char* dest, int sourceLen);
@@ -22,7 +22,7 @@ int main()
 		uint32_t input[20] = {65537, 0,0,0,0,504365055, 658067456, 1164, 730,4133696795,
 			2753075618, 2994799119, 1224175243, 2551598650, 3925753936, 3045750475, 2410842596, 1570783376, 0, 163491};
 	
-		x16r_hash(buf, &input, 80);
+		x17r_hash(buf, &input, 80);
 
 		for (int j = 0; j < 32; j++)
 		{

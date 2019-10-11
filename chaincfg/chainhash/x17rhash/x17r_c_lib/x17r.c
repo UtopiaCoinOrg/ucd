@@ -1,5 +1,5 @@
 ﻿/**
- * X16R algorithm (X16 with Randomized chain order)
+ * X17R algorithm (X17 with Randomized chain order)
  *
  * tpruvot 2018 - GPL code
  */
@@ -73,7 +73,7 @@ static const char* algo_strings[] = {
 
 static __thread char hashOrder[HASH_FUNC_COUNT + 1] = { 0 };
 
-void x16r_hash_impl(void *output, const void *input);
+void x17r_hash_impl(void *output, const void *input);
 
 static void be32enc(void *pp, uint32_t x)
 {
@@ -102,7 +102,7 @@ static void getAlgoString(const uint32_t* prevblock, char *output)
 }
 
 #define test 70
-void x16r_hash(void* output, void* input, const int in_len)
+void x17r_hash(void* output, void* input, const int in_len)
 {
 
 	//unsigned char *pdata = input;
@@ -129,7 +129,7 @@ void x16r_hash(void* output, void* input, const int in_len)
 		be32enc(&endiandata[k], pdata[k]);
 
 	uint32_t _ALIGN(64) vhash[8];
-	x16r_hash_impl(vhash, endiandata);
+	x17r_hash_impl(vhash, endiandata);
 	if (output)
 	{
 		memcpy(output, &vhash, 32);
@@ -138,7 +138,7 @@ void x16r_hash(void* output, void* input, const int in_len)
 }
 
 //uint32_t s_ntime = UINT32_MAX;
-void x16r_hash_impl(void *output, const void *input)
+void x17r_hash_impl(void *output, const void *input)
 {
 	unsigned char _ALIGN(64) hash[128];
 
