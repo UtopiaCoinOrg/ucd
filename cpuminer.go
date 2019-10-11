@@ -341,10 +341,10 @@ out:
 		// at least one other peer since there is no way to relay a found
 		// block or receive transactions to work on when there are no
 		// connected peers.
-		if !m.cfg.PermitConnectionlessMining && m.cfg.ConnectedCount() == 0 {
+/*		if !m.cfg.PermitConnectionlessMining && m.cfg.ConnectedCount() == 0 {
 			time.Sleep(time.Second)
 			continue
-		}
+		}*/
 
 		// No point in searching for a solution before the chain is
 		// synced.  Also, grab the same lock as used for block
@@ -382,7 +382,7 @@ out:
 
 		// This prevents you from causing memory exhaustion issues
 		// when mining aggressively in a simulation network.
-		if m.cfg.PermitConnectionlessMining {
+/*		if m.cfg.PermitConnectionlessMining {
 			if m.minedOnParents[template.Block.Header.PrevBlock] >=
 				maxSimnetToMine {
 				minrLog.Tracef("too many blocks mined on parent, stopping " +
@@ -390,7 +390,7 @@ out:
 					"block")
 				continue
 			}
-		}
+		}*/
 
 		// Attempt to solve the block.  The function will exit early
 		// with false when conditions that trigger a stale block, so

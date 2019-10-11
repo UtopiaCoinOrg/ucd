@@ -251,7 +251,7 @@ sph_ripemd_init(void *cc)
 {
 	sph_ripemd_context *sc;
 
-	sc = (sph_ripemd_context*)cc;
+	sc = cc;
 	memcpy(sc->val, oIV, sizeof sc->val);
 #if SPH_64
 	sc->count = 0;
@@ -505,7 +505,7 @@ sph_ripemd128_init(void *cc)
 {
 	sph_ripemd128_context *sc;
 
-	sc = (sph_ripemd128_context*)cc;
+	sc = cc;
 	memcpy(sc->val, IV, sizeof sc->val);
 #if SPH_64
 	sc->count = 0;
@@ -798,7 +798,7 @@ sph_ripemd160_init(void *cc)
 {
 	sph_ripemd160_context *sc;
 
-	sc = (sph_ripemd160_context*)cc;
+	sc = cc;
 	memcpy(sc->val, IV, sizeof sc->val);
 #if SPH_64
 	sc->count = 0;
@@ -831,4 +831,3 @@ sph_ripemd160_comp(const sph_u32 msg[16], sph_u32 val[5])
 	RIPEMD160_ROUND_BODY(RIPEMD160_IN, val);
 #undef RIPEMD160_IN
 }
-

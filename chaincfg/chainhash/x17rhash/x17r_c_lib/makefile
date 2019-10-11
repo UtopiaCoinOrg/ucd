@@ -1,18 +1,18 @@
-SRCS =aes_helper.c gost_streebog.c mod_blakecoin.c sph_blake.c sph_bmw.c sph_cubehash.c sph_echo.c sph_fugue.c sph_groestl.c sph_hamsi_helper.c sph_hamsi.c sph_haval.c sph_hefty1.c sph_jh.c sph_keccak.c sph_luffa.c sph_ripemd.c sph_sha2.c sph_sha2big.c sph_shabal.c sph_shavite.c sph_simd.c sph_skein.c sph_whirlpool.c x17r.c
+SRCS =aes_helper.c blake.c blake2b.c blake2s.c bmw.c cubehash.c echo.c fugue.c groestl.c hamsi.c hamsi_helper.c haval.c jh.c keccak.c luffa.c ripemd.c sha2big.c shabal.c shavite.c simd.c skein.c sph_sha2.c streebog.c whirlpool.c x16r.c
 #OBJS = $(SRCS:.c= .o)
-OBJS = aes_helper.o gost_streebog.o mod_blakecoin.o sph_blake.o sph_bmw.o sph_cubehash.o sph_echo.o sph_fugue.o sph_groestl.o sph_hamsi_helper.o sph_hamsi.o sph_haval.o sph_hefty1.o sph_jh.o sph_keccak.o sph_luffa.o sph_ripemd.o sph_sha2.o sph_sha2big.o sph_shabal.o sph_shavite.o sph_simd.o sph_skein.o sph_whirlpool.o x17r.o
+OBJS = aes_helper.o blake.o blake2b.o blake2s.o bmw.o cubehash.o echo.o fugue.o groestl.o hamsi.o hamsi_helper.o haval.o jh.o keccak.o luffa.o ripemd.o sha2big.o shabal.o shavite.o simd.o skein.o sph_sha2.o streebog.o whirlpool.o x16r.o
 
 CC = gcc
 #CC = arm-linux-gcc #for android
 CCFLAGS =
 
 a : $(OBJS)
-	ar -rv libx17r.a  $(OBJS)
+	ar -rv libx16r.a  $(OBJS)
 
 %.o : %.c
 	$(CC) -c $< $(CCFLAGS)
 
 clean:
 	rm -rf test *.o
-	rm -rf libx17r.a
+	rm -rf libx16r.a
 	rm -rf *.exe

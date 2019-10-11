@@ -5,6 +5,7 @@
 package chainhash
 
 import (
+	"encoding/hex"
 	"fmt"
 	"testing"
 )
@@ -76,6 +77,7 @@ func TestHashH(t *testing.T) {
 // TestHashFunc ensure HashFunc returns the correct hashed bytes for given
 // bytes
 func TestHashFunc(t *testing.T) {
+
 	for _, test := range hashTests {
 		h := fmt.Sprintf("%x", HashFunc([]byte(test.in)))
 		if h != test.out {
@@ -83,4 +85,12 @@ func TestHashFunc(t *testing.T) {
 			continue
 		}
 	}
+}
+
+func TestHashX17r(t *testing.T) {
+
+	str := "0100010000000000000000000000000000000000ffff0f1e005039278c040000da020000ef9277b410ca330a86407ef8b0f3d429f80bfd293930874f0e4f224027f4e82b2f33a05d0000000000000000"
+	b, _ := hex.DecodeString(str)
+	ret := HashHx17(b);
+	fmt.Println(ret);
 }

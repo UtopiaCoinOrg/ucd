@@ -35,6 +35,10 @@
 
 #include "sph_sha2.h"
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 #if SPH_64
 
 #define CH(X, Y, Z)    ((((Y) ^ (Z)) & (X)) ^ (Z))
@@ -134,6 +138,7 @@ static const sph_u64 H512[8] = {
  \
  		for (i = 0; i < 16; i ++) \
 			W[i] = in(i); \
+			\
 		for (i = 16; i < 80; i ++) \
  			W[i] = SPH_T64(SSG5_1(W[i - 2]) + W[i - 7] \
 				+ SSG5_0(W[i - 15]) + W[i - 16]); \
@@ -245,3 +250,7 @@ sph_sha384_comp(const sph_u64 msg[16], sph_u64 val[8])
 }
 
 #endif
+#ifdef __cplusplus
+}
+#endif
+

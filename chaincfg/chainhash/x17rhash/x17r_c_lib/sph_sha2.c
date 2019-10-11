@@ -5,7 +5,7 @@
  * ==========================(LICENSE BEGIN)============================
  *
  * Copyright (c) 2007-2010  Projet RNRT SAPHIR
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -13,10 +13,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -197,8 +197,9 @@ static const sph_u32 K[64] = {
 		sph_u32 A, B, C, D, E, F, G, H, T1, T2; \
 		sph_u32 W00, W01, W02, W03, W04, W05, W06, W07; \
 		sph_u32 W08, W09, W10, W11, W12, W13, W14, W15; \
+		int i; \
  \
-		A = (r)[0]; \
+ 		A = (r)[0]; \
 		B = (r)[1]; \
 		C = (r)[2]; \
 		D = (r)[3]; \

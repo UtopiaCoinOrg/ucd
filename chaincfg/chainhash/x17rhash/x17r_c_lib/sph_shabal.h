@@ -36,11 +36,12 @@
 #ifndef SPH_SHABAL_H__
 #define SPH_SHABAL_H__
 
-#include <stddef.h>
-#include "sph_types.h"
 #ifdef __cplusplus
 extern "C"{
 #endif
+
+#include <stddef.h>
+#include "sph_types.h"
 
 /**
  * Output size (in bits) for Shabal-192.

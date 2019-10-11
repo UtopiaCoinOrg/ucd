@@ -15,69 +15,93 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="x17r.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_blake.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_bmw.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_groestl.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_jh.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_keccak.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_luffa.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_cubehash.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_shavite.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_simd.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_echo.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_hamsi.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_fugue.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_shabal.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_whirlpool.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_sha2big.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_skein.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sph_haval.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="main.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="x16r.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="aes_helper.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="blake.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="blake2b.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="blake2s.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bmw.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cubehash.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="echo.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fugue.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="groestl.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="hamsi.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="hamsi_helper.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="haval.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="jh.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="keccak.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="luffa.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ripemd.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sha2big.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shabal.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shavite.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="simd.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="skein.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sph_sha2.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="streebog.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="whirlpool.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="x17r.h">
+    <ClInclude Include="blake2b.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="gost_streebog.h">
+    <ClInclude Include="blake2s.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="compat.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sph_blake.h">
@@ -102,9 +126,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sph_haval.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sph_hefty1.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sph_jh.h">
@@ -134,11 +155,23 @@
     <ClInclude Include="sph_skein.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sph_streebog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="sph_types.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sph_whirlpool.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="unistd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="x16r.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
   </ItemGroup>
 </Project>

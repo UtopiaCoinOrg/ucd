@@ -1,11 +1,11 @@
-/* GOST-R Streebog hash function for sib algo SibCoin */
+/* Streebog GOST hash function for sib algo SibCoin */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
 #include <math.h>
 
-#include "gost_streebog.h"
+#include "sph_streebog.h"
 
 #ifdef __cplusplus
 extern "C"{
@@ -18,7 +18,7 @@ extern "C"{
 
 //--------------------------------------------------------------------------------------------
 //
-// streebog implementation
+// Streebog 512 implementation
 //
 //--------------------------------------------------------------------------------------------
 
@@ -978,43 +978,65 @@ static void hash_256(const unsigned char *message, unsigned long long length, un
 }
 
 
-/* exported functions, to rename (streebog) */
 
 
-void sph_gost256_init(void *cc)
+
+/* see sph_gost.h */
+void
+sph_gost256_init(void *cc)
 {
+	//gost_init(cc, 256);
 }
 
-void sph_gost256(void *cc, const void *data, size_t len)
+/* see sph_gost.h */
+void
+sph_gost256(void *cc, const void *data, size_t len)
 {
 	hash_256(data, 8*len, cc);
 }
 
-void sph_gost256_close(void *cc, void *dst)
+/* see sph_gost.h */
+void
+sph_gost256_close(void *cc, void *dst)
 {
+	//sph_gost256_addbits_and_close(cc, 0, 0, dst);
 	memcpy(dst, cc, 32);
 }
 
-void sph_gost256_addbits_and_close(void *cc, unsigned ub, unsigned n, void *dst)
+/* see sph_gost.h */
+void
+sph_gost256_addbits_and_close(void *cc, unsigned ub, unsigned n, void *dst)
 {
+	//gost_close32(cc, ub, n, dst);
 }
 
-void sph_gost512_init(void *cc)
+/* see sph_gost.h */
+void
+sph_gost512_init(void *cc)
 {
+	//gost_init(cc, 512);
 }
 
-void sph_gost512(void *cc, const void *data, size_t len)
+/* see sph_gost.h */
+void
+sph_gost512(void *cc, const void *data, size_t len)
 {
 	hash_512(data, 8*len, cc);
 }
 
-void sph_gost512_close(void *cc, void *dst)
+/* see sph_gost.h */
+void
+sph_gost512_close(void *cc, void *dst)
 {
+	//sph_gost512_addbits_and_close(cc, 0, 0, dst);
 	memcpy(dst, cc, 64);
 }
 
-void sph_gost512_addbits_and_close(void *cc, unsigned ub, unsigned n, void *dst)
+/* see sph_gost.h */
+void
+sph_gost512_addbits_and_close(void *cc, unsigned ub, unsigned n, void *dst)
 {
+	//gost_close64(cc, ub, n, dst);
 }
 
 

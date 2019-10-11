@@ -18,6 +18,64 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="aes_helper.c" />
+    <ClCompile Include="blake.c" />
+    <ClCompile Include="blake2b.c" />
+    <ClCompile Include="blake2s.c" />
+    <ClCompile Include="bmw.c" />
+    <ClCompile Include="cubehash.c" />
+    <ClCompile Include="echo.c" />
+    <ClCompile Include="fugue.c" />
+    <ClCompile Include="groestl.c" />
+    <ClCompile Include="hamsi.c" />
+    <ClCompile Include="hamsi_helper.c" />
+    <ClCompile Include="haval.c" />
+    <ClCompile Include="jh.c" />
+    <ClCompile Include="keccak.c" />
+    <ClCompile Include="luffa.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="ripemd.c" />
+    <ClCompile Include="sha2big.c" />
+    <ClCompile Include="shabal.c" />
+    <ClCompile Include="shavite.c" />
+    <ClCompile Include="simd.c" />
+    <ClCompile Include="skein.c" />
+    <ClCompile Include="sph_sha2.c" />
+    <ClCompile Include="streebog.c" />
+    <ClCompile Include="whirlpool.c" />
+    <ClCompile Include="x16r.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="blake2b.h" />
+    <ClInclude Include="blake2s.h" />
+    <ClInclude Include="compat.h" />
+    <ClInclude Include="sph_blake.h" />
+    <ClInclude Include="sph_bmw.h" />
+    <ClInclude Include="sph_cubehash.h" />
+    <ClInclude Include="sph_echo.h" />
+    <ClInclude Include="sph_fugue.h" />
+    <ClInclude Include="sph_groestl.h" />
+    <ClInclude Include="sph_hamsi.h" />
+    <ClInclude Include="sph_haval.h" />
+    <ClInclude Include="sph_jh.h" />
+    <ClInclude Include="sph_keccak.h" />
+    <ClInclude Include="sph_luffa.h" />
+    <ClInclude Include="sph_ripemd.h" />
+    <ClInclude Include="sph_sha2.h" />
+    <ClInclude Include="sph_shabal.h" />
+    <ClInclude Include="sph_shavite.h" />
+    <ClInclude Include="sph_simd.h" />
+    <ClInclude Include="sph_skein.h" />
+    <ClInclude Include="sph_streebog.h" />
+    <ClInclude Include="sph_types.h" />
+    <ClInclude Include="sph_whirlpool.h" />
+    <ClInclude Include="unistd.h" />
+    <ClInclude Include="x16r.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5815CBFF-878E-45DB-A113-F01BAE411C33}</ProjectGuid>
     <RootNamespace>test_x17</RootNamespace>
@@ -82,7 +140,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;CURL_STATICLIB;USE_WRAPNVML;SCRYPT_KECCAK512;SCRYPT_CHACHA;SCRYPT_CHOOSE_COMPILETIME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -118,51 +178,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.c" />
-    <ClCompile Include="sph_blake.c" />
-    <ClCompile Include="sph_bmw.c" />
-    <ClCompile Include="sph_cubehash.c" />
-    <ClCompile Include="sph_echo.c" />
-    <ClCompile Include="sph_fugue.c" />
-    <ClCompile Include="sph_groestl.c" />
-    <ClCompile Include="sph_hamsi.c" />
-    <ClCompile Include="sph_haval.c" />
-    <ClCompile Include="sph_jh.c" />
-    <ClCompile Include="sph_keccak.c" />
-    <ClCompile Include="sph_luffa.c" />
-    <ClCompile Include="sph_sha2big.c" />
-    <ClCompile Include="sph_shabal.c" />
-    <ClCompile Include="sph_shavite.c" />
-    <ClCompile Include="sph_simd.c" />
-    <ClCompile Include="sph_skein.c" />
-    <ClCompile Include="sph_whirlpool.c" />
-    <ClCompile Include="x17r.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="gost_streebog.h" />
-    <ClInclude Include="sph_blake.h" />
-    <ClInclude Include="sph_bmw.h" />
-    <ClInclude Include="sph_cubehash.h" />
-    <ClInclude Include="sph_echo.h" />
-    <ClInclude Include="sph_fugue.h" />
-    <ClInclude Include="sph_groestl.h" />
-    <ClInclude Include="sph_hamsi.h" />
-    <ClInclude Include="sph_haval.h" />
-    <ClInclude Include="sph_hefty1.h" />
-    <ClInclude Include="sph_jh.h" />
-    <ClInclude Include="sph_keccak.h" />
-    <ClInclude Include="sph_luffa.h" />
-    <ClInclude Include="sph_ripemd.h" />
-    <ClInclude Include="sph_sha2.h" />
-    <ClInclude Include="sph_shabal.h" />
-    <ClInclude Include="sph_shavite.h" />
-    <ClInclude Include="sph_simd.h" />
-    <ClInclude Include="sph_skein.h" />
-    <ClInclude Include="sph_types.h" />
-    <ClInclude Include="sph_whirlpool.h" />
-    <ClInclude Include="x17r.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
