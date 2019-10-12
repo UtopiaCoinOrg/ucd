@@ -194,7 +194,7 @@ func NewBlockHeader(version int32, prevHash *chainhash.Hash,
 // decoding from the wire.
 func readBlockHeader(r io.Reader, pver uint32, bh *BlockHeader) error {
 	return readElements(r, &bh.Version, &bh.PrevBlock, &bh.MerkleRoot,
-		&bh.StakeRoot, &bh.VoteBits, &bh.Height, &bh.FinalState, &bh.Voters,
+		&bh.StakeRoot, &bh.VoteBits, &bh.Voters, &bh.Height, &bh.FinalState,
 		&bh.FreshStake, &bh.Revocations, &bh.PoolSize, &bh.Bits,
 		&bh.SBits, &bh.Size, &bh.ExtraData, (*uint32Time)(&bh.Timestamp),
 		&bh.StakeVersion, &bh.Nonce)
@@ -206,7 +206,7 @@ func readBlockHeader(r io.Reader, pver uint32, bh *BlockHeader) error {
 func writeBlockHeader(w io.Writer, pver uint32, bh *BlockHeader) error {
 	sec := uint32(bh.Timestamp.Unix())
 	return writeElements(w, bh.Version, &bh.PrevBlock, &bh.MerkleRoot,
-		&bh.StakeRoot, bh.VoteBits, bh.Height, bh.FinalState, bh.Voters,
+		&bh.StakeRoot, bh.VoteBits, bh.Voters, bh.Height, bh.FinalState,
 		bh.FreshStake, bh.Revocations, bh.PoolSize, bh.Bits, bh.SBits,
 		bh.Size, bh.ExtraData, sec, bh.StakeVersion, bh.Nonce)
 }
