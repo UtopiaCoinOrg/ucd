@@ -98,7 +98,7 @@ func (h *BlockHeader) BlockHash() chainhash.Hash {
 
 	temBuf := buf.Bytes()
 	hash := chainhash.HashH(temBuf[:100])
-	copy(temBuf[136:168], hash[:])
+	copy(temBuf[104:136], hash[:])
 
 	return chainhash.HashHx17(temBuf[100:])
 }
@@ -194,10 +194,9 @@ func NewBlockHeader(version int32, prevHash *chainhash.Hash,
 // decoding from the wire.
 func readBlockHeader(r io.Reader, pver uint32, bh *BlockHeader) error {
 	return readElements(r, &bh.Version, &bh.PrevBlock, &bh.MerkleRoot,
-		&bh.StakeRoot, &bh.VoteBits, &bh.Voters, &bh.Height, &bh.FinalState,
-		&bh.FreshStake, &bh.Revocations, &bh.PoolSize, &bh.Bits,
-		&bh.SBits, &bh.Size, &bh.ExtraData, (*uint32Time)(&bh.Timestamp),
-		&bh.StakeVersion, &bh.Nonce)
+		&bh.StakeRoot, &bh.VoteBits, &bh.Voters, &bh.ExtraData, &bh.Height,
+		&bh.FinalState, &bh.FreshStake, &bh.Revocations, &bh.PoolSize, &bh.Bits,
+		&bh.SBits, &bh.Size, (*uint32Time)(&bh.Timestamp), &bh.StakeVersion, &bh.Nonce)
 }
 
 // writeBlockHeader writes a Utopia block header to w.  See Serialize for
@@ -206,7 +205,7 @@ func readBlockHeader(r io.Reader, pver uint32, bh *BlockHeader) error {
 func writeBlockHeader(w io.Writer, pver uint32, bh *BlockHeader) error {
 	sec := uint32(bh.Timestamp.Unix())
 	return writeElements(w, bh.Version, &bh.PrevBlock, &bh.MerkleRoot,
-		&bh.StakeRoot, bh.VoteBits, bh.Voters, bh.Height, bh.FinalState,
-		bh.FreshStake, bh.Revocations, bh.PoolSize, bh.Bits, bh.SBits,
-		bh.Size, bh.ExtraData, sec, bh.StakeVersion, bh.Nonce)
+		&bh.StakeRoot, bh.VoteBits, bh.Voters, bh.ExtraData, bh.Height,
+		bh.FinalState, bh.FreshStake, bh.Revocations, bh.PoolSize,
+		bh.Bits, bh.SBits, bh.Size, sec, bh.StakeVersion, bh.Nonce)
 }

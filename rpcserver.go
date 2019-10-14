@@ -4215,7 +4215,7 @@ func handleGetWorkRequest(s *rpcServer) (interface{}, error) {
 	}
 
 	hash := chainhash.HashH(data[:100])
-	copy(data[136:168], hash[:])
+	copy(data[104:136], hash[:])
 
 	// Expand the data slice to include the full data buffer and apply the
 	// internal blake256 padding.  This makes the data ready for callers to
