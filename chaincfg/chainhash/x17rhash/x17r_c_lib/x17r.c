@@ -29,13 +29,16 @@
 #include "sph_sha2.h"
 #include "compat.h"
 
+#include "sph_haval.h"
+#include "sph_tiger.h"
+#include "sph_streebog.h"
+
 #define MAX_GPUS 16
 
 enum Algo {
 	BLAKE = 0,
 	BMW,
 	GROESTL,
-	JH,
 	KECCAK,
 	SKEIN,
 	LUFFA,
@@ -48,6 +51,10 @@ enum Algo {
 	SHABAL,
 	WHIRLPOOL,
 	SHA512,
+	HAVAL256_5,
+	TIGER,
+	GOST512,
+	SHA256,
 	HASH_FUNC_COUNT
 };
 
@@ -55,7 +62,6 @@ static const char* algo_strings[] = {
 	"blake",
 	"bmw512",
 	"groestl",
-	"jh512",
 	"keccak",
 	"skein",
 	"luffa",
@@ -68,6 +74,10 @@ static const char* algo_strings[] = {
 	"shabal",
 	"whirlpool",
 	"sha512",
+	"haval256_5",
+	"tiger",
+	"gost512",
+	"sha256",
 	NULL
 };
 
@@ -89,19 +99,21 @@ static void getAlgoString(const uint32_t* prevblock, char *output)
 	char *sptr = output;
 	uint8_t* data = (uint8_t*)prevblock;
 
+	uint8_t algoDigit = 0;
 	for (uint8_t j = 0; j < HASH_FUNC_COUNT; j++) {
-		uint8_t b = (15 - j) >> 1; // 16 ascii hex chars, reversed
-		uint8_t algoDigit = (j & 1) ? data[b] & 0xF : data[b] >> 4;
-		if (algoDigit >= 10)
-			sprintf(sptr, "%c", 'A' + (algoDigit - 10));
+		if (j == 0) {
+			algoDigit = data[j] % 15;
+		}
 		else
-			sprintf(sptr, "%u", (uint32_t) algoDigit);
+		{
+			algoDigit = ((data[j % 7] >> 1) + j) % 19;
+		}
+		sprintf(sptr, "%c", 'A' + algoDigit);
 		sptr++;
 	}
 	*sptr = '\0';
 }
 
-#define test 70
 void x17r_hash(void* output, void* input, const int in_len)
 {
 
@@ -141,11 +153,11 @@ void x17r_hash(void* output, void* input, const int in_len)
 void x17r_hash_impl(void *output, const void *input)
 {
 	unsigned char _ALIGN(64) hash[128];
+	unsigned char _ALIGN(64) hash2[128];
 
 	sph_blake512_context ctx_blake;
 	sph_bmw512_context ctx_bmw;
 	sph_groestl512_context ctx_groestl;
-	sph_jh512_context ctx_jh;
 	sph_keccak512_context ctx_keccak;
 	sph_skein512_context ctx_skein;
 	sph_luffa512_context ctx_luffa;
@@ -159,17 +171,20 @@ void x17r_hash_impl(void *output, const void *input)
 	sph_whirlpool_context ctx_whirlpool;
 	sph_sha512_context ctx_sha512;
 
-	void *in = (void*) input;
+	sph_haval256_5_context ctx_haval;
+	sph_tiger_context         ctx_tiger;
+	sph_gost512_context       ctx_gost;
+	sph_sha256_context        ctx_sha;
+
+	void *in = (void*)input;
 	int size = 80;
 
-	uint32_t *in32 = (uint32_t*) input;
+	uint32_t *in32 = (uint32_t*)input;
 	getAlgoString(&in32[1], hashOrder);
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < HASH_FUNC_COUNT; i++)
 	{
-		const char elem = hashOrder[i];
-		const uint8_t algo = elem >= 'A' ? elem - 'A' + 10 : elem - '0';
-
+		const uint8_t algo = hashOrder[i] - 'A';
 		switch (algo) {
 		case BLAKE:
 			sph_blake512_init(&ctx_blake);
@@ -190,11 +205,6 @@ void x17r_hash_impl(void *output, const void *input)
 			sph_skein512_init(&ctx_skein);
 			sph_skein512(&ctx_skein, in, size);
 			sph_skein512_close(&ctx_skein, hash);
-			break;
-		case JH:
-			sph_jh512_init(&ctx_jh);
-			sph_jh512(&ctx_jh, in, size);
-			sph_jh512_close(&ctx_jh, hash);
 			break;
 		case KECCAK:
 			sph_keccak512_init(&ctx_keccak);
@@ -248,11 +258,36 @@ void x17r_hash_impl(void *output, const void *input)
 			break;
 		case SHA512:
 			sph_sha512_init(&ctx_sha512);
-			sph_sha512(&ctx_sha512,(const void*) in, size);
-			sph_sha512_close(&ctx_sha512,(void*) hash);
+			sph_sha512(&ctx_sha512, (const void*)in, size);
+			sph_sha512_close(&ctx_sha512, (void*)hash);
+			break;
+
+		case HAVAL256_5:
+			memset(hash2, 0, 64);
+			sph_haval256_5_init(&ctx_haval);
+			sph_haval256_5(&ctx_haval, (const void*)in, size);
+			sph_haval256_5_close(&ctx_haval, hash2);
+			memcpy(hash, hash2, 64);
+			break;
+		case TIGER:
+			memset(hash2, 0, 64);
+			sph_tiger_init(&ctx_tiger);
+			sph_tiger(&ctx_tiger, (const void*)in, size);
+			sph_tiger_close(&ctx_tiger, (void*)hash2);
+			memcpy(hash, hash2, 64);
+			break;
+		case GOST512:
+			sph_gost512_init(&ctx_gost);
+			sph_gost512(&ctx_gost, (const void*)in, size);
+			sph_gost512_close(&ctx_gost, (void*)hash);
+			break;
+		case SHA256:
+			sph_sha256_init(&ctx_sha);
+			sph_sha256(&ctx_sha, (const void*)in, size);
+			sph_sha256_close(&ctx_sha, (void*)hash);
 			break;
 		}
-		in = (void*) hash;
+		in = (void*)hash;
 		size = 64;
 	}
 	memcpy(output, hash, 32);

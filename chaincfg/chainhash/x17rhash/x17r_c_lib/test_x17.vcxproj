@@ -43,6 +43,7 @@
     <ClCompile Include="skein.c" />
     <ClCompile Include="sph_sha2.c" />
     <ClCompile Include="streebog.c" />
+    <ClCompile Include="tiger.c" />
     <ClCompile Include="whirlpool.c" />
     <ClCompile Include="x17r.c" />
   </ItemGroup>
