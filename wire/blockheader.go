@@ -100,7 +100,7 @@ func (h *BlockHeader) BlockHash() chainhash.Hash {
 	hash := chainhash.HashH(temBuf[:100])
 	copy(temBuf[104:136], hash[:])
 
-	return chainhash.HashHx17(temBuf[100:])
+	return chainhash.HashHx19(temBuf[100:])
 }
 
 // BtcDecode decodes r using the bitcoin protocol encoding into the receiver.

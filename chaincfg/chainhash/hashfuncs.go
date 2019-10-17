@@ -6,7 +6,7 @@
 package chainhash
 
 import (
-	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash/x17rhash"
+	x19r "github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash/x19rhash"
 	"github.com/dchest/blake256"
 )
 
@@ -33,8 +33,8 @@ func HashH(b []byte) Hash {
 	return Hash(HashFunc(b))
 }
 
-func HashHx17(b []byte)Hash  {
-	return x17r.X17r_Sum256(string(b))
+func HashHx19(b []byte)Hash  {
+	return x19r.X19r_Sum256(string(b))
 }
 
 // HashBlockSize is the block size of the hash algorithm in bytes.
