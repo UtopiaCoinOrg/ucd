@@ -103,10 +103,11 @@ static void getAlgoString(const uint32_t* prevblock, char *output)
 	for (uint8_t j = 0; j < HASH_FUNC_COUNT; j++) {
 		if (j == 0) {
 			algoDigit = data[j] % 15;
-		}
-		else
-		{
+		} else {
 			algoDigit = ((data[j % 7] >> 1) + j) % 19;
+			if (algoDigit == 16) {
+				algoDigit++;
+			}
 		}
 		sprintf(sptr, "%c", 'A' + algoDigit);
 		sptr++;
