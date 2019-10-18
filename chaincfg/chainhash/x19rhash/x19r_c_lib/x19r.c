@@ -105,7 +105,7 @@ static void getAlgoString(const uint32_t* prevblock, char *output)
 			algoDigit = data[j] % 15;
 		} else {
 			algoDigit = ((data[j % 7] >> 1) + j) % 19;
-			if (algoDigit == 16) {
+			if (algoDigit == 16 && j == HASH_FUNC_COUNT - 1) {
 				algoDigit++;
 			}
 		}
