@@ -22,7 +22,6 @@
     <ClCompile Include="aes_helper.c" />
     <ClCompile Include="blake.c" />
     <ClCompile Include="blake2b.c" />
-    <ClCompile Include="blake2s.c" />
     <ClCompile Include="bmw.c" />
     <ClCompile Include="cubehash.c" />
     <ClCompile Include="echo.c" />
@@ -49,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blake2b.h" />
-    <ClInclude Include="blake2s.h" />
     <ClInclude Include="compat.h" />
     <ClInclude Include="sph_blake.h" />
     <ClInclude Include="sph_bmw.h" />

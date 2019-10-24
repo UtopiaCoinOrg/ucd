@@ -27,9 +27,6 @@
     <ClCompile Include="blake2b.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="blake2s.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="bmw.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -99,9 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blake2b.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="blake2s.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="compat.h">

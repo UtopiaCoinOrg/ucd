@@ -2,7 +2,7 @@ package x19r
 
 /*
 #cgo CFLAGS: -I./x19r_c_lib
-#cgo LDFLAGS: -L./x19r_c_lib -lx19r
+#cgo LDFLAGS: -L./x19r_c_lib -I./scratch-x19r/arm64 -I./scratch-x19r/armv7 -I./scratch-x19r/armv7s -I./scratch-x19r/i386 -I./scratch-x19r/x86_64 -I./local/arm64-v8a -I./local/armeabi-v7a -I./local/x86 -I./local/x86_64 -lx19r
 #include <stdio.h>
 #include <stdlib.h>
 #include "./x19r_c_lib/x19r.h"
