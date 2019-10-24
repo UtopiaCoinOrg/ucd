@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="aes_helper.c" />
     <ClCompile Include="blake.c" />
     <ClCompile Include="blake2b.c" />
     <ClCompile Include="bmw.c" />
@@ -28,7 +27,6 @@
     <ClCompile Include="fugue.c" />
     <ClCompile Include="groestl.c" />
     <ClCompile Include="hamsi.c" />
-    <ClCompile Include="hamsi_helper.c" />
     <ClCompile Include="haval.c" />
     <ClCompile Include="jh.c" />
     <ClCompile Include="keccak.c" />

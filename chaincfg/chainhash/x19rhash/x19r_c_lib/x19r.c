@@ -80,9 +80,11 @@ static const char* algo_strings[] = {
 	"sha256",
 	NULL
 };
-
+#ifdef _DISABLE_THREAD_LOCAL_
+static char hashOrder[HASH_FUNC_COUNT + 1] = { 0 };
+#else
 static __thread char hashOrder[HASH_FUNC_COUNT + 1] = { 0 };
-
+#endif
 void x19r_hash_impl(void *output, const void *input);
 
 static void be32enc(void *pp, uint32_t x)
