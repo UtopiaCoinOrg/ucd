@@ -7,10 +7,10 @@ CC = xcrun -sdk  iphonesimulator clang -arch x86_64
 CFLAGS = -fembed-bitcode
 CFLAGS += -D_DISABLE_THREAD_LOCAL_
 a : $(OBJS)
-	ar -rv libx19r.a  $(OBJS)
+	ar -rc libx19r.a  $(OBJS)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< $(CCFLAGS)
+	$(CC) $(CFLAGS) -c $<
 
 clean:
 	rm -rf test *.o

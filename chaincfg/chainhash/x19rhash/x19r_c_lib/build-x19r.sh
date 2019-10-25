@@ -8,9 +8,9 @@ THIN=`pwd`/"thin-x19r"
 
 rm -rf  "$SCRATCH/$ARCH"
 rm -rf  $THIN/
-rm -rf  $FAT/lib
+#rm -rf  $FAT/lib
 
-mkdir -p "$THIN/lib"
+#mkdir -p "$THIN/lib"
 
 for ARCH in $ARCHS
 do
