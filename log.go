@@ -7,6 +7,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 	"os"
 	"path/filepath"
 
@@ -71,6 +72,7 @@ var (
 	srvrLog = backendLog.Logger("SRVR")
 	stkeLog = backendLog.Logger("STKE")
 	txmpLog = backendLog.Logger("TXMP")
+	chanHashLog = backendLog.Logger("CHANHASH")
 )
 
 // Initialize package-global logger variables.
@@ -85,6 +87,7 @@ func init() {
 	peer.UseLogger(peerLog)
 	stake.UseLogger(stkeLog)
 	txscript.UseLogger(scrpLog)
+	chainhash.UseLogger(chanHashLog)
 }
 
 // subsystemLoggers maps each subsystem identifier to its associated logger.
@@ -106,6 +109,7 @@ var subsystemLoggers = map[string]slog.Logger{
 	"SRVR": srvrLog,
 	"STKE": stkeLog,
 	"TXMP": txmpLog,
+	"CHANHASH": chanHashLog,
 }
 
 // initLogRotator initializes the logging rotater to write logs to logFile and

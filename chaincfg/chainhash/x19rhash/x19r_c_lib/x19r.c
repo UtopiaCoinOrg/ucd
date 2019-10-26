@@ -121,11 +121,11 @@ void x19r_hash(void* output, void* input, const int in_len)
 {
 	uint32_t *pdata = input;
 
-	uint32_t _ALIGN(64) endiandata[20];
+	uint32_t _ALIGN(64) endiandata[20] = {0};
 	for (int k = 0; k < 20; k++)
 		be32enc(&endiandata[k], pdata[k]);
 
-	uint32_t _ALIGN(64) vhash[8];
+	uint32_t _ALIGN(64) vhash[8] = {0};
 	x19r_hash_impl(vhash, endiandata);
 	if (output)
 	{
@@ -137,8 +137,8 @@ void x19r_hash(void* output, void* input, const int in_len)
 //uint32_t s_ntime = UINT32_MAX;
 void x19r_hash_impl(void *output, const void *input)
 {
-	unsigned char _ALIGN(64) hash[128];
-	unsigned char _ALIGN(64) hash2[128];
+	unsigned char _ALIGN(64) hash[128] = {0};
+	unsigned char _ALIGN(64) hash2[128] = {0};
 
 	sph_blake512_context ctx_blake;
 	sph_bmw512_context ctx_bmw;

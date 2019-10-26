@@ -2,7 +2,7 @@ package x19r
 
 /*
 #cgo CFLAGS: -I./x19r_c_lib
-#cgo LDFLAGS: -L./x19r_c_lib -L./x19r_c_lib/fat-x19r/lib -L./x19r_c_lib/local/arm64-v8a -L./x19r_c_lib/local/armeabi-v7a -L./x19r_c_lib/local/x86 -L./x19r_c_lib/local/x86_64 -lx19r
+#cgo LDFLAGS: -L./x19r_c_lib -lx19r
 #include <stdio.h>
 #include <stdlib.h>
 #include "./x19r_c_lib/x19r.h"
@@ -12,6 +12,7 @@ import (
 	"unsafe"
 )
 
+/////#cgo LDFLAGS: -L./x19r_c_lib -L./x19r_c_lib/fat-x19r/lib -L./x19r_c_lib/local/arm64-v8a -L./x19r_c_lib/local/armeabi-v7a -L./x19r_c_lib/local/x86 -L./x19r_c_lib/local/x86_64 -lx19r
 const X19HashSize = 32
 
 func X19r_Sum256(input string) [X19HashSize]byte {
