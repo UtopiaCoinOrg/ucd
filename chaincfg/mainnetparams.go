@@ -83,13 +83,16 @@ func MainNetParams() *Params {
 		Net:         wire.MainNet,
 		DefaultPort: "10508",
 		DNSSeeds: []DNSSeed{
+			{"communitynode.utopiacoin.org", true},
 			{"mainnetseed.utopiacoin.org", true},
 			{"mainnetseed1.utopiacoin.org", true},
 			{"mainnetseed2.utopiacoin.org", true},
-			/*{"mainnet-seed.utopia.mindcry.org", true},
-			{"mainnet-seed.utopia.netpurgatory.com", true},
-			{"mainnet-seed.utopia.org", true},
-			*/
+			{"mainnetseed3.utopiacoin.org", true},
+			{"mainnetseed4.utopiacoin.org", true},
+			{"mainnetseed5.utopiacoin.org", true},
+			{"mainnetseed.utopiacoin.network", true},
+			{"mainnetseed.utopiacoin.io", true},
+			{"mainnetseed.utopiacoin.org", true},
 		},
 
 		// Chain parameters

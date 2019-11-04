@@ -76,9 +76,12 @@ func TestNet3Params() *Params {
 			{"testnetseed.utopiacoin.org", true},
 			{"testnetseed1.utopiacoin.org", true},
 			{"testnetseed2.utopiacoin.org", true},
-//			{"testnet-seed.utopia.mindcry.org", true},
-//			{"testnet-seed.utopia.netpurgatory.com", true},
-//			{"testnet-seed.utopia.org", true},
+			{"testnetseed3.utopiacoin.org", true},
+			{"testnetseed4.utopiacoin.org", true},
+			{"testnetseed5.utopiacoin.org", true},
+			{"testnetseed.utopiacoin.network", true},
+			{"testnetseed.utopiacoin.io", true},
+			{"testnetseed.utopiacoin.org", true},
 		},
 
 		// Chain parameters
