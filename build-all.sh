@@ -3,8 +3,12 @@
 CWD=`pwd`
 cd $CWD
 
-echo "building ucd ..."
-sudo -s -u root
+rm -rf $GOBIN/ucd
+rm -rf $GOBIN/ucwallet
+rm -rf $GOBIN/ucctl
+
+echo "go mod ucd ..."
+
 export GO111MODULE=on
 rm -rf go.sum
 rm -rf go.mod
@@ -15,24 +19,24 @@ make clean
 echo "ucd make ..."
 make
 echo "ucd make over..."
-exit
-cd $CWD
-go install
-cd cmd/ucctl 
-go install
-cd ../../../
+
+echo "go mod ucwallet ..."
+cd ../
 sudo rm -rf ucwallet
-echo "building ucwallet ..."
 git clone https://github.com/UtopiaCoinOrg/ucwallet.git
 cd ucwallet
-sudo -s -u root
-export GO111MODULE=on
 rm -rf go.sum
 rm -rf go.mod
 go mod init
 go mod vendor
 rm -rf ./vendor/github.com/UtopiaCoinOrg/ucd
 cp -rf ../ucd ./vendor/github.com/UtopiaCoinOrg/
-exit
+export GO111MODULE=off
+
+echo "go mod ucwallet over ..."
+go install
+cd ../ucd
+go install
+cd cmd/ucctl
 go install
 
