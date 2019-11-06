@@ -45,19 +45,3 @@ go install
 cd cmd/ucctl
 go install
 echo "install over ..."
-
-screen_ucd=$"mainnet_ucd"
-screen -dmS $screen_ucd
-echo "create screen ucd  ..."
-ucd_cmd=$"ucd -u admin -P 123 --addrindex --txindex";
-screen -x -S $screen_ucd -p 0 -X stuff $ucd_cmd
-screen -x -S $screen_ucd -p 0 -X stuff $'\n'
-
-screen_ucwallet=$"mainnet_ucwallet"
-screen -dmS $screen_ucwallet
-echo "create screen ucwallet  ..."
-#ucd_cmd=$"ucwallet -u admin -P 123 --addrindex --txindex";
-#screen -x -S screen_ucd -p 0 -X stuff "ucd_cmd"
-#screen -x -S screen_ucd -p 0 -X stuff $'\n'
-
-echo "All over..."
