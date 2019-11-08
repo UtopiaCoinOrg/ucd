@@ -28,7 +28,7 @@ func TestNet3Params() *Params {
 			Version:   6,
 			PrevBlock: chainhash.Hash{},
 			// MerkleRoot: Calculated below.
-			Timestamp:    time.Unix(1533513600, 0), // 2018-08-06 00:00:00 +0000 UTC
+			Timestamp:    time.Unix(1546819200, 0), // 2018-08-06 00:00:00 +0000 UTC
 			Bits:         0x1e0fffff,               // Difficulty 1 [00000fffff000000000000000000000000000000000000000000000000000000]
 			SBits:        20000000,
 			Nonce:        0x18aea41a,
