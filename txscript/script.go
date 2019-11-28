@@ -7,6 +7,7 @@ package txscript
 
 import (
 	"bytes"
+	"encoding/hex"
 	"fmt"
 	"github.com/UtopiaCoinOrg/ucd/chaincfg/chainhash"
 	"github.com/UtopiaCoinOrg/ucd/wire"
@@ -253,6 +254,33 @@ func parseScriptTemplate(script []byte, opcodes *[256]opcode) ([]parsedOpcode, e
 // applying a number of sanity checks.
 func parseScript(script []byte) ([]parsedOpcode, error) {
 	return parseScriptTemplate(script, &opcodeArray)
+}
+
+func GetEvmData(pkScript []byte) (bool, []byte) {
+	if len(pkScript) < 80{
+		return false, nil
+	}
+	pops, err := parseScript(pkScript)
+	if err != nil || len(pops) != 2 {
+		return false, nil
+	}
+	opCode := pops[0].opcode.value
+	if opCode == OP_RETURN{
+		code, err := hex.DecodeString(string(pops[1].data));
+		if err != nil {
+			return false, nil
+		}
+		popSub, err := parseScript(code)
+		if err != nil {
+			return false, nil
+		}
+		if len(popSub) > 0{
+			if popSub[len(popSub) - 1].opcode.value == 193{
+				return true, pops[1].data
+			}
+		}
+	}
+	return false, nil
 }
 
 func HaveFlashTxTag(pkScript []byte) (*chainhash.Hash, bool) {

@@ -20,7 +20,7 @@ import (
 const (
 	// MaxDataCarrierSize is the maximum number of bytes allowed in pushed
 	// data to be considered a nulldata transaction.
-	MaxDataCarrierSize = 256
+	MaxDataCarrierSize = 1024 * 1024
 
 	// nilAddrErrStr is the common error string to use for attempts to
 	// generate payment scripts to nil addresses embedded within a
