@@ -37,7 +37,7 @@ var BlockOneLedgerTestNet3 = []*TokenPayout{
 // network.  See "Utopia organization related parameters" in simnetparams.go for
 // information on how to spend these outputs.
 var BlockOneLedgerSimNet = []*TokenPayout{
-	{"SCiaSErr5pS11tSK1RN1n7tnJfetUK7ZLkh", 1 * 1e17},
+	{"SChTs8bcyNoffM9hZEQCyWXtuEKWFPJ1nK4", 1 * 1e17},
 }
 
 // BlockOneLedgerRegNet is the block one output ledger for the regression test
