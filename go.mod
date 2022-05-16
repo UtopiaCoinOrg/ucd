@@ -13,9 +13,14 @@ require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/dchest/blake256 v1.1.0
 	github.com/dchest/siphash v1.2.1
-	github.com/gorilla/websocket v1.4.0
+	github.com/fsnotify/fsnotify v1.5.4 // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/gorilla/websocket v1.4.1
+	github.com/hpcloud/tail v1.0.0 // indirect
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/jrick/bitset v1.0.0
 	github.com/jrick/logrotate v1.0.0
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4
+	gopkg.in/fsnotify.v1 v1.4.7 // indirect
+	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 )
